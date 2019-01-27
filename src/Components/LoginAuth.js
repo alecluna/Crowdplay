@@ -29,7 +29,6 @@ class LoginAuth extends Component {
       .then(response => response.json())
       .then(data => {
         if (data) {
-          console.log(data);
           this.setState({
             name: data.display_name,
             accessToken: accessToken,
@@ -45,7 +44,6 @@ class LoginAuth extends Component {
 
   render() {
     const { name, accessToken, userID } = this.state;
-    console.log(accessToken);
     return (
       <div style={styles.background}>
         {name ? (
