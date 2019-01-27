@@ -129,7 +129,7 @@ class LoginAuth extends Component {
             onClick={() => {
               window.location = window.location.href.includes("localhost")
                 ? "http://localhost:8888/login"
-                : "https://crowdplay-music-backend.herokuapp.com/callback"; //prod URL goes here
+                : "https://crowdplay-music-backend.herokuapp.com/login"; //prod URL goes here
             }}
           >
             <Typography style={{ color: "white" }}>
