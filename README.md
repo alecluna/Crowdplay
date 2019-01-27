@@ -9,5 +9,6 @@ On the server side.
 
 The server redirects to `http://localhost:3000` so we only need the express server to the initial api call for the `access_token`
 
-## Note 
+## Note
+
 The access_token typically expires in an hour so if you leave the express server running simply re-run it.
