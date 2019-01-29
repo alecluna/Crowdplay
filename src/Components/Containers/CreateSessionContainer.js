@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Typography from "@material-ui/core/Typography";
-import Header from "./Header";
-import Paper from "@material-ui/core/Paper";
+import Typography from "../../../node_modules/@material-ui/core/Typography";
+import Paper from "../../../node_modules/@material-ui/core/Paper";
+import Header from "../../Components/Header";
 
 const styles = {
   background: {
@@ -33,8 +33,12 @@ export default class CreateSessionContainer extends Component {
           <Paper style={styles.paperStyle} elevation={11}>
             <div style={styles.centerStyling}>
               <Typography
-                variant="display2"
-                style={{ color: "black", fontWeight: "200" }}
+                style={{
+                  color: "black",
+                  fontWeight: "200",
+                  textAlign: "center",
+                  fontSize: "1.2em"
+                }}
               >
                 Create a Session as Host: {name}
               </Typography>

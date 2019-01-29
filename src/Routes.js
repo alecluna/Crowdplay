@@ -5,7 +5,7 @@ import NotFoundPage from "./Components/NotFoundPage";
 import PlaylistbuildContainer from "./Components/PlaylistbuildContainer";
 import InviteUsers from "./Components/InviteUsers";
 import JoinUsers from "./Components/JoinUsers";
-import CreateSessionContainer from "./Components/CreateSessionContainer";
+import CreateSessionContainer from "./Components/Containers/CreateSessionContainer";
 
 const Routes = () => {
   return (
