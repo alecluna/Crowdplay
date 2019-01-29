@@ -5,7 +5,7 @@ import NotFoundPage from "./Components/NotFoundPage";
 import PlaylistbuildContainer from "./Components/PlaylistbuildContainer";
 import InviteUsers from "./Components/InviteUsers";
 import JoinUsers from "./Components/JoinUsers";
-import CreateSession from "./Components/CreateSession";
+import CreateSessionContainer from "./Components/CreateSessionContainer";
 
 const Routes = () => {
   return (
@@ -17,7 +17,7 @@ const Routes = () => {
         render={props => <PlaylistbuildContainer {...props} />}
       />
       <Route exact path="/joinusers" component={JoinUsers} />
-      <Route exact path="/createsession" component={CreateSession} />
+      <Route exact path="/createsession" component={CreateSessionContainer} />
       <Route exact path="/inviteusers" component={InviteUsers} />
       <Route component={NotFoundPage} />
     </Switch>
