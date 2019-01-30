@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
 import Paper from "../../../node_modules/@material-ui/core/Paper";
 import Header from "../../Components/Header";
+import Chat from "../../Components/ChatRoom/Chat";
 
 const styles = {
   background: {
@@ -43,7 +44,9 @@ export default class CreateSessionContainer extends Component {
                 Create a Session as Host: {name}
               </Typography>
             </div>
-            <div style={styles.centerStyling} />
+            <div style={styles.centerStyling}>
+              <Chat />
+            </div>
           </Paper>
         </div>
       </div>
