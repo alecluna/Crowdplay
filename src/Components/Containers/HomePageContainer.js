@@ -1,8 +1,8 @@
 import React from "react";
-import Paper from "../../node_modules/@material-ui/core/Paper";
-import Typography from "../../node_modules/@material-ui/core/Typography";
-import SpotifyLogo from "../../src/assets/logo.png";
-import LoginAuth from "../../src/Components/LoginAuth";
+import Paper from "../../../node_modules/@material-ui/core/Paper";
+import Typography from "../../../node_modules/@material-ui/core/Typography";
+import SpotifyLogo from "../../../src/assets/logo.png";
+import LoginAuth from "../../Components/LoginAuth";
 
 const styles = {
   background: {
@@ -13,13 +13,13 @@ const styles = {
     alignItems: "center"
   },
   paperStyle: {
-    height: "60%",
+    height: "75%",
     width: "60%",
     borderRadius: "5px"
   }
 };
 
-const Hero = () => (
+const HomePageContainer = () => (
   <div style={styles.background}>
     <Paper style={styles.paperStyle} elevation={11}>
       <div
@@ -42,4 +42,4 @@ const Hero = () => (
   </div>
 );
 
-export default Hero;
+export default HomePageContainer;

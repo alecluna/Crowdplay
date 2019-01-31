@@ -1,15 +1,12 @@
 import React, { Component } from "react";
+import Button from "../../../node_modules/@material-ui/core/Button";
 
 export default class ChatMessage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       text: ""
     };
-
-    this.handleAdd = this.handleAdd.bind(this);
-    this.changeText = this.changeText.bind(this);
   }
 
   changeText(e) {
@@ -20,25 +17,22 @@ export default class ChatMessage extends Component {
 
   handleAdd(event) {
     event.preventDefault();
-
-    // const addInput = this.refs.addInput;
-    // const text = addInput.value;
     this.props.addMessage(this.state.text);
     this.setState({ text: "" });
-    // this.refs.addInput.value = '';
   }
 
   render() {
     return (
-      <form onSubmit={this.handleAdd}>
-        <input
-          type="text"
-          name="myInput"
-          onChange={this.changeText}
-          value={this.state.text}
-        />
-        <button type="submit">add</button>
-      </form>
+      <React.Fragment>
+        <form onSubmit={this.handleAdd.bind(this)}>
+          <input
+            type="text"
+            onChange={this.changeText.bind(this)}
+            value={this.state.text}
+          />
+          <Button type="submit">add</Button>
+        </form>
+      </React.Fragment>
     );
   }
 }

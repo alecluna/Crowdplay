@@ -13,7 +13,7 @@ const styles = {
     alignItems: "center"
   },
   paperStyle: {
-    height: "60%",
+    height: "75%",
     width: "60%",
     borderRadius: "5px"
   },
