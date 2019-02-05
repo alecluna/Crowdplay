@@ -1,11 +1,11 @@
 import React from "react";
 import Header from "../Components/Header";
-import Hero from "../Components/Hero";
+import HomePageContainer from "../Components/Containers/HomePageContainer";
 
 const Home = () => (
   <div>
     <Header />
-    <Hero />
+    <HomePageContainer />
   </div>
 );
 
