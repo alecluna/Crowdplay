@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Typography from "../../node_modules/@material-ui/core/Typography";
 import Header from "./Header";
 import Paper from "../../node_modules/@material-ui/core/Paper";
+import firebase from 'firebase';
 
 const styles = {
   background: {
@@ -31,27 +32,25 @@ class JoinUsers extends Component {
     this.state = {
       userId: "userId1",
       sessionId: "",
-      chatId: ""
+      chatId: "",
+      messages: []
     }
+    this.messageRef = firebase.database().ref().child("Chats").child("chatsId");
+    this.listenMessages = this.listenMessages.bind(this);
+    this.listenMessages();
+  }
+
+  listenMessages() {
+    this.messageRef.on('value', message => {
+      this.setState({ messages: Object.values(message.val()) });
+    });
   }
 
   componentDidMount() {
-    let userId = "userId1";
-    // fetch(`https://spotify-crowdplay.firebaseio.com/Users/${userId}.json`)
-    //   .then(sessionIds=>sessionIds.json())
-    //   .then(sessionIds=> sessionIds.key1)
-    //   .then(sessionId=>{
-    //     this.setState({sessionId:sessionId});
-    //     console.log(sessionId)
-    //   })
-    fetch(`https://spotify-crowdplay.firebaseio.com/Chats/chatsId.json`).then(resp => resp.json())
-      .then(messages => { this.setState({ messages: messages }) });
-
   }
 
   render() {
     const { messages } = this.state;
-    console.log(messages)
     return (
       <div>
         <Header />
@@ -61,7 +60,7 @@ class JoinUsers extends Component {
               <Typography
                 variant="display2"
                 style={{ color: "black", fontWeight: "200" }}
-              >
+                >
                 Join a Session
           </Typography>
             </div>
