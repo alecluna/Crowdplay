@@ -3,6 +3,7 @@ import Typography from "../../node_modules/@material-ui/core/Typography";
 import Header from "./Header";
 import Paper from "../../node_modules/@material-ui/core/Paper";
 import firebase from 'firebase';
+import { Button, List, ListItem } from "@material-ui/core";
 
 const styles = {
   background: {
@@ -33,7 +34,8 @@ class JoinUsers extends Component {
       userId: "userId1",
       sessionId: "",
       chatId: "",
-      messages: []
+      messages: [],
+      text: ""
     }
     this.messageRef = firebase.database().ref().child("Chats").child("chatsId");
     this.listenMessages = this.listenMessages.bind(this);
@@ -49,8 +51,19 @@ class JoinUsers extends Component {
   componentDidMount() {
   }
 
+  handleSubmitNewMessage(event) {
+    if (this.state.text) {
+      this.messageRef.push(this.state.text);
+      this.setState({ text: '' });
+    }
+    event.preventDefault();
+  }
+
+  changeText(e) {
+    this.setState({ text: e.target.value })
+  }
+
   render() {
-    const { messages } = this.state;
     return (
       <div>
         <Header />
@@ -60,19 +73,34 @@ class JoinUsers extends Component {
               <Typography
                 variant="display2"
                 style={{ color: "black", fontWeight: "200" }}
-                >
+              >
                 Join a Session
           </Typography>
             </div>
             <div style={styles.centerStyling} />
 
-            {/* LIST OF MSGS */}
-            <p>{messages}</p>
+            <form onSubmit={this.handleSubmitNewMessage.bind(this)}>
+              <input
+                type="text"
+                onChange={this.changeText.bind(this)}
+                value={this.state.text}
+              />
+              <Button type="submit">Send</Button>
 
+            </form>
+
+            {
+              this.state.messages.map((value, index) => {
+                return <p>Item {index + 1}: {value}</p>
+              })
+            }
           </Paper>
         </div>
       </div>)
   }
+
+
+
 }
 
 export default JoinUsers;
