@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
+import Button from "../../../node_modules/@material-ui/core/Button";
+import FormControl from "../../../node_modules/@material-ui/core/FormControl";
+import InputLabel from "../../../node_modules/@material-ui/core/InputLabel";
+import MenuItem from "../../../node_modules/@material-ui/core/MenuItem";
+import Select from "../../../node_modules/@material-ui/core/Select";
 
 const styles = {
   button: {

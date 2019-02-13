@@ -1,6 +1,6 @@
 import React from "react";
-import Typography from "../../node_modules/@material-ui/core/Typography";
-import Header from "../Components/Header";
+import Typography from "../../../node_modules/@material-ui/core/Typography";
+import Header from "../Utils/Header";
 
 const NotFoundPage = () => (
   <div>

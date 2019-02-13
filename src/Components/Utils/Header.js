@@ -1,9 +1,9 @@
 import React from "react";
-import AppBar from "../../node_modules/@material-ui/core/AppBar";
-import Toolbar from "../../node_modules/@material-ui/core/Toolbar";
-import Typography from "../../node_modules/@material-ui/core/Typography";
-import Link from "../../node_modules/react-router-dom/Link";
-import cplogo from "../assets/crowdplaylogo.png";
+import AppBar from "../../../node_modules/@material-ui/core/AppBar";
+import Toolbar from "../../../node_modules/@material-ui/core/Toolbar";
+import Typography from "../../../node_modules/@material-ui/core/Typography";
+import Link from "../../../node_modules/react-router-dom/Link";
+import cplogo from "../../assets/crowdplaylogo.png";
 
 export default function Header() {
   return (

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Header from "./Header";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import PlaylistStepper from "./PlaylistStepper";
-import withRouter from "../../node_modules/react-router-dom/withRouter";
+import Paper from "../../../node_modules/@material-ui/core/Paper";
+import Typography from "../../../node_modules/@material-ui/core/Typography";
+import withRouter from "../../../node_modules/react-router-dom/withRouter";
+import Header from "../Utils/Header";
+import PlaylistStepper from "../Playlist/PlaylistStepper";
 
 const styles = {
   background: {

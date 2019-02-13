@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Button from "../../node_modules/@material-ui/core/Button";
-import Typography from "../../node_modules/@material-ui/core/Typography";
-import List from "../../node_modules/@material-ui/core/List";
-import ListItem from "../../node_modules/@material-ui/core/ListItem";
+import Button from "../../../node_modules/@material-ui/core/Button";
+import Typography from "../../../node_modules/@material-ui/core/Typography";
+import List from "../../../node_modules/@material-ui/core/List";
+import ListItem from "../../../node_modules/@material-ui/core/ListItem";
 
 const styles = {
   button: {
