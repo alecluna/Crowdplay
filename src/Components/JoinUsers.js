@@ -1,6 +1,6 @@
 import React from "react";
 import Typography from "../../node_modules/@material-ui/core/Typography";
-import Header from "./Header";
+import Header from "./Utils/Header";
 import Paper from "../../node_modules/@material-ui/core/Paper";
 
 const styles = {
