@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Typography from "../../node_modules/@material-ui/core/Typography";
 import Header from "./Utils/Header";
 import Paper from "../../node_modules/@material-ui/core/Paper";
-import firebase from 'firebase';
+import firebase from "firebase";
 import { Button } from "@material-ui/core";
 
 const styles = {
@@ -25,9 +25,7 @@ const styles = {
   }
 };
 
-
 class JoinUsers extends Component {
-
   constructor() {
     super();
     this.state = {
@@ -37,23 +35,23 @@ class JoinUsers extends Component {
       text: "",
       searchRoomKeyWords: "",
       roomNotFound: false
-    }
-    this.roomsRef = firebase.database().ref().child("RoomNames");
-
+    };
+    this.roomsRef = firebase
+      .database()
+      .ref()
+      .child("RoomNames");
   }
 
-  componentDidMount() {
-  }
-
-
+  componentDidMount() {}
 
   handleSearchForRoom(event) {
     if (this.state.searchRoomKeyWords && this.state.searchRoomKeyWords.trim()) {
-      this.roomsRef.child(this.state.searchRoomKeyWords)
-        .once('value')
+      this.roomsRef
+        .child(this.state.searchRoomKeyWords)
+        .once("value")
         .then(snapshot => {
           let roomId = snapshot.val();
-          console.log(roomId)
+          console.log(roomId);
           if (roomId) {
             //route and set roomId
             this.setState({ roomNotFound: false });
@@ -61,18 +59,22 @@ class JoinUsers extends Component {
           } else {
             this.setState({ roomNotFound: true });
           }
-        }).catch(err => {
-          console.log(err)
         })
+        .catch(err => {
+          console.log(err);
+        });
     }
     event.preventDefault();
   }
 
   changeSearchText(e) {
-    this.setState({ searchRoomKeyWords: e.target.value })
+    this.setState({ searchRoomKeyWords: e.target.value });
   }
 
-  showIfRoomNotFound() { if (this.state.roomNotFound) return <div>Room Not Found</div> }
+  showIfRoomNotFound() {
+    return this.state.roomNotFound ? <div>Room Not Found</div> : null;
+  }
+
   render() {
     return (
       <div>
@@ -85,7 +87,7 @@ class JoinUsers extends Component {
                 style={{ color: "black", fontWeight: "200" }}
               >
                 Join a Session
-          </Typography>
+              </Typography>
             </div>
             <div style={styles.centerStyling} />
 
@@ -100,7 +102,8 @@ class JoinUsers extends Component {
             </form>
           </Paper>
         </div>
-      </div>)
+      </div>
+    );
   }
 }
 
