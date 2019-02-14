@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Typography from "../../node_modules/@material-ui/core/Typography";
-import Header from "./Header";
+import Header from "./Utils/Header";
 import Paper from "../../node_modules/@material-ui/core/Paper";
 import firebase from 'firebase';
 import { Button, List, ListItem } from "@material-ui/core";

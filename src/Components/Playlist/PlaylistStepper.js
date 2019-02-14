@@ -1,9 +1,9 @@
 import React from "react";
-import Typography from "../../node_modules/@material-ui/core/Typography";
-import PlaylistNameForm from "./PlaylistNameForm";
-import Success from "../Components/Success";
-import PlaylistPrivacy from "../Components/PlaylistPrivacy";
-import Confirm from "../Components/Confirm";
+import Typography from "../../../node_modules/@material-ui/core/Typography";
+import PlaylistNameForm from "../Playlist/PlaylistNameForm";
+import Success from "../Playlist/Success";
+import PlaylistPrivacy from "../Playlist/PlaylistPrivacy";
+import Confirm from "../Playlist/Confirm";
 
 export default class PlaylistStepper extends React.Component {
   constructor(props) {
