@@ -45,9 +45,10 @@ class JoinUsers extends Component {
   componentDidMount() {}
 
   handleSearchForRoom(event) {
-    if (this.state.searchRoomKeyWords && this.state.searchRoomKeyWords.trim()) {
+    const { searchRoomKeyWords } = this.state;
+    if (searchRoomKeyWords && searchRoomKeyWords.trim()) {
       this.roomsRef
-        .child(this.state.searchRoomKeyWords)
+        .child(searchRoomKeyWords)
         .once("value")
         .then(snapshot => {
           let roomId = snapshot.val();
