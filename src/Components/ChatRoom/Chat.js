@@ -33,9 +33,20 @@ export default class Chat extends Component {
   }
 
   componentDidMount() {
-    this.messageRef = firebase.database().ref().child("Rooms").child(this.props.match.params.roomId).child("messages");
+    this.messageRef = firebase.database().ref().child(`Rooms/${this.props.match.params.roomId}/messages`);
     this.listenMessages = this.listenMessages.bind(this);
     this.listenMessages();
+  }
+
+  componentWillMount() {
+    //check if roomId exists. If not, route back to the join room
+    firebase.database().ref().child("Rooms").child(this.props.match.params.roomId)
+      .once('value')
+      .then(snapshot => {
+        if (!snapshot.val()) {
+          this.props.history.push('/joinusers');
+        }
+      });
   }
 
   listenMessages() {
