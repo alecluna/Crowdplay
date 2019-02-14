@@ -3,7 +3,7 @@ import Typography from "../../node_modules/@material-ui/core/Typography";
 import Header from "./Utils/Header";
 import Paper from "../../node_modules/@material-ui/core/Paper";
 import firebase from 'firebase';
-import { Button, List, ListItem } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 const styles = {
   background: {
@@ -34,35 +34,45 @@ class JoinUsers extends Component {
       userId: "userId1",
       sessionId: "",
       chatId: "",
-      messages: [],
-      text: ""
+      text: "",
+      searchRoomKeyWords: "",
+      roomNotFound: false
     }
-    this.messageRef = firebase.database().ref().child("Chats").child("chatsId");
-    this.listenMessages = this.listenMessages.bind(this);
-    this.listenMessages();
-  }
+    this.roomsRef = firebase.database().ref().child("RoomNames");
 
-  listenMessages() {
-    this.messageRef.on('value', message => {
-      this.setState({ messages: Object.values(message.val()) });
-    });
   }
 
   componentDidMount() {
   }
 
-  handleSubmitNewMessage(event) {
-    if (this.state.text) {
-      this.messageRef.push(this.state.text);
-      this.setState({ text: '' });
+
+
+  handleSearchForRoom(event) {
+    if (this.state.searchRoomKeyWords && this.state.searchRoomKeyWords.trim()) {
+      this.roomsRef.child(this.state.searchRoomKeyWords)
+        .once('value')
+        .then(snapshot => {
+          let roomId = snapshot.val();
+          console.log(roomId)
+          if (roomId) {
+            //route and set roomId
+            this.setState({ roomNotFound: false });
+            this.props.history.push(`/room/${roomId}`);
+          } else {
+            this.setState({ roomNotFound: true });
+          }
+        }).catch(err => {
+          console.log(err)
+        })
     }
     event.preventDefault();
   }
 
-  changeText(e) {
-    this.setState({ text: e.target.value })
+  changeSearchText(e) {
+    this.setState({ searchRoomKeyWords: e.target.value })
   }
 
+  showIfRoomNotFound() { if (this.state.roomNotFound) return <div>Room Not Found</div> }
   render() {
     return (
       <div>
@@ -79,28 +89,19 @@ class JoinUsers extends Component {
             </div>
             <div style={styles.centerStyling} />
 
-            <form onSubmit={this.handleSubmitNewMessage.bind(this)}>
+            {this.showIfRoomNotFound()}
+            <form onSubmit={this.handleSearchForRoom.bind(this)}>
               <input
                 type="text"
-                onChange={this.changeText.bind(this)}
-                value={this.state.text}
+                onChange={this.changeSearchText.bind(this)}
+                value={this.state.searchRoomKeyWords}
               />
               <Button type="submit">Send</Button>
-
             </form>
-
-            {
-              this.state.messages.map((value, index) => {
-                return <p>Item {index + 1}: {value}</p>
-              })
-            }
           </Paper>
         </div>
       </div>)
   }
-
-
-
 }
 
 export default JoinUsers;
