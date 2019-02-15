@@ -4,6 +4,7 @@ import Header from "./Utils/Header";
 import Paper from "../../node_modules/@material-ui/core/Paper";
 import firebase from "firebase";
 import { Button } from "@material-ui/core";
+import Link from "react-router-dom/Link";
 
 const styles = {
   background: {
@@ -34,15 +35,27 @@ class JoinUsers extends Component {
       chatId: "",
       text: "",
       searchRoomKeyWords: "",
-      roomNotFound: false
+      roomNotFound: false,
+      joinedRooms: []
     };
     this.roomsRef = firebase
       .database()
       .ref()
       .child("RoomNames");
   }
+  componentDidMount() {
+    let userId = "userId1";
+    firebase
+      .database()
+      .ref()
+      .child(`Users/${userId}/joinedRooms`)
+      .on('value', joinedRooms => {
+        console.log(joinedRooms.val())
+        if (joinedRooms.val())
+          this.setState({ joinedRooms: joinedRooms.val() });
+      });
 
-  componentDidMount() {}
+  }
 
   handleSearchForRoom(event) {
     const { searchRoomKeyWords } = this.state;
@@ -77,6 +90,17 @@ class JoinUsers extends Component {
   }
 
   render() {
+    const messagesHTML = Object.entries(this.state.joinedRooms).map(
+      ([key, value], index) => {
+        let to = "/room/" + value;
+        return (
+          <li style={{ listStyleType: "none" }} key={key}>
+            <div> {index + 1}:  <Link to={to}>{key}</Link> </div>
+          </li>
+        )
+      }
+    );
+
     return (
       <div>
         <Header />
@@ -101,6 +125,7 @@ class JoinUsers extends Component {
               />
               <Button type="submit">Send</Button>
             </form>
+            {messagesHTML}
           </Paper>
         </div>
       </div>
