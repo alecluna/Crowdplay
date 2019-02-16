@@ -66,9 +66,10 @@ class JoinUsers extends Component {
         .child(searchRoomKeyWords)
         .once("value")
         .then(snapshot => {
-          let roomId = snapshot.val();
-          console.log(roomId);
-          if (roomId) {
+          let room = snapshot.val();
+          console.log(room);
+          if (room) {
+            let roomId = Object.values(room)[0].id;
             //route and set roomId
             this.setState({ roomNotFound: false });
 

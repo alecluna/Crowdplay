@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
 import Paper from "../../../node_modules/@material-ui/core/Paper";
 import Header from "../../Components/Utils/Header";
-//import Chat from "../../Components/ChatRoom/Chat";
-
+import firebase from "firebase";
 const styles = {
   background: {
     backgroundColor: "#D3D3D3",
@@ -25,6 +24,43 @@ const styles = {
 };
 
 export default class CreateSessionContainer extends Component {
+  constructor() {
+    super();
+    this.state = {
+      roomName: "",
+      roomDescription: "",
+      roomExists: false
+    };
+  }
+  handleDescriptionChange(e) {
+    this.setState({ roomDescription: e.target.value });
+  }
+  handleNameChange(e) {
+    this.setState({ roomName: e.target.value });
+  }
+  handleFormSubmit(event) {
+    event.preventDefault();
+    let { roomName, roomDescription } = this.state;
+    let firebaseRef = firebase.database().ref();
+    firebaseRef.child("RoomNames").once("value", function(snapshot) {
+      if (snapshot.hasChild(roomName)) {
+        this.setState({ roomExists: true });
+      } else {
+        // let inviteCode = generate5DigitInviteCode();
+        let newRoomRef = firebaseRef.child("Rooms").push({
+          roomName: roomName,
+          playListId: 1,
+          description: roomDescription
+        });
+        console.log(newRoomRef.key);
+        firebaseRef
+          .child("RoomNames")
+          .child(roomName)
+          .push({ id: newRoomRef.key });
+      }
+    });
+  }
+
   render() {
     const { name } = this.props.location.state;
     return (
@@ -44,7 +80,22 @@ export default class CreateSessionContainer extends Component {
                 Create a Session as Host: {name}
               </Typography>
             </div>
-            <div style={styles.centerStyling}>{/* <Chat /> */}</div>
+            <div style={styles.centerStyling}>
+              {this.state.roomExists ? <div> Room Already Exists</div> : null}
+              <form onSubmit={this.handleFormSubmit.bind(this)}>
+                <input
+                  type="text"
+                  onChange={this.handleNameChange.bind(this)}
+                  required
+                />
+                <input
+                  type="text"
+                  onChange={this.handleDescriptionChange.bind(this)}
+                />
+                {/* generate invite code */}
+                <input type="submit" />
+              </form>
+            </div>
           </Paper>
         </div>
       </div>
