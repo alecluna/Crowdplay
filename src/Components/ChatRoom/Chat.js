@@ -2,25 +2,35 @@ import React, { Component } from "react";
 import ChatMessage from "./ChatMessage";
 import firebase from "firebase";
 import Header from "../Utils/Header";
-import { Paper, Typography } from "@material-ui/core";
+import Typography from "../../../node_modules/@material-ui/core/Typography";
 
 const styles = {
   background: {
     backgroundColor: "#D3D3D3",
-    height: "100vh",
+    height: "100vh"
+  },
+  titleStyle: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    boxSizing: "border-box"
   },
-  paperStyle: {
-    height: "75%",
-    width: "60%",
-    borderRadius: "5px"
+  row: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    width: "100%"
   },
+  column: {
+    display: "flex",
+    flexDirection: "column",
+    flexBasis: "100%",
+    flex: "1"
+  },
+
   centerStyling: {
-    display: "flex",
-    justifyContent: "center",
-    marginTop: "30px"
+    backgroundColor: "white",
+    height: "100vh"
   }
 };
 
@@ -33,20 +43,23 @@ export default class Chat extends Component {
   }
 
   componentDidMount() {
+    const { match } = this.props;
     this.messageRef = firebase
       .database()
       .ref()
-      .child(`Rooms/${this.props.match.params.roomId}/messages`);
+      .child(`Rooms/${match.params.roomId}/messages`);
     this.listenMessages = this.listenMessages.bind(this);
     this.listenMessages();
   }
 
   componentWillMount() {
     //check if roomId exists. If not, route back to the join room
+    const { match } = this.props;
+
     firebase
       .database()
       .ref()
-      .child(`Rooms/${this.props.match.params.roomId}`)
+      .child(`Rooms/${match.params.roomId}`)
       .once("value")
       .then(snapshot => {
         if (!snapshot.val()) {
@@ -75,45 +88,53 @@ export default class Chat extends Component {
   }
 
   render() {
-    const messagesHTML = Object.entries(this.state.messages).map(
+    const messages = Object.entries(this.state.messages).map(
       ([key, value], index) => {
         const { name, photoURL, text, userID } = value;
-
         return (
           <li style={{ listStyleType: "none" }} key={key}>
-            <div>
+            <Typography>
               {index + 1}: {text} from {name} UID: {userID}
-            </div>
+            </Typography>
           </li>
         );
       }
     );
-
     return (
       <div>
         <Header />
-        <div style={styles.background}>
-          <Paper style={styles.paperStyle} elevation={11}>
+        <div style={styles.titleStyle}>
+          <Typography
+            variant="display2"
+            style={{ color: "black", fontWeight: "200" }}
+          >
+            Chat Room
+          </Typography>
+        </div>
+        <div style={styles.row}>
+          <div style={styles.column}>
             <div style={styles.centerStyling}>
-              <Typography
-                variant="display2"
-                style={{ color: "black", fontWeight: "200" }}
+              <div
+                style={{
+                  boxSizing: "border-box",
+                  border: "5px solid black",
+                  padding: "0 0 0 6px",
+                  margin: 0,
+                  width: "100%",
+                  height: "100%",
+                  overflow: "scroll"
+                }}
               >
-                Chat Room
-              </Typography>
-            </div>
-            <div style={styles.centerStyling} />
-            <div className="container">
-              <div>
-                <ul> {messagesHTML} </ul>
-              </div>
-              <div>
+                <div>
+                  <ul>{messages}</ul>
+                </div>
                 <ChatMessage
                   addMessage={this.handleSubmitNewMessage.bind(this)}
                 />
               </div>
             </div>
-          </Paper>
+          </div>
+          <div style={styles.column}> Spotify Playlist Editor Here </div>
         </div>
       </div>
     );

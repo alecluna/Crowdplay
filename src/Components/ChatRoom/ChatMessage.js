@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TextField from "../../../node_modules/@material-ui/core/TextField";
 import Button from "../../../node_modules/@material-ui/core/Button";
 
 export default class ChatMessage extends Component {
@@ -9,26 +10,27 @@ export default class ChatMessage extends Component {
     };
   }
 
-  changeText(e) {
+  changeText = e => {
     this.setState({
       text: e.target.value
     });
-  }
+  };
 
-  handleAdd(event) {
-    event.preventDefault();
-    this.props.addMessage(this.state.text);
+  handleAdd = event => {
+    const { addMessage } = this.props;
+    addMessage(this.state.text);
     this.setState({ text: "" });
-  }
+    event.preventDefault();
+  };
 
   render() {
     return (
       <React.Fragment>
         <form onSubmit={this.handleAdd.bind(this)}>
-          <input
-            type="text"
+          <TextField
+            label="Add Message"
             onChange={this.changeText.bind(this)}
-            value={this.state.text}
+            defaultValue={this.state.text}
           />
           <Button type="submit">add</Button>
         </form>
