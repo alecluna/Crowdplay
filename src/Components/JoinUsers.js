@@ -44,20 +44,22 @@ class JoinUsers extends Component {
       .child("RoomNames");
   }
   componentDidMount() {
+    const { name, accessToken, photoURL, userID } = this.props.location.state;
+    console.log(this.props.location.state);
     let userId = "userId1";
     firebase
       .database()
       .ref()
       .child(`Users/${userId}/joinedRooms`)
-      .on('value', joinedRooms => {
-        console.log(joinedRooms.val())
+      .on("value", joinedRooms => {
+        console.log(joinedRooms.val());
         if (joinedRooms.val())
           this.setState({ joinedRooms: joinedRooms.val() });
       });
-
   }
 
   handleSearchForRoom(event) {
+    const { name, accessToken, photoURL, userID } = this.props.location.state;
     const { searchRoomKeyWords } = this.state;
     if (searchRoomKeyWords && searchRoomKeyWords.trim()) {
       this.roomsRef
@@ -69,7 +71,16 @@ class JoinUsers extends Component {
           if (roomId) {
             //route and set roomId
             this.setState({ roomNotFound: false });
-            this.props.history.push(`/room/${roomId}`);
+
+            this.props.history.push({
+              pathname: `/room/${roomId}`,
+              state: {
+                name: name,
+                accessToken: accessToken,
+                userID: userID,
+                photoURL: photoURL
+              }
+            });
           } else {
             this.setState({ roomNotFound: true });
           }
@@ -95,9 +106,12 @@ class JoinUsers extends Component {
         let to = "/room/" + value;
         return (
           <li style={{ listStyleType: "none" }} key={key}>
-            <div> {index + 1}:  <Link to={to}>{key}</Link> </div>
+            <div>
+              {" "}
+              {index + 1}: <Link to={to}>{key}</Link>{" "}
+            </div>
           </li>
-        )
+        );
       }
     );
 

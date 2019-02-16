@@ -17,10 +17,14 @@ const Routes = () => {
         path="/playlistbuilder"
         render={props => <PlaylistbuildContainer {...props} />}
       />
-      <Route exact path="/joinusers" component={JoinUsers} />
+      <Route
+        exact
+        path="/joinusers"
+        render={props => <JoinUsers {...props} />}
+      />
       <Route exact path="/createsession" component={CreateSessionContainer} />
       <Route exact path="/inviteusers" component={InviteUsers} />
-      <Route exact path="/room/:roomId" component={Chat} />
+      <Route exact path="/room/:roomId" render={props => <Chat {...props} />} />
       <Route component={NotFoundPage} />
     </Switch>
   );

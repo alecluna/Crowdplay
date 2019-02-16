@@ -15,7 +15,7 @@ const styles = {
 class LoginAuth extends Component {
   constructor() {
     super();
-    this.state = { name: "", accessToken: "", userID: "" };
+    this.state = { name: "", accessToken: "", userID: "", photoURL: [] };
   }
 
   componentDidMount() {
@@ -28,7 +28,14 @@ class LoginAuth extends Component {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         if (data) {
+          if (data.images && data.images.length) {
+            this.setState({
+              photoURL: data.images[0].url
+            });
+          }
+
           this.setState({
             name: data.display_name,
             accessToken: accessToken,
@@ -43,7 +50,7 @@ class LoginAuth extends Component {
   }
 
   render() {
-    const { name, accessToken, userID } = this.state;
+    const { name, accessToken, userID, photoURL } = this.state;
     return (
       <div style={styles.background}>
         {name ? (
@@ -60,6 +67,11 @@ class LoginAuth extends Component {
             >
               Welcome {name}!
             </Typography>
+            <img
+              alt="MY IMAGE"
+              style={{ width: "200px", height: "200px", borderRadius: "50%" }}
+              src={photoURL}
+            />
 
             <div
               style={{
@@ -89,7 +101,15 @@ class LoginAuth extends Component {
               >
                 <Link
                   style={{ textDecoration: "none " }}
-                  to={{ pathname: "/joinusers", state: { name: name } }}
+                  to={{
+                    pathname: "/joinusers",
+                    state: {
+                      name: name,
+                      accessToken: accessToken,
+                      userID: userID,
+                      photoURL: photoURL
+                    }
+                  }}
                 >
                   <Typography style={{ color: "white" }}>
                     Join a Session

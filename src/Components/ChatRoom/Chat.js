@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ChatMessage from "./ChatMessage";
-import firebase from 'firebase';
+import firebase from "firebase";
 import Header from "../Utils/Header";
 import { Paper, Typography } from "@material-ui/core";
 
@@ -28,31 +28,39 @@ export default class Chat extends Component {
   constructor() {
     super();
     this.state = {
-      messages: {},
+      messages: {}
     };
   }
 
   componentDidMount() {
-    this.messageRef = firebase.database().ref().child(`Rooms/${this.props.match.params.roomId}/messages`);
+    // const { name,accessToken,photoURL,userID } = this.props.location.state;
+    console.log(this.props.location.state);
+    this.messageRef = firebase
+      .database()
+      .ref()
+      .child(`Rooms/${this.props.match.params.roomId}/messages`);
     this.listenMessages = this.listenMessages.bind(this);
     this.listenMessages();
   }
 
   componentWillMount() {
     //check if roomId exists. If not, route back to the join room
-    firebase.database().ref().child("Rooms").child(this.props.match.params.roomId)
-      .once('value')
+    firebase
+      .database()
+      .ref()
+      .child("Rooms")
+      .child(this.props.match.params.roomId)
+      .once("value")
       .then(snapshot => {
         if (!snapshot.val()) {
-          this.props.history.push('/joinusers');
+          this.props.history.push("/joinusers");
         }
       });
   }
 
   listenMessages() {
-    this.messageRef.on('value', message => {
-      if (message.val())
-        this.setState({ messages: message.val() });
+    this.messageRef.on("value", message => {
+      if (message.val()) this.setState({ messages: message.val() });
     });
   }
 
@@ -62,17 +70,15 @@ export default class Chat extends Component {
     }
   }
 
-
-
-
   render() {
     const messagesHTML = Object.entries(this.state.messages).map(
-      ([key, value], index) =>
-        (
-          <li style={{ listStyleType: "none" }} key={key}>
-            <div> {index + 1}: {value} </div>
-          </li>
-        )
+      ([key, value], index) => (
+        <li style={{ listStyleType: "none" }} key={key}>
+          <div>
+            {index + 1}: {value}
+          </div>
+        </li>
+      )
     );
 
     return (
@@ -86,7 +92,7 @@ export default class Chat extends Component {
                 style={{ color: "black", fontWeight: "200" }}
               >
                 Chat Room
-        </Typography>
+              </Typography>
             </div>
             <div style={styles.centerStyling} />
             <div className="container">
@@ -94,7 +100,9 @@ export default class Chat extends Component {
                 <ul> {messagesHTML} </ul>
               </div>
               <div>
-                <ChatMessage addMessage={this.handleSubmitNewMessage.bind(this)} />
+                <ChatMessage
+                  addMessage={this.handleSubmitNewMessage.bind(this)}
+                />
               </div>
             </div>
           </Paper>
@@ -102,5 +110,4 @@ export default class Chat extends Component {
       </div>
     );
   }
-
 }
