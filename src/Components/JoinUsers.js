@@ -102,14 +102,26 @@ class JoinUsers extends Component {
   }
 
   render() {
+    const { name, accessToken, photoURL, userID } = this.props.location.state;
     const messagesHTML = Object.entries(this.state.joinedRooms).map(
       ([key, value], index) => {
-        let to = "/room/" + value;
         return (
           <li style={{ listStyleType: "none" }} key={key}>
             <div>
-              {" "}
-              {index + 1}: <Link to={to}>{key}</Link>{" "}
+              {index + 1}:
+              <Link
+                to={{
+                  pathname: `/room/${value}`,
+                  state: {
+                    name: name,
+                    accessToken: accessToken,
+                    userID: userID,
+                    photoURL: photoURL
+                  }
+                }}
+              >
+                {key}
+              </Link>
             </div>
           </li>
         );

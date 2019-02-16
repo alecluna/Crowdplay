@@ -33,8 +33,6 @@ export default class Chat extends Component {
   }
 
   componentDidMount() {
-    // const { name,accessToken,photoURL,userID } = this.props.location.state;
-    console.log(this.props.location.state);
     this.messageRef = firebase
       .database()
       .ref()
@@ -48,8 +46,7 @@ export default class Chat extends Component {
     firebase
       .database()
       .ref()
-      .child("Rooms")
-      .child(this.props.match.params.roomId)
+      .child(`Rooms/${this.props.match.params.roomId}`)
       .once("value")
       .then(snapshot => {
         if (!snapshot.val()) {
@@ -65,20 +62,31 @@ export default class Chat extends Component {
   }
 
   handleSubmitNewMessage(messageText) {
+    const { name, accessToken, photoURL, userID } = this.props.location.state;
     if (messageText && messageText.trim()) {
-      this.messageRef.push(messageText);
+      let messageInfo = {
+        text: messageText,
+        photoURL: photoURL,
+        userID: userID,
+        name: name
+      };
+      this.messageRef.push(messageInfo);
     }
   }
 
   render() {
     const messagesHTML = Object.entries(this.state.messages).map(
-      ([key, value], index) => (
-        <li style={{ listStyleType: "none" }} key={key}>
-          <div>
-            {index + 1}: {value}
-          </div>
-        </li>
-      )
+      ([key, value], index) => {
+        const { name, photoURL, text, userID } = value;
+
+        return (
+          <li style={{ listStyleType: "none" }} key={key}>
+            <div>
+              {index + 1}: {text} from {name} UID: {userID}
+            </div>
+          </li>
+        );
+      }
     );
 
     return (
