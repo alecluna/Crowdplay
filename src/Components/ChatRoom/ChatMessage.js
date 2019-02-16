@@ -18,9 +18,10 @@ export default class ChatMessage extends Component {
 
   handleAdd = event => {
     const { addMessage } = this.props;
-    addMessage(this.state.text);
-    this.setState({ text: "" });
     event.preventDefault();
+    addMessage(this.state.text);
+    event.target.reset();
+    this.setState({ text: "" });
   };
 
   render() {
@@ -31,8 +32,12 @@ export default class ChatMessage extends Component {
             label="Add Message"
             onChange={this.changeText.bind(this)}
             defaultValue={this.state.text}
+            variant="filled"
+            style={{ width: "80%" }}
           />
-          <Button type="submit">add</Button>
+          <Button style={{ width: "10%" }} type="submit">
+            add
+          </Button>
         </form>
       </React.Fragment>
     );

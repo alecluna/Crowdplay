@@ -29,8 +29,7 @@ const styles = {
   },
 
   centerStyling: {
-    backgroundColor: "white",
-    height: "100vh"
+    backgroundColor: "white"
   }
 };
 
@@ -117,7 +116,7 @@ export default class Chat extends Component {
               <div
                 style={{
                   boxSizing: "border-box",
-                  border: "5px solid black",
+                  border: "2px solid black",
                   padding: "0 0 0 6px",
                   margin: 0,
                   width: "100%",
@@ -134,7 +133,9 @@ export default class Chat extends Component {
               </div>
             </div>
           </div>
-          <div style={styles.column}> Spotify Playlist Editor Here </div>
+          <div style={styles.column}>
+            <Typography>Spotify Playlist Editor Here </Typography>
+          </div>
         </div>
       </div>
     );
