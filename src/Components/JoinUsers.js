@@ -1,7 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import Typography from "../../node_modules/@material-ui/core/Typography";
 import Header from "./Utils/Header";
 import Paper from "../../node_modules/@material-ui/core/Paper";
+import firebase from "firebase";
+import { Button } from "@material-ui/core";
+import Link from "react-router-dom/Link";
 
 const styles = {
   background: {
@@ -23,23 +26,111 @@ const styles = {
   }
 };
 
-const JoinUsers = () => (
-  <div>
-    <Header />
-    <div style={styles.background}>
-      <Paper style={styles.paperStyle} elevation={11}>
-        <div style={styles.centerStyling}>
-          <Typography
-            variant="display2"
-            style={{ color: "black", fontWeight: "200" }}
-          >
-            Join a Session
-          </Typography>
+class JoinUsers extends Component {
+  constructor() {
+    super();
+    this.state = {
+      userId: "userId1",
+      sessionId: "",
+      chatId: "",
+      text: "",
+      searchRoomKeyWords: "",
+      roomNotFound: false,
+      joinedRooms: []
+    };
+    this.roomsRef = firebase
+      .database()
+      .ref()
+      .child("RoomNames");
+  }
+  componentDidMount() {
+    let userId = "userId1";
+    firebase
+      .database()
+      .ref()
+      .child(`Users/${userId}/joinedRooms`)
+      .on('value', joinedRooms => {
+        console.log(joinedRooms.val())
+        if (joinedRooms.val())
+          this.setState({ joinedRooms: joinedRooms.val() });
+      });
+
+  }
+
+  handleSearchForRoom(event) {
+    const { searchRoomKeyWords } = this.state;
+    if (searchRoomKeyWords && searchRoomKeyWords.trim()) {
+      this.roomsRef
+        .child(searchRoomKeyWords)
+        .once("value")
+        .then(snapshot => {
+          let roomId = snapshot.val();
+          console.log(roomId);
+          if (roomId) {
+            //route and set roomId
+            this.setState({ roomNotFound: false });
+            this.props.history.push(`/room/${roomId}`);
+          } else {
+            this.setState({ roomNotFound: true });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+    event.preventDefault();
+  }
+
+  changeSearchText(e) {
+    this.setState({ searchRoomKeyWords: e.target.value });
+  }
+
+  showIfRoomNotFound() {
+    return this.state.roomNotFound ? <div>Room Not Found</div> : null;
+  }
+
+  render() {
+    const messagesHTML = Object.entries(this.state.joinedRooms).map(
+      ([key, value], index) => {
+        let to = "/room/" + value;
+        return (
+          <li style={{ listStyleType: "none" }} key={key}>
+            <div> {index + 1}:  <Link to={to}>{key}</Link> </div>
+          </li>
+        )
+      }
+    );
+
+    return (
+      <div>
+        <Header />
+        <div style={styles.background}>
+          <Paper style={styles.paperStyle} elevation={11}>
+            <div style={styles.centerStyling}>
+              <Typography
+                variant="display2"
+                style={{ color: "black", fontWeight: "200" }}
+              >
+                Join a Session
+              </Typography>
+            </div>
+            <div style={styles.centerStyling} />
+
+            {this.showIfRoomNotFound()}
+            <form onSubmit={this.handleSearchForRoom.bind(this)}>
+              <input
+                type="text"
+                onChange={this.changeSearchText.bind(this)}
+                value={this.state.searchRoomKeyWords}
+              />
+              <Button type="submit">Send</Button>
+            </form>
+            {messagesHTML}
+          </Paper>
         </div>
-        <div style={styles.centerStyling} />
-      </Paper>
-    </div>
-  </div>
-);
+      </div>
+    );
+  }
+}
 
 export default JoinUsers;

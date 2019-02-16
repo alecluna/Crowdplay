@@ -1,86 +1,106 @@
 import React, { Component } from "react";
-import axios from "../../../node_modules/axios";
-import Pusher from "../../../node_modules/pusher-js";
 import ChatMessage from "./ChatMessage";
+import firebase from 'firebase';
+import Header from "../Utils/Header";
+import { Paper, Typography } from "@material-ui/core";
 
-Pusher.logToConsole = true;
+const styles = {
+  background: {
+    backgroundColor: "#D3D3D3",
+    height: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  paperStyle: {
+    height: "75%",
+    width: "60%",
+    borderRadius: "5px"
+  },
+  centerStyling: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "30px"
+  }
+};
 
 export default class Chat extends Component {
   constructor() {
     super();
     this.state = {
-      text: "",
-      username: "",
-      chats: []
+      messages: {},
     };
   }
 
   componentDidMount() {
-    const { name } = this.props;
-    console.log(name);
-    const username = name; //intialize username that is passed in from props
-    this.setState({ username }); //shorthand object assignment property
-    const pusher = new Pusher("c6ecf9f5f543d9e5c82d", {
-      cluster: "us2",
-      forceTLS: true
-    });
-
-    let channel = pusher.subscribe("My-Spotify-ChatRoom");
-    channel.bind("my-event", function(data) {
-      alert(data.message);
-    });
-
-    channel.bind("message", data => {
-      this.setState({ chats: [...this.state.chats, data] }); //spread operator
-      console.log(...this.state.chats);
-    });
+    this.messageRef = firebase.database().ref().child(`Rooms/${this.props.match.params.roomId}/messages`);
+    this.listenMessages = this.listenMessages.bind(this);
+    this.listenMessages();
   }
 
-  handleTextChange(text) {
-    this.setState({
-      chats: [
-        ...this.state.chats,
-        {
-          //'pushing' new chat to chat array
-          username: this.state.username,
-          message: text,
-          id: new Date().getTime()
+  componentWillMount() {
+    //check if roomId exists. If not, route back to the join room
+    firebase.database().ref().child("Rooms").child(this.props.match.params.roomId)
+      .once('value')
+      .then(snapshot => {
+        if (!snapshot.val()) {
+          this.props.history.push('/joinusers');
         }
-      ]
-    });
-
-    // axios.post('https://aa297dce.ngrok.io/message', {
-    //   username: this.state.username,
-    //   message: text
-    // })
-    //  .then((response) => {
-    //   const {username, message} = response.data;
-    //   //  console.log(username);
-    //   //  console.log(message);
-    //    console.log(response.data)
-    //   });
+      });
   }
+
+  listenMessages() {
+    this.messageRef.on('value', message => {
+      if (message.val())
+        this.setState({ messages: message.val() });
+    });
+  }
+
+  handleSubmitNewMessage(messageText) {
+    if (messageText && messageText.trim()) {
+      this.messageRef.push(messageText);
+    }
+  }
+
+
+
 
   render() {
-    const chats = this.state.chats.map((chat, index) => (
-      <li style={{ listStyleType: "none" }} key={chat.id}>
-        <p>{chat.username}</p>
-        <div> {chat.message} </div>
-      </li>
-    ));
+    const messagesHTML = Object.entries(this.state.messages).map(
+      ([key, value], index) =>
+        (
+          <li style={{ listStyleType: "none" }} key={key}>
+            <div> {index + 1}: {value} </div>
+          </li>
+        )
+    );
 
     return (
       <div>
-        <p> Chats here </p>
-        <div className="container">
-          <div>
-            <ul> {chats} </ul>
-          </div>
-          <div>
-            <ChatMessage addMessage={this.handleTextChange.bind(this)} />
-          </div>
+        <Header />
+        <div style={styles.background}>
+          <Paper style={styles.paperStyle} elevation={11}>
+            <div style={styles.centerStyling}>
+              <Typography
+                variant="display2"
+                style={{ color: "black", fontWeight: "200" }}
+              >
+                Chat Room
+        </Typography>
+            </div>
+            <div style={styles.centerStyling} />
+            <div className="container">
+              <div>
+                <ul> {messagesHTML} </ul>
+              </div>
+              <div>
+                <ChatMessage addMessage={this.handleSubmitNewMessage.bind(this)} />
+              </div>
+            </div>
+          </Paper>
         </div>
       </div>
     );
   }
+
 }

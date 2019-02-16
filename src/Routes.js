@@ -6,6 +6,7 @@ import PlaylistbuildContainer from "./Components/Containers/PlaylistbuildContain
 import InviteUsers from "./Components/InviteUsers";
 import JoinUsers from "./Components/JoinUsers";
 import CreateSessionContainer from "./Components/Containers/CreateSessionContainer";
+import Chat from "./Components/ChatRoom/Chat";
 
 const Routes = () => {
   return (
@@ -19,6 +20,7 @@ const Routes = () => {
       <Route exact path="/joinusers" component={JoinUsers} />
       <Route exact path="/createsession" component={CreateSessionContainer} />
       <Route exact path="/inviteusers" component={InviteUsers} />
+      <Route exact path="/room/:roomId" component={Chat} />
       <Route component={NotFoundPage} />
     </Switch>
   );
