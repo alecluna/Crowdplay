@@ -129,12 +129,12 @@ export default class Chat extends Component {
                   boxSizing: "border-box",
                   border: ".5px solid grey",
                   padding: "0 0 0 10px",
-                  maxHeight: "1000px"
+                  maxHeight: "40vh",
+                  overflow: "scroll"
                 }}
               >
                 <React.Fragment
                   style={{
-                    overflowY: "scroll",
                     overflowX: "hidden"
                   }}
                 >
