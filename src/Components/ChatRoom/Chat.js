@@ -6,26 +6,28 @@ import Typography from "../../../node_modules/@material-ui/core/Typography";
 
 const styles = {
   background: {
-    backgroundColor: "#D3D3D3",
-    height: "100vh"
+    backgroundColor: "#D3D3D3"
   },
   titleStyle: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    boxSizing: "border-box"
+    marginBottom: "15px",
+    marginTop: "15px"
   },
   row: {
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    width: "100%"
+    width: "100%",
+    maxHeight: "100vh"
   },
   column: {
     display: "flex",
     flexDirection: "column",
     flexBasis: "100%",
-    flex: "1"
+    flex: "1",
+    height: "100%"
   },
 
   centerStyling: {
@@ -91,10 +93,19 @@ export default class Chat extends Component {
       ([key, value], index) => {
         const { name, photoURL, text, userID } = value;
         return (
-          <li style={{ listStyleType: "none" }} key={key}>
-            <Typography>
-              {index + 1}: {text} from {name} UID: {userID}
-            </Typography>
+          <li
+            style={{
+              listStyleType: "none",
+              backgroundColor: "#0076FF",
+              color: "white",
+              padding: "8px 12px",
+              marginBottom: "8px",
+              borderRadius: "16px",
+              maxWidth: "40%"
+            }}
+            key={key}
+          >
+            <Typography style={{ color: "white" }}>{text}</Typography>
           </li>
         );
       }
@@ -111,30 +122,34 @@ export default class Chat extends Component {
           </Typography>
         </div>
         <div style={styles.row}>
-          <div style={styles.column}>
+          <div style={styles.column /*first column*/}>
             <div style={styles.centerStyling}>
               <div
                 style={{
                   boxSizing: "border-box",
-                  border: "2px solid black",
-                  padding: "0 0 0 6px",
-                  margin: 0,
-                  width: "100%",
-                  height: "100%",
-                  overflow: "scroll"
+                  border: ".5px solid grey",
+                  padding: "0 0 0 10px",
+                  maxHeight: "1000px"
                 }}
               >
-                <div>
-                  <ul>{messages}</ul>
-                </div>
-                <ChatMessage
-                  addMessage={this.handleSubmitNewMessage.bind(this)}
-                />
+                <React.Fragment
+                  style={{
+                    overflowY: "scroll",
+                    overflowX: "hidden"
+                  }}
+                >
+                  {messages}
+                </React.Fragment>
               </div>
+              <ChatMessage
+                addMessage={this.handleSubmitNewMessage.bind(this)}
+              />
             </div>
           </div>
-          <div style={styles.column}>
-            <Typography>Spotify Playlist Editor Here </Typography>
+          <div style={styles.column /*second column*/}>
+            <Typography style={{ textAlign: "center" }}>
+              Spotify Playlist Editor Here
+            </Typography>
           </div>
         </div>
       </div>

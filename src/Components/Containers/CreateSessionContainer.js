@@ -42,7 +42,8 @@ export default class CreateSessionContainer extends Component {
     event.preventDefault();
     let { roomName, roomDescription } = this.state;
     let firebaseRef = firebase.database().ref();
-    firebaseRef.child("RoomNames").once("value", function(snapshot) {
+
+    firebaseRef.child("RoomNames").once("value", snapshot => {
       if (snapshot.hasChild(roomName)) {
         this.setState({ roomExists: true });
       } else {
@@ -81,7 +82,9 @@ export default class CreateSessionContainer extends Component {
               </Typography>
             </div>
             <div style={styles.centerStyling}>
-              {this.state.roomExists ? <div> Room Already Exists</div> : null}
+              {this.state.roomExists ? (
+                <Typography> Room Already Exists</Typography>
+              ) : null}
               <form onSubmit={this.handleFormSubmit.bind(this)}>
                 <input
                   type="text"
