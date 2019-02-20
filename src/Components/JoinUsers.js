@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Typography from "../../node_modules/@material-ui/core/Typography";
 import Header from "./Utils/Header";
 import Paper from "../../node_modules/@material-ui/core/Paper";
-import firebase from "firebase";
+import firebase, { firestore } from "firebase";
 import { Button } from "@material-ui/core";
 import Link from "react-router-dom/Link";
 
@@ -38,23 +38,22 @@ class JoinUsers extends Component {
       roomNotFound: false,
       joinedRooms: []
     };
-    this.roomsRef = firebase
-      .database()
-      .ref()
-      .child("RoomNames");
+    this.roomsFirestoreRef = firebase.firestore().collection("rooms");
   }
   componentDidMount() {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
-    console.log(this.props.location.state);
-    let userId = "userId1";
     firebase
-      .database()
-      .ref()
-      .child(`Users/${userId}/joinedRooms`)
-      .on("value", joinedRooms => {
-        console.log(joinedRooms.val());
-        if (joinedRooms.val())
-          this.setState({ joinedRooms: joinedRooms.val() });
+      .firestore()
+      .collection("users")
+      .doc(userID)
+      .collection("joinedRooms")
+      .orderBy("createdAt", "desc")
+      .onSnapshot(snapshot => {
+        let roomNames = [];
+        snapshot.docs.forEach(doc => {
+          roomNames.push(doc.data().roomName);
+        });
+        this.setState({ joinedRooms: roomNames });
       });
   }
 
@@ -62,19 +61,14 @@ class JoinUsers extends Component {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
     const { searchRoomKeyWords } = this.state;
     if (searchRoomKeyWords && searchRoomKeyWords.trim()) {
-      this.roomsRef
-        .child(searchRoomKeyWords)
-        .once("value")
-        .then(snapshot => {
-          let room = snapshot.val();
-          console.log(room);
-          if (room) {
-            let roomId = Object.values(room)[0].id;
-            //route and set roomId
+      this.roomsFirestoreRef
+        .doc(searchRoomKeyWords)
+        .get()
+        .then(doc => {
+          if (doc.exists) {
             this.setState({ roomNotFound: false });
-
             this.props.history.push({
-              pathname: `/room/${roomId}`,
+              pathname: `/room/${searchRoomKeyWords}`,
               state: {
                 name: name,
                 accessToken: accessToken,
@@ -82,12 +76,18 @@ class JoinUsers extends Component {
                 photoURL: photoURL
               }
             });
+            firebase
+              .firestore()
+              .collection("users")
+              .doc(userID)
+              .collection("joinedRooms")
+              .add({
+                roomName: searchRoomKeyWords,
+                createdAt: firestore.Timestamp.now()
+              });
           } else {
             this.setState({ roomNotFound: true });
           }
-        })
-        .catch(err => {
-          console.log(err);
         });
     }
     event.preventDefault();
@@ -103,30 +103,28 @@ class JoinUsers extends Component {
 
   render() {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
-    const messagesHTML = Object.entries(this.state.joinedRooms).map(
-      ([key, value], index) => {
-        return (
-          <li style={{ listStyleType: "none" }} key={key}>
-            <div>
-              {index + 1}:
-              <Link
-                to={{
-                  pathname: `/room/${value}`,
-                  state: {
-                    name: name,
-                    accessToken: accessToken,
-                    userID: userID,
-                    photoURL: photoURL
-                  }
-                }}
-              >
-                {key}
-              </Link>
-            </div>
-          </li>
-        );
-      }
-    );
+    const messagesHTML = this.state.joinedRooms.map((roomName, index) => {
+      return (
+        <li style={{ listStyleType: "none" }} key={roomName}>
+          <div>
+            {index + 1}:
+            <Link
+              to={{
+                pathname: `/room/${roomName}`,
+                state: {
+                  name: name,
+                  accessToken: accessToken,
+                  userID: userID,
+                  photoURL: photoURL
+                }
+              }}
+            >
+              {roomName}
+            </Link>
+          </div>
+        </li>
+      );
+    });
 
     return (
       <div>

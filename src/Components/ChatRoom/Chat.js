@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import ChatMessage from "./ChatMessage";
-import firebase from "firebase";
+import firebase, { firestore } from "firebase";
 import Header from "../Utils/Header";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
-
 const styles = {
   background: {
     backgroundColor: "#D3D3D3",
@@ -43,34 +42,27 @@ export default class Chat extends Component {
 
   componentDidMount() {
     const { match } = this.props;
-    this.messageRef = firebase
-      .database()
-      .ref()
-      .child(`Rooms/${match.params.roomId}/messages`);
+    this.messageFirestoreRef = firebase
+      .firestore()
+      .collection("rooms")
+      .doc(match.params.roomId)
+      .collection("messages");
     this.listenMessages = this.listenMessages.bind(this);
     this.listenMessages();
   }
 
-  componentWillMount() {
-    //check if roomId exists. If not, route back to the join room
-    const { match } = this.props;
-
-    firebase
-      .database()
-      .ref()
-      .child(`Rooms/${match.params.roomId}`)
-      .once("value")
-      .then(snapshot => {
-        if (!snapshot.val()) {
-          this.props.history.push("/joinusers");
-        }
-      });
-  }
+  componentWillMount() {}
 
   listenMessages() {
-    this.messageRef.on("value", message => {
-      if (message.val()) this.setState({ messages: message.val() });
-    });
+    this.messageFirestoreRef
+      .orderBy("timestamp", "asc")
+      .onSnapshot(snapshot => {
+        let messages = [];
+        snapshot.docs.forEach(message => {
+          messages.push(message.data());
+        });
+        this.setState({ messages });
+      });
   }
 
   handleSubmitNewMessage(messageText) {
@@ -80,9 +72,10 @@ export default class Chat extends Component {
         text: messageText,
         photoURL: photoURL,
         userID: userID,
-        name: name
+        name: name,
+        timestamp: firestore.Timestamp.now()
       };
-      this.messageRef.push(messageInfo);
+      this.messageFirestoreRef.add(messageInfo);
     }
   }
 

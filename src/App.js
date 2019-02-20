@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Routes from "./Routes";
 import "./App.css";
-import firebase from 'firebase/app';
+import firebase from "firebase/app";
+import "firebase/firestore";
 
 var firebaseConfig = {
   apiKey: "AIzaSyA0_0t9zhunPshMwxhxeGIIdKBpz8FdFFw",
@@ -17,7 +18,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"></link>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+        />
         <Routes />
       </div>
     );

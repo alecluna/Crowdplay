@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Typography from "../../node_modules/@material-ui/core/Typography";
-import Button from "../../node_modules/@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import queryString from "query-string";
-import Link from "../../node_modules/react-router-dom/Link";
-
+import Link from "react-router-dom/Link";
+import firebase from "firebase";
 const styles = {
   background: {
     marginTop: "5%",
@@ -46,6 +46,27 @@ class LoginAuth extends Component {
         } else {
           console.log("Failed, perhaps refresh your token");
         }
+      })
+      .then(data => {
+        let firestore = firebase.firestore();
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(this.state.userID)
+          .get()
+          .then(doc => {
+            if (!doc.exists) {
+              //this should occur in account creation. probably in backend
+              firestore
+                .collection("users")
+                .doc(this.state.userID)
+                .set({
+                  name: this.state.name,
+                  userID: this.state.userID,
+                  photoURL: this.state.photoURL
+                });
+            }
+          });
       });
   }
 
@@ -87,7 +108,15 @@ class LoginAuth extends Component {
               >
                 <Link
                   style={{ textDecoration: "none " }}
-                  to={{ pathname: "/createsession", state: { name: name } }}
+                  to={{
+                    pathname: "/createsession",
+                    state: {
+                      name: name,
+                      accessToken: accessToken,
+                      userID: userID,
+                      photoURL: photoURL
+                    }
+                  }}
                 >
                   <Typography style={{ color: "white" }}>
                     Create a Session

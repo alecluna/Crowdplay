@@ -3,7 +3,6 @@ import Paper from "../../../node_modules/@material-ui/core/Paper";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
 import SpotifyLogo from "../../../src/assets/logo.png";
 import LoginAuth from "../../Components/LoginAuth";
-
 const styles = {
   background: {
     backgroundColor: "#D3D3D3",
