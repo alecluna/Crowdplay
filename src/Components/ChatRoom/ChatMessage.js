@@ -36,7 +36,7 @@ export default class ChatMessage extends Component {
             style={{ width: "80%" }}
           />
           <Button style={{ width: "10%" }} type="submit">
-            add
+            Send
           </Button>
         </form>
       </React.Fragment>

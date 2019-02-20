@@ -101,7 +101,9 @@ export default class CreateSessionContainer extends Component {
               </Typography>
             </div>
             <div style={styles.centerStyling}>
-              {this.state.roomExists ? <div> Room Already Exists</div> : null}
+              {this.state.roomExists ? (
+                <Typography> Room Already Exists</Typography>
+              ) : null}
               <form onSubmit={this.handleFormSubmit.bind(this)}>
                 <input
                   type="text"
