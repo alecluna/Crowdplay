@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
 import Paper from "../../../node_modules/@material-ui/core/Paper";
 import Header from "../../Components/Utils/Header";
-import firebase from "firebase";
+import firebase, { firestore } from "firebase";
+
 const styles = {
   background: {
     backgroundColor: "#D3D3D3",
@@ -39,27 +40,45 @@ export default class CreateSessionContainer extends Component {
     this.setState({ roomName: e.target.value });
   }
   handleFormSubmit(event) {
+    const { name, accessToken, photoURL, userID } = this.props.location.state;
     event.preventDefault();
     let { roomName, roomDescription } = this.state;
-    let firebaseRef = firebase.database().ref();
-
-    firebaseRef.child("RoomNames").once("value", snapshot => {
-      if (snapshot.hasChild(roomName)) {
-        this.setState({ roomExists: true });
-      } else {
-        // let inviteCode = generate5DigitInviteCode();
-        let newRoomRef = firebaseRef.child("Rooms").push({
-          roomName: roomName,
-          playListId: 1,
-          description: roomDescription
-        });
-        console.log(newRoomRef.key);
-        firebaseRef
-          .child("RoomNames")
-          .child(roomName)
-          .push({ id: newRoomRef.key });
-      }
-    });
+    let firestoreRef = firebase.firestore();
+    firestoreRef
+      .collection("rooms")
+      .doc(roomName)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          this.setState({ roomExists: true });
+        } else {
+          //add room to rooms list
+          firestoreRef
+            .collection("rooms")
+            .doc(roomName)
+            .set({
+              roomName: roomName,
+              playListId: 1,
+              description: roomDescription,
+              createdAt: firestore.Timestamp.now()
+            });
+          //add room to user's joinedRoomsList
+          firestoreRef
+            .collection("users")
+            .doc(this.props.location.state.userID)
+            .collection("joinedRooms")
+            .add({ roomName: roomName, createdAt: firestore.Timestamp.now() });
+          this.props.history.push({
+            pathname: `/room/${roomName}`,
+            state: {
+              name: name,
+              accessToken: accessToken,
+              userID: userID,
+              photoURL: photoURL
+            }
+          });
+        }
+      });
   }
 
   render() {
