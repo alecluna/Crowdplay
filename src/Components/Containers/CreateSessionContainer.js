@@ -40,6 +40,7 @@ export default class CreateSessionContainer extends Component {
     this.setState({ roomName: e.target.value });
   }
   handleFormSubmit(event) {
+    const { name, accessToken, photoURL, userID } = this.props.location.state;
     event.preventDefault();
     let { roomName, roomDescription } = this.state;
     let firestoreRef = firebase.firestore();
@@ -67,20 +68,14 @@ export default class CreateSessionContainer extends Component {
             .doc(this.props.location.state.userID)
             .collection("joinedRooms")
             .add({ roomName: roomName, createdAt: firestore.Timestamp.now() });
-        }
-      });
-    firestoreRef
-      .collection("roomNames")
-      .doc(roomName)
-      .get()
-      .then(doc => {
-        if (doc.exists) {
-          this.setState({ roomExists: true });
-        } else {
-          doc.set({
-            roomName: roomName,
-            playListId: 1,
-            description: roomDescription
+          this.props.history.push({
+            pathname: `/room/${roomName}`,
+            state: {
+              name: name,
+              accessToken: accessToken,
+              userID: userID,
+              photoURL: photoURL
+            }
           });
         }
       });

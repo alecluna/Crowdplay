@@ -22,7 +22,11 @@ const Routes = () => {
         path="/joinusers"
         render={props => <JoinUsers {...props} />}
       />
-      <Route exact path="/createsession" component={CreateSessionContainer} />
+      <Route
+        exact
+        path="/createsession"
+        render={props => <CreateSessionContainer {...props} />}
+      />
       <Route exact path="/inviteusers" component={InviteUsers} />
       <Route exact path="/room/:roomId" render={props => <Chat {...props} />} />
       <Route component={NotFoundPage} />
