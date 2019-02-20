@@ -129,17 +129,11 @@ export default class Chat extends Component {
                   boxSizing: "border-box",
                   border: ".5px solid grey",
                   padding: "0 0 0 10px",
-                  maxHeight: "40vh",
+                  maxHeight: "70vh",
                   overflow: "scroll"
                 }}
               >
-                <React.Fragment
-                  style={{
-                    overflowX: "hidden"
-                  }}
-                >
-                  {messages}
-                </React.Fragment>
+                <React.Fragment>{messages}</React.Fragment>
               </div>
               <ChatMessage
                 addMessage={this.handleSubmitNewMessage.bind(this)}
