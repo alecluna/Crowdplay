@@ -31,6 +31,22 @@ const styles = {
 
   centerStyling: {
     backgroundColor: "white"
+  },
+  listMessageStyleBlue: {
+    backgroundColor: "#0076FF",
+    color: "white",
+    padding: "8px 12px",
+    marginBottom: "8px",
+    borderRadius: "16px",
+    marginRight: "8px"
+  },
+  listMessageStyleGrey: {
+    backgroundColor: "#d3d3d3",
+    color: "black",
+    padding: "8px 12px",
+    marginBottom: "8px",
+    borderRadius: "16px",
+    maxWidth: "40%"
   }
 };
 
@@ -52,8 +68,6 @@ export default class Chat extends Component {
     this.listenMessages = this.listenMessages.bind(this);
     this.listenMessages();
   }
-
-  componentWillMount() {}
 
   listenMessages() {
     this.messageFirestoreRef
@@ -85,24 +99,37 @@ export default class Chat extends Component {
     const messages = Object.entries(this.state.messages).map(
       ([key, value], index) => {
         const { name, photoURL, text, userID } = value;
-        return (
-          <li
-            style={{
-              listStyleType: "none",
-              backgroundColor: "#0076FF",
-              color: "white",
-              padding: "8px 12px",
-              marginBottom: "8px",
-              borderRadius: "16px",
-              maxWidth: "40%"
-            }}
-            key={key}
-          >
-            <Typography style={{ color: "white" }}>{text}</Typography>
-          </li>
-        );
+        if (userID === this.props.location.state.userID) {
+          return (
+            <li
+              style={{
+                listStyleType: "none",
+                alignSelf: "flex-end"
+              }}
+              key={key}
+            >
+              <Typography style={styles.listMessageStyleBlue}>
+                {text}
+              </Typography>
+            </li>
+          );
+        } else {
+          return (
+            <li
+              style={{
+                listStyleType: "none"
+              }}
+              key={key}
+            >
+              <Typography style={styles.listMessageStyleGrey}>
+                {text}
+              </Typography>
+            </li>
+          );
+        }
       }
     );
+
     return (
       <div>
         <Header />
@@ -126,7 +153,15 @@ export default class Chat extends Component {
                   overflow: "scroll"
                 }}
               >
-                <React.Fragment>{messages}</React.Fragment>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    marginTop: "8px"
+                  }}
+                >
+                  {messages}
+                </div>
               </div>
               <ChatMessage
                 addMessage={this.handleSubmitNewMessage.bind(this)}
