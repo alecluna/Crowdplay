@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import queryString from "query-string";
 import Link from "react-router-dom/Link";
 import firebase from "firebase";
+
 const styles = {
   background: {
     marginTop: "5%",
@@ -44,7 +45,7 @@ class LoginAuth extends Component {
 
           console.log("Welcome! user_ID:  " + this.state.userID);
         } else {
-          console.log("Failed, perhaps refresh your token");
+          window.alert("Try logging in again to refresh your token");
         }
       })
       .then(data => {
@@ -89,7 +90,7 @@ class LoginAuth extends Component {
               Welcome {name}!
             </Typography>
             <img
-              alt="MY IMAGE"
+              alt="Spotify Profile"
               style={{ width: "200px", height: "200px", borderRadius: "50%" }}
               src={photoURL}
             />
@@ -176,7 +177,7 @@ class LoginAuth extends Component {
             onClick={() => {
               window.location = window.location.href.includes("localhost")
                 ? "http://localhost:8888/login"
-                : "https://crowdplay-music-backend.herokuapp.com/login"; //prod URL goes here
+                : "https://crowdplay-music-backend.herokuapp.com/login"; //prod URL here
             }}
           >
             <Typography style={{ color: "white" }}>

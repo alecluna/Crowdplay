@@ -3,6 +3,7 @@ import ChatMessage from "./ChatMessage";
 import firebase, { firestore } from "firebase";
 import Header from "../Utils/Header";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
+
 const styles = {
   background: {
     backgroundColor: "#D3D3D3"
