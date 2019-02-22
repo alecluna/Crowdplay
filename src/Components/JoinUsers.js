@@ -3,7 +3,7 @@ import Typography from "../../node_modules/@material-ui/core/Typography";
 import Header from "./Utils/Header";
 import Paper from "../../node_modules/@material-ui/core/Paper";
 import firebase, { firestore } from "firebase";
-import { Button } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import Link from "react-router-dom/Link";
 
 const styles = {
@@ -60,6 +60,7 @@ class JoinUsers extends Component {
   handleSearchForRoom(event) {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
     const { searchRoomKeyWords } = this.state;
+
     if (searchRoomKeyWords && searchRoomKeyWords.trim()) {
       this.roomsFirestoreRef
         .doc(searchRoomKeyWords)
@@ -98,17 +99,26 @@ class JoinUsers extends Component {
   }
 
   showIfRoomNotFound() {
-    return this.state.roomNotFound ? <div>Room Not Found</div> : null;
+    return this.state.roomNotFound ? (
+      <Typography style={{ textAlign: "center" }} color="error" variant="title">
+        Room Not Found
+      </Typography>
+    ) : null;
   }
 
   render() {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
+
     const messagesHTML = this.state.joinedRooms.map((roomName, index) => {
       return (
         <li style={{ listStyleType: "none" }} key={roomName}>
-          <div>
-            {index + 1}:
+          <Typography
+            variant="body1"
+            fontWeight="fontWeightLight"
+            style={{ fontSize: "1.6em" }}
+          >
             <Link
+              style={{ textDecoration: "none" }}
               to={{
                 pathname: `/room/${roomName}`,
                 state: {
@@ -121,7 +131,7 @@ class JoinUsers extends Component {
             >
               {roomName}
             </Link>
-          </div>
+          </Typography>
         </li>
       );
     });
@@ -136,21 +146,34 @@ class JoinUsers extends Component {
                 variant="display2"
                 style={{ color: "black", fontWeight: "200" }}
               >
-                Join a Session
+                Join a Session as {name}
               </Typography>
             </div>
             <div style={styles.centerStyling} />
 
             {this.showIfRoomNotFound()}
-            <form onSubmit={this.handleSearchForRoom.bind(this)}>
-              <input
+            <form
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column"
+              }}
+              onSubmit={this.handleSearchForRoom.bind(this)}
+            >
+              <TextField
+                placeholder="Search for a room"
                 type="text"
                 onChange={this.changeSearchText.bind(this)}
                 value={this.state.searchRoomKeyWords}
+                style={{ width: 400 }}
               />
               <Button type="submit">Send</Button>
+              <Typography variant="headline">
+                Here are your avaliable rooms:
+              </Typography>
+              <React.Fragment>{messagesHTML}</React.Fragment>
             </form>
-            {messagesHTML}
           </Paper>
         </div>
       </div>
