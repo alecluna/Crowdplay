@@ -5,6 +5,7 @@ import Paper from "../../node_modules/@material-ui/core/Paper";
 import firebase, { firestore } from "firebase";
 import { Button, TextField } from "@material-ui/core";
 import Link from "react-router-dom/Link";
+import JoinedRoomsContainer from "../Components/Containers/JoinedRoomsContainer";
 
 const styles = {
   background: {
@@ -106,32 +107,22 @@ class JoinUsers extends Component {
     ) : null;
   }
 
+  deleteChatRoom() {}
+
   render() {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
 
     const messagesHTML = this.state.joinedRooms.map((roomName, index) => {
       return (
         <li style={{ listStyleType: "none" }} key={roomName}>
-          <Typography
-            variant="body1"
-            fontWeight="fontWeightLight"
-            style={{ fontSize: "1.6em" }}
-          >
-            <Link
-              style={{ textDecoration: "none" }}
-              to={{
-                pathname: `/room/${roomName}`,
-                state: {
-                  name: name,
-                  accessToken: accessToken,
-                  userID: userID,
-                  photoURL: photoURL
-                }
-              }}
-            >
-              {roomName}
-            </Link>
-          </Typography>
+          <JoinedRoomsContainer
+            roomName={roomName}
+            name={name}
+            accessToken={accessToken}
+            userID={userID}
+            photoURL={photoURL}
+            deleteChatRoom={this.deleteChatRoom}
+          />
         </li>
       );
     });
