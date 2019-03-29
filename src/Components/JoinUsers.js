@@ -4,7 +4,6 @@ import Header from "./Utils/Header";
 import Paper from "../../node_modules/@material-ui/core/Paper";
 import firebase, { firestore } from "firebase";
 import { Button, TextField } from "@material-ui/core";
-import Link from "react-router-dom/Link";
 import JoinedRoomsContainer from "../Components/Containers/JoinedRoomsContainer";
 
 const styles = {
@@ -41,8 +40,8 @@ class JoinUsers extends Component {
     };
     this.roomsFirestoreRef = firebase.firestore().collection("rooms");
   }
-  componentDidMount() {
-    const { name, accessToken, photoURL, userID } = this.props.location.state;
+  componentDidMount = () => {
+    const { userID } = this.props.location.state;
     firebase
       .firestore()
       .collection("users")
@@ -56,9 +55,9 @@ class JoinUsers extends Component {
         });
         this.setState({ joinedRooms: roomNames });
       });
-  }
+  };
 
-  handleSearchForRoom(event) {
+  handleSearchForRoom = event => {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
     const { searchRoomKeyWords } = this.state;
 
@@ -93,21 +92,23 @@ class JoinUsers extends Component {
         });
     }
     event.preventDefault();
-  }
+  };
 
-  changeSearchText(e) {
+  changeSearchText = e => {
     this.setState({ searchRoomKeyWords: e.target.value });
-  }
+  };
 
-  showIfRoomNotFound() {
+  showIfRoomNotFound = () => {
     return this.state.roomNotFound ? (
       <Typography style={{ textAlign: "center" }} color="error" variant="title">
         Room Not Found
       </Typography>
     ) : null;
-  }
+  };
 
-  deleteChatRoom() {}
+  deleteChatRoom = () => {
+    window.alert("deletion fired");
+  };
 
   render() {
     const { name, accessToken, photoURL, userID } = this.props.location.state;

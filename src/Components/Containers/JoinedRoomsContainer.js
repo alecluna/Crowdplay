@@ -4,6 +4,7 @@ import Link from "../../../node_modules/react-router-dom/Link";
 import Card from "../../../node_modules/@material-ui/core/Card";
 import CardContent from "../../../node_modules/@material-ui/core/CardContent";
 import DeleteRoundedIcon from "../../../node_modules/@material-ui/icons/DeleteRounded";
+import Button from "../../../node_modules/@material-ui/core/Button";
 
 class JoinedRoomsContainer extends Component {
   render() {
@@ -39,7 +40,9 @@ class JoinedRoomsContainer extends Component {
               >
                 {roomName}
               </Link>
-              <DeleteRoundedIcon style={{ float: "right" }} />
+              <Button style={{ float: "right" }}>
+                <DeleteRoundedIcon />
+              </Button>
             </Typography>
           </CardContent>
         </Card>
