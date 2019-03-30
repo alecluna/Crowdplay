@@ -38,9 +38,7 @@ export default class PlaylistStepper extends React.Component {
       })
     })
       .then(response => {
-        response.json().then(data => {
-          console.log("Success!");
-        });
+        response.json();
       })
       .catch(console.log(console.error()));
   };

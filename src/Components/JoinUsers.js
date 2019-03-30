@@ -4,7 +4,7 @@ import Header from "./Utils/Header";
 import Paper from "../../node_modules/@material-ui/core/Paper";
 import firebase, { firestore } from "firebase";
 import { Button, TextField } from "@material-ui/core";
-import Link from "react-router-dom/Link";
+import JoinedRoomsContainer from "../Components/Containers/JoinedRoomsContainer";
 
 const styles = {
   background: {
@@ -38,10 +38,14 @@ class JoinUsers extends Component {
       roomNotFound: false,
       joinedRooms: []
     };
-    this.roomsFirestoreRef = firebase.firestore().collection("rooms");
+    this.fireStoreRooms = firebase.firestore().collection("rooms");
   }
-  componentDidMount() {
-    const { name, accessToken, photoURL, userID } = this.props.location.state;
+  componentDidMount = () => {
+    this.getRooms();
+  };
+
+  getRooms = () => {
+    const { userID } = this.props.location.state;
     firebase
       .firestore()
       .collection("users")
@@ -55,14 +59,14 @@ class JoinUsers extends Component {
         });
         this.setState({ joinedRooms: roomNames });
       });
-  }
+  };
 
-  handleSearchForRoom(event) {
+  handleSearchForRoom = event => {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
     const { searchRoomKeyWords } = this.state;
 
     if (searchRoomKeyWords && searchRoomKeyWords.trim()) {
-      this.roomsFirestoreRef
+      this.fireStoreRooms
         .doc(searchRoomKeyWords)
         .get()
         .then(doc => {
@@ -92,46 +96,50 @@ class JoinUsers extends Component {
         });
     }
     event.preventDefault();
-  }
+  };
 
-  changeSearchText(e) {
+  changeSearchText = e => {
     this.setState({ searchRoomKeyWords: e.target.value });
-  }
+  };
 
-  showIfRoomNotFound() {
+  deleteChatRoom = nameofRoom => {
+    console.log(nameofRoom);
+    //TODO add Firebase function
+    // this.fireStoreRooms
+    //   .doc(nameofRoom)
+    //   .then(querySnapshot => {
+    //     querySnapshot.forEach(function(doc) {
+    //       doc.ref.delete();
+    //     });
+    //   })
+    //   .catch(function(error) {
+    //     console.error("Error removing document: ", error);
+    //   });
+  };
+
+  showIfRoomNotFound = () => {
     return this.state.roomNotFound ? (
       <Typography style={{ textAlign: "center" }} color="error" variant="title">
         Room Not Found
       </Typography>
     ) : null;
-  }
+  };
 
   render() {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
+    const { joinedRooms } = this.state;
 
-    const messagesHTML = this.state.joinedRooms.map((roomName, index) => {
+    const messagesHTML = joinedRooms.map(roomName => {
       return (
         <li style={{ listStyleType: "none" }} key={roomName}>
-          <Typography
-            variant="body1"
-            fontWeight="fontWeightLight"
-            style={{ fontSize: "1.6em" }}
-          >
-            <Link
-              style={{ textDecoration: "none" }}
-              to={{
-                pathname: `/room/${roomName}`,
-                state: {
-                  name: name,
-                  accessToken: accessToken,
-                  userID: userID,
-                  photoURL: photoURL
-                }
-              }}
-            >
-              {roomName}
-            </Link>
-          </Typography>
+          <JoinedRoomsContainer
+            roomName={roomName}
+            name={name}
+            accessToken={accessToken}
+            userID={userID}
+            photoURL={photoURL}
+            deleteChatRoom={this.deleteChatRoom}
+          />
         </li>
       );
     });
@@ -146,7 +154,7 @@ class JoinUsers extends Component {
                 variant="display2"
                 style={{ color: "black", fontWeight: "200" }}
               >
-                Join a Session as {name}
+                My Sessions
               </Typography>
             </div>
             <div style={styles.centerStyling} />
@@ -169,11 +177,24 @@ class JoinUsers extends Component {
                 style={{ width: 400 }}
               />
               <Button type="submit">Send</Button>
-              <Typography variant="headline">
-                Here are your avaliable rooms:
-              </Typography>
-              <React.Fragment>{messagesHTML}</React.Fragment>
             </form>
+            <Typography
+              align="center"
+              style={{ fontWeight: "200", fontSize: "2em" }}
+            >
+              Here are your avaliable rooms:
+            </Typography>
+            <div
+              style={{
+                height: "275px",
+                overflow: "scroll",
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap"
+              }}
+            >
+              {messagesHTML}
+            </div>
           </Paper>
         </div>
       </div>
