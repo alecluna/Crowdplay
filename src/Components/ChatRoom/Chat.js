@@ -99,7 +99,7 @@ export default class Chat extends Component {
   render() {
     const messages = Object.entries(this.state.messages).map(
       ([key, value], index) => {
-        const { name, photoURL, text, userID } = value;
+        const { text, userID } = value;
         if (userID === this.props.location.state.userID) {
           return (
             <li

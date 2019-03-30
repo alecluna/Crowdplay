@@ -4,6 +4,7 @@ import Typography from "../../../node_modules/@material-ui/core/Typography";
 import withRouter from "../../../node_modules/react-router-dom/withRouter";
 import Header from "../Utils/Header";
 import PlaylistStepper from "../Playlist/PlaylistStepper";
+import ListUserPlaylists from "../Playlist/ListUserPlaylists";
 
 const styles = {
   background: {
@@ -28,7 +29,6 @@ const styles = {
 class PlaylistbuildContainer extends Component {
   render() {
     const { name, accessToken, userID } = this.props.location.state;
-
     return (
       <div>
         <Header />
@@ -43,10 +43,15 @@ class PlaylistbuildContainer extends Component {
               </Typography>
             </div>
             <div style={styles.centerStyling}>
-              <PlaylistStepper
+              {/* <PlaylistStepper
                 name={name}
                 accessToken={accessToken}
                 userID={userID}
+              /> */}
+              <ListUserPlaylists
+                name={name}
+                userID={userID}
+                accessToken={accessToken}
               />
             </div>
           </Paper>

@@ -14,7 +14,7 @@ const Routes = () => {
       <Route exact path="/" component={Home} />
       <Route
         exact
-        path="/playlistbuilder"
+        path="/playlists"
         render={props => <PlaylistbuildContainer {...props} />}
       />
       <Route

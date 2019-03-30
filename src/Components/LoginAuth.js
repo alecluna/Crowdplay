@@ -155,7 +155,7 @@ class LoginAuth extends Component {
                   style={{ textDecoration: "none" }}
                   variant="contained"
                   to={{
-                    pathname: "/playlistbuilder",
+                    pathname: "/playlists",
                     state: {
                       name: name,
                       accessToken: accessToken,
@@ -164,7 +164,7 @@ class LoginAuth extends Component {
                   }}
                 >
                   <Typography style={{ color: "white" }}>
-                    Create a Playlist
+                    View Existing Playlists
                   </Typography>
                 </Link>
               </Button>
