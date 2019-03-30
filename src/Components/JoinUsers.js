@@ -38,7 +38,7 @@ class JoinUsers extends Component {
       roomNotFound: false,
       joinedRooms: []
     };
-    this.roomsFirestoreRef = firebase.firestore().collection("rooms");
+    this.fireStoreRooms = firebase.firestore().collection("rooms");
   }
   componentDidMount = () => {
     const { userID } = this.props.location.state;
@@ -62,7 +62,7 @@ class JoinUsers extends Component {
     const { searchRoomKeyWords } = this.state;
 
     if (searchRoomKeyWords && searchRoomKeyWords.trim()) {
-      this.roomsFirestoreRef
+      this.fireStoreRooms
         .doc(searchRoomKeyWords)
         .get()
         .then(doc => {
@@ -98,6 +98,18 @@ class JoinUsers extends Component {
     this.setState({ searchRoomKeyWords: e.target.value });
   };
 
+  deleteChatRoom = nameofRoom => {
+    this.fireStoreRooms
+      .doc(nameofRoom)
+      .delete()
+      .then(function() {
+        console.log("Document successfully deleted!");
+      })
+      .catch(function(error) {
+        console.error("Error removing document: ", error);
+      });
+  };
+
   showIfRoomNotFound = () => {
     return this.state.roomNotFound ? (
       <Typography style={{ textAlign: "center" }} color="error" variant="title">
@@ -106,14 +118,11 @@ class JoinUsers extends Component {
     ) : null;
   };
 
-  deleteChatRoom = () => {
-    window.alert("deletion fired");
-  };
-
   render() {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
+    const { joinedRooms } = this.state;
 
-    const messagesHTML = this.state.joinedRooms.map((roomName, index) => {
+    const messagesHTML = joinedRooms.map(roomName => {
       return (
         <li style={{ listStyleType: "none" }} key={roomName}>
           <JoinedRoomsContainer
@@ -164,7 +173,7 @@ class JoinUsers extends Component {
               <Typography variant="headline">
                 Here are your avaliable rooms:
               </Typography>
-              <React.Fragment>{messagesHTML}</React.Fragment>
+              {messagesHTML}
             </form>
           </Paper>
         </div>

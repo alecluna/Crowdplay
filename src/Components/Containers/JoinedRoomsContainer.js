@@ -7,9 +7,11 @@ import DeleteRoundedIcon from "../../../node_modules/@material-ui/icons/DeleteRo
 import Button from "../../../node_modules/@material-ui/core/Button";
 
 class JoinedRoomsContainer extends Component {
+  deleteChatRoom = roomName => {
+    this.props.deleteChatRoom(roomName);
+  };
   render() {
     const { roomName, name, accessToken, userID, photoURL } = this.props;
-
     return (
       <div>
         <Card
@@ -29,9 +31,9 @@ class JoinedRoomsContainer extends Component {
                   width: "100%"
                 }}
                 to={{
-                  pathname: `/room/${name}`,
+                  pathname: `/room/${roomName}`,
                   state: {
-                    name: `${this.name}`,
+                    name: `${name}`,
                     accessToken: `${accessToken}`,
                     userID: `${userID}`,
                     photoURL: `${photoURL}`
@@ -40,7 +42,13 @@ class JoinedRoomsContainer extends Component {
               >
                 {roomName}
               </Link>
-              <Button style={{ float: "right" }}>
+              <Button
+                style={{ float: "right" }}
+                type="submit"
+                onClick={() => {
+                  this.deleteChatRoom(roomName);
+                }}
+              >
                 <DeleteRoundedIcon />
               </Button>
             </Typography>
