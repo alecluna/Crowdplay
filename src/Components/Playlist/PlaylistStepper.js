@@ -12,19 +12,6 @@ export default class PlaylistStepper extends React.Component {
   }
 
   playlistAPI = (playlist, privatePlaylist, name, accessToken, userID) => {
-    // console.log(
-    //   "props passed down from parent component, and passed into the Stepper: \n" +
-    //     "  " +
-    //     playlist +
-    //     " \n" +
-    //     privatePlaylist +
-    //     name +
-    //     " \n" +
-    //     accessToken +
-    //     " \n " +
-    //     +userID
-    // );
-
     fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, {
       method: "POST",
       headers: {

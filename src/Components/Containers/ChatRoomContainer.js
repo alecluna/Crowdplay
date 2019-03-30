@@ -52,16 +52,12 @@ const styles = {
 };
 
 export default class ChatRoomContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleChange = input => e => {
     this.setState({ [input]: e.target.value });
   };
 
   render() {
-    const { accessToken, userID } = this.props.location.state;
+    const { accessToken, userID, name, photoURL } = this.props.location.state;
     const { match } = this.props;
 
     return (
@@ -94,14 +90,16 @@ export default class ChatRoomContainer extends Component {
                     marginTop: "8px"
                   }}
                 >
-                  <Chat match={match} userID={userID} />
+                  <Chat
+                    match={match}
+                    userID={userID}
+                    name={name}
+                    photoURL={photoURL}
+                  />
                 </div>
               </div>
               <div style={styles.column /*second column*/}>
-                <PlaylistSearch
-                  accessToken={accessToken}
-                  handleChange={this.handleChange}
-                />
+                <PlaylistSearch accessToken={accessToken} />
               </div>
             </div>
           </div>

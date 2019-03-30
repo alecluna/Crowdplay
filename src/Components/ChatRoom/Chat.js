@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ChatMessage from "./ChatMessage";
 import firebase, { firestore } from "firebase";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
+import { Spring, config } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -82,7 +83,7 @@ export default class Chat extends Component {
   }
 
   handleSubmitNewMessage(messageText) {
-    const { name, photoURL, userID } = this.props.location.state;
+    const { name, photoURL, userID } = this.props;
     if (messageText && messageText.trim()) {
       let messageInfo = {
         text: messageText,
@@ -97,41 +98,47 @@ export default class Chat extends Component {
 
   render() {
     const { messages } = this.state;
-    const { userID } = this.props;
+    const { userID: propsUserID } = this.props;
 
-    const mappedMessages = Object.entries(messages).map(
-      ([key, value], index) => {
-        const { text, userID } = value;
-        if (userID === userID) {
-          return (
-            <li
-              style={{
-                listStyleType: "none",
-                alignSelf: "flex-end"
-              }}
-              key={key}
-            >
-              <Typography style={styles.listMessageStyleBlue}>
-                {text}
-              </Typography>
-            </li>
-          );
-        } else {
-          return (
-            <li
-              style={{
-                listStyleType: "none"
-              }}
-              key={key}
-            >
-              <Typography style={styles.listMessageStyleGrey}>
-                {text}
-              </Typography>
-            </li>
-          );
-        }
+    const mappedMessages = Object.entries(messages).map(([key, value]) => {
+      const { text, userID } = value;
+      if (userID === propsUserID) {
+        return (
+          <Spring
+            from={{ opacity: 0 }}
+            to={{ opacity: 1 }}
+            config={config.molasses}
+          >
+            {props => (
+              <div style={props}>
+                <li
+                  style={{
+                    listStyleType: "none",
+                    alignSelf: "flex-end"
+                  }}
+                  key={key}
+                >
+                  <Typography style={styles.listMessageStyleBlue}>
+                    {text}
+                  </Typography>
+                </li>
+              </div>
+            )}
+          </Spring>
+        );
+      } else {
+        return (
+          <li
+            style={{
+              listStyleType: "none"
+            }}
+            key={key}
+          >
+            <Typography style={styles.listMessageStyleGrey}>{text}</Typography>
+          </li>
+        );
       }
-    );
+    });
 
     return (
       <div>

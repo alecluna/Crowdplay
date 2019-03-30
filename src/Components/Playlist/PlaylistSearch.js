@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import { Button, TextField } from "@material-ui/core";
-
-const styles = {
-  button: {
-    margin: 15
-  }
-};
+import { TextField } from "@material-ui/core";
 
 export default class PlaylistSearch extends Component {
   constructor(props) {
@@ -13,16 +7,31 @@ export default class PlaylistSearch extends Component {
     this.state = { query: "", data: {}, inputCleared: false };
   }
 
-  submit = e => {
+  handleMusicSearch = () => {
     const { accessToken } = this.props;
-    e.preventDefault();
-    fetch("https://api.spotify.com/v1/me/playlists", {
-      headers: { Authorization: "Bearer " + accessToken }
+    const { query } = this.state;
+
+    console.log(query);
+
+    fetch(`https://api.spotify.com/v1/search?q=${query}type=track`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
     })
-      .then(response => response.json())
       .then(response => {
-        this.setState({ items: response.items });
-      });
+        response.json();
+      })
+      .catch(console.log(console.error()));
+  };
+
+  handleChange = e => {
+    e.preventDefault();
+
+    this.setState({ query: e.target.value });
+    this.handleMusicSearch();
   };
 
   render() {
@@ -30,22 +39,11 @@ export default class PlaylistSearch extends Component {
       <div>
         <React.Fragment>
           <TextField
-            label="Playlist"
-            onSubmit={() => this.submit(this)}
-            defaultValue="Search"
+            placeholder="Playlist"
+            onChange={this.handleChange.bind(this)}
           />
         </React.Fragment>
         <br />
-
-        <Button
-          variant="outlined"
-          size="medium"
-          color="primary"
-          onClick={this.submit}
-          style={styles.button}
-        >
-          Continue
-        </Button>
       </div>
     );
   }

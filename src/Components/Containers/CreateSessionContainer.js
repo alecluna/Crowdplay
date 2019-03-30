@@ -42,13 +42,13 @@ export default class CreateSessionContainer extends Component {
     };
   }
 
-  handleDescriptionChange(e) {
+  handleDescriptionChange = e => {
     this.setState({ roomDescription: e.target.value });
-  }
+  };
 
-  handleNameChange(e) {
+  handleNameChange = e => {
     this.setState({ roomName: e.target.value });
-  }
+  };
 
   handleFormSubmit(event) {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
