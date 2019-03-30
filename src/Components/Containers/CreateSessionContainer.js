@@ -72,7 +72,9 @@ export default class CreateSessionContainer extends Component {
               roomName: roomName,
               playListId: 1,
               description: roomDescription,
-              createdAt: firestore.Timestamp.now()
+              createdAt: firestore.Timestamp.now(),
+              createdBy: name,
+              id: Math.floor(Math.random() * 10000000) + 1
             });
           //add room to user's joinedRoomsList
           firestoreRef

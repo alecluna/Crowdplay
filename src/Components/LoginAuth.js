@@ -142,7 +142,7 @@ class LoginAuth extends Component {
                   }}
                 >
                   <Typography style={{ color: "white" }}>
-                    Join a Session
+                    View your Sessions
                   </Typography>
                 </Link>
               </Button>

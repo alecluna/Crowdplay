@@ -41,6 +41,10 @@ class JoinUsers extends Component {
     this.fireStoreRooms = firebase.firestore().collection("rooms");
   }
   componentDidMount = () => {
+    this.getRooms();
+  };
+
+  getRooms = () => {
     const { userID } = this.props.location.state;
     firebase
       .firestore()
@@ -99,15 +103,18 @@ class JoinUsers extends Component {
   };
 
   deleteChatRoom = nameofRoom => {
-    this.fireStoreRooms
-      .doc(nameofRoom)
-      .delete()
-      .then(function() {
-        console.log("Document successfully deleted!");
-      })
-      .catch(function(error) {
-        console.error("Error removing document: ", error);
-      });
+    console.log(nameofRoom);
+    //TODO add Firebase function
+    // this.fireStoreRooms
+    //   .doc(nameofRoom)
+    //   .then(querySnapshot => {
+    //     querySnapshot.forEach(function(doc) {
+    //       doc.ref.delete();
+    //     });
+    //   })
+    //   .catch(function(error) {
+    //     console.error("Error removing document: ", error);
+    //   });
   };
 
   showIfRoomNotFound = () => {
@@ -147,7 +154,7 @@ class JoinUsers extends Component {
                 variant="display2"
                 style={{ color: "black", fontWeight: "200" }}
               >
-                Join a Session as {name}
+                My Sessions
               </Typography>
             </div>
             <div style={styles.centerStyling} />
@@ -170,11 +177,24 @@ class JoinUsers extends Component {
                 style={{ width: 400 }}
               />
               <Button type="submit">Send</Button>
-              <Typography variant="headline">
-                Here are your avaliable rooms:
-              </Typography>
-              {messagesHTML}
             </form>
+            <Typography
+              align="center"
+              style={{ fontWeight: "200", fontSize: "2em" }}
+            >
+              Here are your avaliable rooms:
+            </Typography>
+            <div
+              style={{
+                height: "275px",
+                overflow: "scroll",
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap"
+              }}
+            >
+              {messagesHTML}
+            </div>
           </Paper>
         </div>
       </div>
