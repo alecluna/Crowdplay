@@ -83,7 +83,7 @@ export default class Chat extends Component {
   }
 
   handleSubmitNewMessage(messageText) {
-    const { name, accessToken, photoURL, userID } = this.props.location.state;
+    const { name, photoURL, userID } = this.props.location.state;
     if (messageText && messageText.trim()) {
       let messageInfo = {
         text: messageText,
@@ -97,7 +97,9 @@ export default class Chat extends Component {
   }
 
   render() {
-    const messages = Object.entries(this.state.messages).map(
+    const { messages } = this.state;
+
+    const mappedMessages = Object.entries(messages).map(
       ([key, value], index) => {
         const { text, userID } = value;
         if (userID === this.props.location.state.userID) {
@@ -161,7 +163,7 @@ export default class Chat extends Component {
                     marginTop: "8px"
                   }}
                 >
-                  {messages}
+                  {mappedMessages}
                 </div>
               </div>
               <ChatMessage

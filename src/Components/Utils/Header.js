@@ -10,7 +10,7 @@ export default function Header() {
     <div>
       <AppBar position="static" color="primary" style={{ width: "100%" }}>
         <Toolbar>
-          <Link to="/">
+          <Link to="/home">
             <img
               src={cplogo}
               style={{
