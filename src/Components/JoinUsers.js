@@ -129,7 +129,7 @@ class JoinUsers extends Component {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
     const { joinedRooms } = this.state;
 
-    const messagesHTML = joinedRooms.map(roomName => {
+    const joinedRoomsMapped = joinedRooms.map(roomName => {
       return (
         <li style={{ listStyleType: "none" }} key={roomName}>
           <JoinedRoomsContainer
@@ -193,7 +193,7 @@ class JoinUsers extends Component {
                 flexWrap: "wrap"
               }}
             >
-              {messagesHTML}
+              {joinedRoomsMapped}
             </div>
           </Paper>
         </div>

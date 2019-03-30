@@ -14,19 +14,25 @@ export default class PlaylistSearch extends Component {
   }
 
   submit = e => {
+    const { accessToken } = this.props;
     e.preventDefault();
-    this.props.nextStep();
+    fetch("https://api.spotify.com/v1/me/playlists", {
+      headers: { Authorization: "Bearer " + accessToken }
+    })
+      .then(response => response.json())
+      .then(response => {
+        this.setState({ items: response.items });
+      });
   };
 
   render() {
-    const { values, handleChange } = this.props;
     return (
       <div>
         <React.Fragment>
           <TextField
             label="Playlist"
-            onChange={handleChange("playlist")}
-            defaultValue={values.playlist}
+            onSubmit={() => this.submit(this)}
+            defaultValue="Search"
           />
         </React.Fragment>
         <br />

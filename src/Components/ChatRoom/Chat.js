@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ChatMessage from "./ChatMessage";
 import firebase, { firestore } from "firebase";
-import Header from "../Utils/Header";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
 
 const styles = {
@@ -98,11 +97,12 @@ export default class Chat extends Component {
 
   render() {
     const { messages } = this.state;
+    const { userID } = this.props;
 
     const mappedMessages = Object.entries(messages).map(
       ([key, value], index) => {
         const { text, userID } = value;
-        if (userID === this.props.location.state.userID) {
+        if (userID === userID) {
           return (
             <li
               style={{
@@ -135,48 +135,8 @@ export default class Chat extends Component {
 
     return (
       <div>
-        <Header />
-        <div style={styles.titleStyle}>
-          <Typography
-            variant="display2"
-            style={{ color: "black", fontWeight: "200" }}
-          >
-            Chat Room
-          </Typography>
-        </div>
-        <div style={styles.row}>
-          <div style={styles.column /*first column*/}>
-            <div style={styles.centerStyling}>
-              <div
-                style={{
-                  boxSizing: "border-box",
-                  border: ".5px solid grey",
-                  padding: "0 0 0 10px",
-                  maxHeight: "70vh",
-                  overflow: "scroll"
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    marginTop: "8px"
-                  }}
-                >
-                  {mappedMessages}
-                </div>
-              </div>
-              <ChatMessage
-                addMessage={this.handleSubmitNewMessage.bind(this)}
-              />
-            </div>
-          </div>
-          <div style={styles.column /*second column*/}>
-            <Typography style={{ textAlign: "center" }}>
-              Spotify Playlist Editor Here
-            </Typography>
-          </div>
-        </div>
+        {mappedMessages}
+        <ChatMessage addMessage={this.handleSubmitNewMessage.bind(this)} />
       </div>
     );
   }
