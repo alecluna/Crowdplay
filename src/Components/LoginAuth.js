@@ -21,8 +21,9 @@ class LoginAuth extends Component {
 
   componentDidMount() {
     let parsed = queryString.parse(window.location.search);
+    console.log(window.location);
     let accessToken = parsed.access_token;
-
+    console.log(parsed);
     if (!accessToken) return;
     fetch("https://api.spotify.com/v1/me", {
       headers: { Authorization: "Bearer " + accessToken }

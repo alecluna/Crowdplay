@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TextField } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 
 export default class PlaylistSearch extends Component {
   constructor(props) {
@@ -7,24 +7,29 @@ export default class PlaylistSearch extends Component {
     this.state = { query: "", data: {}, inputCleared: false };
   }
 
-  handleMusicSearch = () => {
+  handleMusicSearch = (firstQuery = "Goodie Bag") => {
     const { accessToken } = this.props;
-    const { query } = this.state;
+    const { query: updatedQuery } = this.state;
 
+    let query = updatedQuery || firstQuery;
     console.log(query);
 
-    fetch(`https://api.spotify.com/v1/search?q=${query}type=track`, {
+    fetch(`https://api.spotify.com/v1/search`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + accessToken,
         Accept: "application/json",
         "Content-Type": "application/json"
+      },
+      data: {
+        q: query,
+        type: "track"
       }
     })
       .then(response => {
         response.json();
       })
-      .catch(console.log(console.error()));
+      .then(response => console.log(response));
   };
 
   handleChange = e => {
@@ -37,13 +42,15 @@ export default class PlaylistSearch extends Component {
   render() {
     return (
       <div>
-        <React.Fragment>
+        <form>
           <TextField
             placeholder="Playlist"
             onChange={this.handleChange.bind(this)}
           />
-        </React.Fragment>
-        <br />
+          <Button label="Submit" type="submit">
+            Submit
+          </Button>
+        </form>
       </div>
     );
   }
