@@ -11,7 +11,7 @@ export default function Header() {
       <AppBar
         position="static"
         color="primary"
-        style={{ width: "100%", backgroundColor: "#0F0068" }}
+        style={{ width: "100%", backgroundColor: "#6877ff" }}
       >
         <Toolbar>
           <Link to="/home">

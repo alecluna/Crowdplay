@@ -3,6 +3,7 @@ import Typography from "../../../node_modules/@material-ui/core/Typography";
 import Header from "../../Components/Utils/Header";
 import firebase, { firestore } from "firebase";
 import { TextField, Button } from "@material-ui/core";
+import { Spring, config } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -10,7 +11,8 @@ const styles = {
     height: "100vh",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    flexDirection: "column"
   },
   paperStyle: {
     height: "75%",
@@ -95,52 +97,76 @@ export default class CreateSessionContainer extends Component {
   }
 
   render() {
-    const { name } = this.props.location.state;
     return (
       <div>
         <Header />
 
         <div style={styles.background}>
-          <div style={styles.centerStyling}>
-            <Typography
-              style={{
-                color: "black",
-                fontWeight: "200",
-                textAlign: "center",
-                fontSize: "1.5em"
-              }}
-            >
-              Host a Session:
+          <Spring
+            config={config.stiff}
+            from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
+            to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
+          >
+            {props => (
+              <div style={props}>
+                <Typography
+                  style={{
+                    color: "black",
+                    fontWeight: "200",
+                    textAlign: "center"
+                  }}
+                  variant="display2"
+                >
+                  Host a Session:
+                </Typography>
+              </div>
+            )}
+          </Spring>
+          <div style={styles.centerStyling} />
+          <Spring
+            config={config.stiff}
+            from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
+            to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
+          >
+            {props => (
+              <div style={props}>
+                <form
+                  style={styles.centerStyling}
+                  onSubmit={this.handleFormSubmit.bind(this)}
+                >
+                  <TextField
+                    placeholder="Name"
+                    type="text"
+                    onChange={this.handleNameChange.bind(this)}
+                    required
+                    style={styles.textFieldStyles}
+                  />
+                  <TextField
+                    placeholder="Description"
+                    type="text"
+                    onChange={this.handleDescriptionChange.bind(this)}
+                    style={styles.textFieldStyles}
+                  />
+                  <Button
+                    type="submit"
+                    style={{
+                      color: "white",
+                      maxWidth: "200px",
+                      background:
+                        "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                    }}
+                  >
+                    Submit
+                  </Button>
+                </form>
+              </div>
+            )}
+          </Spring>
+          {this.state.roomExists ? (
+            <Typography color="error" variant="body1">
+              Room Already Exists
             </Typography>
-          </div>
-          <div>
-            <form
-              style={styles.centerStyling}
-              onSubmit={this.handleFormSubmit.bind(this)}
-            >
-              <TextField
-                placeholder="Name"
-                type="text"
-                onChange={this.handleNameChange.bind(this)}
-                required
-                style={styles.textFieldStyles}
-              />
-              <TextField
-                placeholder="Description"
-                type="text"
-                onChange={this.handleDescriptionChange.bind(this)}
-                style={styles.textFieldStyles}
-              />
-              <Button type="submit" onstyle={{ maxWidth: "200px" }}>
-                Submit
-              </Button>
-            </form>
-            {this.state.roomExists ? (
-              <Typography color="error" variant="body1">
-                Room Already Exists
-              </Typography>
-            ) : null}
-          </div>
+          ) : null}
         </div>
       </div>
     );
