@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import ChatMessage from "./ChatMessage";
 import firebase, { firestore } from "firebase";
-import Header from "../Utils/Header";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
+import { Spring, config } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -83,7 +83,7 @@ export default class Chat extends Component {
   }
 
   handleSubmitNewMessage(messageText) {
-    const { name, accessToken, photoURL, userID } = this.props.location.state;
+    const { name, photoURL, userID } = this.props;
     if (messageText && messageText.trim()) {
       let messageInfo = {
         text: messageText,
@@ -97,84 +97,53 @@ export default class Chat extends Component {
   }
 
   render() {
-    const messages = Object.entries(this.state.messages).map(
-      ([key, value], index) => {
-        const { text, userID } = value;
-        if (userID === this.props.location.state.userID) {
-          return (
-            <li
-              style={{
-                listStyleType: "none",
-                alignSelf: "flex-end"
-              }}
-              key={key}
-            >
-              <Typography style={styles.listMessageStyleBlue}>
-                {text}
-              </Typography>
-            </li>
-          );
-        } else {
-          return (
-            <li
-              style={{
-                listStyleType: "none"
-              }}
-              key={key}
-            >
-              <Typography style={styles.listMessageStyleGrey}>
-                {text}
-              </Typography>
-            </li>
-          );
-        }
+    const { messages } = this.state;
+    const { userID: propsUserID } = this.props;
+
+    const mappedMessages = Object.entries(messages).map(([key, value]) => {
+      const { text, userID } = value;
+      if (userID === propsUserID) {
+        return (
+          <Spring
+            from={{ opacity: 0 }}
+            to={{ opacity: 1 }}
+            config={config.molasses}
+          >
+            {props => (
+              <div style={props}>
+                <li
+                  style={{
+                    listStyleType: "none",
+                    alignSelf: "flex-end"
+                  }}
+                  key={key}
+                >
+                  <Typography style={styles.listMessageStyleBlue}>
+                    {text}
+                  </Typography>
+                </li>
+              </div>
+            )}
+          </Spring>
+        );
+      } else {
+        return (
+          <li
+            style={{
+              listStyleType: "none"
+            }}
+            key={key}
+          >
+            <Typography style={styles.listMessageStyleGrey}>{text}</Typography>
+          </li>
+        );
       }
-    );
+    });
 
     return (
       <div>
-        <Header />
-        <div style={styles.titleStyle}>
-          <Typography
-            variant="display2"
-            style={{ color: "black", fontWeight: "200" }}
-          >
-            Chat Room
-          </Typography>
-        </div>
-        <div style={styles.row}>
-          <div style={styles.column /*first column*/}>
-            <div style={styles.centerStyling}>
-              <div
-                style={{
-                  boxSizing: "border-box",
-                  border: ".5px solid grey",
-                  padding: "0 0 0 10px",
-                  maxHeight: "70vh",
-                  overflow: "scroll"
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    marginTop: "8px"
-                  }}
-                >
-                  {messages}
-                </div>
-              </div>
-              <ChatMessage
-                addMessage={this.handleSubmitNewMessage.bind(this)}
-              />
-            </div>
-          </div>
-          <div style={styles.column /*second column*/}>
-            <Typography style={{ textAlign: "center" }}>
-              Spotify Playlist Editor Here
-            </Typography>
-          </div>
-        </div>
+        {mappedMessages}
+        <ChatMessage addMessage={this.handleSubmitNewMessage.bind(this)} />
       </div>
     );
   }

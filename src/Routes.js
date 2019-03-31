@@ -5,13 +5,14 @@ import NotFoundPage from "./Components/Utils/NotFoundPage";
 import PlaylistbuildContainer from "./Components/Containers/PlaylistbuildContainer";
 import InviteUsers from "./Components/InviteUsers";
 import JoinUsers from "./Components/JoinUsers";
-import CreateSessionContainer from "./Components/Containers/CreateSessionContainer";
-import Chat from "./Components/ChatRoom/Chat";
+import ChatRoomContainer from "./Components/Containers/ChatRoomContainer";
+import PlaylistStepper from "./Components/Playlist/PlaylistStepper";
 
 const Routes = () => {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
+      <Route exact path="/home" component={Home} />
       <Route
         exact
         path="/playlists"
@@ -25,10 +26,14 @@ const Routes = () => {
       <Route
         exact
         path="/createsession"
-        render={props => <CreateSessionContainer {...props} />}
+        render={props => <PlaylistStepper {...props} />}
       />
       <Route exact path="/inviteusers" component={InviteUsers} />
-      <Route exact path="/room/:roomId" render={props => <Chat {...props} />} />
+      <Route
+        exact
+        path="/room/:roomId"
+        render={props => <ChatRoomContainer {...props} />}
+      />
       <Route component={NotFoundPage} />
     </Switch>
   );

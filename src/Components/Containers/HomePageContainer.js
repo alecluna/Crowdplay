@@ -1,43 +1,53 @@
 import React from "react";
-import Paper from "../../../node_modules/@material-ui/core/Paper";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
 import SpotifyLogo from "../../../src/assets/logo.png";
 import LoginAuth from "../../Components/LoginAuth";
+import { Spring, config } from "react-spring/renderprops";
+
 const styles = {
   background: {
-    backgroundColor: "#D3D3D3",
+    background: "white",
     height: "100vh",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
-  },
-  paperStyle: {
-    height: "75%",
-    width: "60%",
-    borderRadius: "5px"
+    alignItems: "center",
+    flexDirection: "column"
   }
 };
 
 const HomePageContainer = () => (
   <div style={styles.background}>
-    <Paper style={styles.paperStyle} elevation={11}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "50px"
-        }}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        margin: "1.5rem",
+        flexDirection: "row"
+      }}
+    >
+      <Spring
+        config={config.wobbly}
+        from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
+        to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
       >
-        <Typography
-          variant="display2"
-          style={{ color: "black", fontWeight: "200" }}
-        >
-          CrowdPlay for&nbsp;
-        </Typography>
-        <img src={SpotifyLogo} style={{ height: "55px" }} alt="Spotify Logo" />
-      </div>
-      <LoginAuth />
-    </Paper>
+        {props => (
+          <div style={props}>
+            <Typography
+              variant="display2"
+              style={{ textAlign: "center", color: "black", fontWeight: "200" }}
+            >
+              CrowdPlay for&nbsp;
+            </Typography>
+            <img
+              src={SpotifyLogo}
+              style={{ height: "55px" }}
+              alt="Spotify Logo"
+            />
+          </div>
+        )}
+      </Spring>
+    </div>
+    <LoginAuth />
   </div>
 );
 

@@ -1,44 +1,41 @@
-import React, { Component } from "react";
+import React from "react";
 import { Typography } from "@material-ui/core";
+import Card from "../../../node_modules/@material-ui/core/Card";
+import { Spring, config } from "react-spring/renderprops";
 
-class ListUserPlaylists extends Component {
-  constructor() {
-    super();
-    this.state = { items: [] };
-  }
-  componentDidMount = () => {
-    const { accessToken } = this.props;
+const ListUserPlaylists = ({ items }) => (
+  <div>
+    <Spring
+      config={config.wobbly}
+      from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
+      to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
+    >
+      {props => (
+        <div style={props}>
+          <React.Fragment>
+            {items.map(playlistItems => {
+              return (
+                <Card
+                  style={{
+                    width: 200,
+                    boxShadow: "box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6),"
+                  }}
+                  key={playlistItems.id}
+                >
+                  <img
+                    style={{ width: "100%" }}
+                    alt="mosaic"
+                    src={playlistItems.images[1].url}
+                  />
+                  <Typography align="center">{playlistItems.name}</Typography>
+                </Card>
+              );
+            })}
+          </React.Fragment>
+        </div>
+      )}
+    </Spring>
+  </div>
+);
 
-    fetch("https://api.spotify.com/v1/me/playlists", {
-      headers: { Authorization: "Bearer " + accessToken }
-    })
-      .then(response => response.json())
-      .then(response => {
-        this.setState({ items: response.items });
-      });
-  };
-
-  render() {
-    const { items } = this.state;
-
-    console.log(items);
-    return (
-      <div>
-        <Typography align="center" variant="title">
-          Your Playlists:
-        </Typography>
-
-        <React.Fragment>
-          {items.map(playlistItems => {
-            return (
-              <li key={playlistItems.id}>
-                <Typography>{playlistItems.name}</Typography>
-              </li>
-            );
-          })}
-        </React.Fragment>
-      </div>
-    );
-  }
-}
 export default ListUserPlaylists;

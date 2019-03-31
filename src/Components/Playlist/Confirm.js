@@ -3,8 +3,18 @@ import Button from "../../../node_modules/@material-ui/core/Button";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
 import List from "../../../node_modules/@material-ui/core/List";
 import ListItem from "../../../node_modules/@material-ui/core/ListItem";
+import Header from "../Utils/Header";
+import { Spring, config } from "react-spring/renderprops";
 
 const styles = {
+  background: {
+    backgroundColor: "white",
+    height: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column"
+  },
   button: {
     margin: 15
   }
@@ -44,44 +54,87 @@ export default class Confirm extends Component {
     } = this.props;
     return (
       <div>
-        <Typography style={{ fontSize: "1.5em" }}>Confirm</Typography>
-        <React.Fragment>
-          <List>
-            <ListItem>
-              <Typography>Playlist Name: {playlist} </Typography>
-            </ListItem>
-            <ListItem>
-              <Typography>
-                Playlist Privacy: {this.private(privatePlaylist)}
-              </Typography>
-            </ListItem>
-          </List>
-          <Button
-            variant="outlined"
-            size="medium"
-            color="primary"
-            onClick={this.back}
-            style={styles.button}
+        <Header />
+        <div style={styles.background}>
+          <Spring
+            config={config.stiff}
+            from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
+            to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
-            Back
-          </Button>
-          <Button
-            variant="outlined"
-            size="medium"
-            color="primary"
-            onClick={this.confirm.bind(
-              this,
-              playlist,
-              privatePlaylist,
-              name,
-              accessToken,
-              userID
+            {props => (
+              <div style={props}>
+                <Typography
+                  align="center"
+                  variant="display2"
+                  style={{ fontWeight: "200" }}
+                >
+                  Confirm
+                </Typography>
+                <List>
+                  <ListItem>
+                    <Typography>Playlist Name: {playlist} </Typography>
+                  </ListItem>
+                  <ListItem>
+                    <Typography>
+                      Playlist Privacy: {this.private(privatePlaylist)}
+                    </Typography>
+                  </ListItem>
+                </List>
+              </div>
             )}
-            style={styles.button}
+          </Spring>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "row",
+              marginTop: "30px"
+            }}
           >
-            Confirm
-          </Button>
-        </React.Fragment>
+            {" "}
+            <Spring
+              config={config.stiff}
+              from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
+              to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
+            >
+              {props => (
+                <div style={props}>
+                  <Button
+                    style={{
+                      color: "white",
+                      margin: "5px",
+                      maxWidth: "200px",
+                      background:
+                        "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                    }}
+                    onClick={this.back}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    style={{
+                      color: "white",
+                      margin: "5px",
+                      maxWidth: "200px",
+                      background:
+                        "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                    }}
+                    onClick={this.confirm.bind(
+                      this,
+                      playlist,
+                      privatePlaylist,
+                      name,
+                      accessToken,
+                      userID
+                    )}
+                  >
+                    Confirm
+                  </Button>
+                </div>
+              )}
+            </Spring>
+          </div>
+        </div>
       </div>
     );
   }
