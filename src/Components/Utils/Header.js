@@ -8,7 +8,11 @@ import cplogo from "../../assets/crowdplaylogo.png";
 export default function Header() {
   return (
     <div>
-      <AppBar position="static" color="primary" style={{ width: "100%" }}>
+      <AppBar
+        position="static"
+        color="primary"
+        style={{ width: "100%", backgroundColor: "#0F0068" }}
+      >
         <Toolbar>
           <Link to="/home">
             <img

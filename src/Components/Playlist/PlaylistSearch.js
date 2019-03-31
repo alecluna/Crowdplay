@@ -4,7 +4,7 @@ import { TextField } from "@material-ui/core";
 export default class PlaylistSearch extends Component {
   constructor(props) {
     super(props);
-    this.state = { query: "", data: {}, inputCleared: false };
+    this.state = { query: "", music: [] };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -22,11 +22,10 @@ export default class PlaylistSearch extends Component {
         Accept: "application/json",
         "Content-Type": "application/json"
       }
-    })
-      .then(response => {
-        response.json();
-      })
-      .then(data => console.log(data));
+    }).then(response => response.json());
+    //   .then(response => {
+    //     this.setState({ [music]: response. });
+    //   });
   };
 
   handleChange = e => {
