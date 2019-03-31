@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
-import Paper from "../../../node_modules/@material-ui/core/Paper";
 import Header from "../../Components/Utils/Header";
 import firebase, { firestore } from "firebase";
 import { TextField, Button } from "@material-ui/core";
 
 const styles = {
   background: {
-    backgroundColor: "#D3D3D3",
+    backgroundColor: "white",
     height: "100vh",
     display: "flex",
     justifyContent: "center",
@@ -100,49 +99,48 @@ export default class CreateSessionContainer extends Component {
     return (
       <div>
         <Header />
+
         <div style={styles.background}>
-          <Paper style={styles.paperStyle} elevation={11}>
-            <div style={styles.centerStyling}>
-              <Typography
-                style={{
-                  color: "black",
-                  fontWeight: "200",
-                  textAlign: "center",
-                  fontSize: "1.5em"
-                }}
-              >
-                Create a Session as Host: {name}
+          <div style={styles.centerStyling}>
+            <Typography
+              style={{
+                color: "black",
+                fontWeight: "200",
+                textAlign: "center",
+                fontSize: "1.5em"
+              }}
+            >
+              Host a Session:
+            </Typography>
+          </div>
+          <div>
+            <form
+              style={styles.centerStyling}
+              onSubmit={this.handleFormSubmit.bind(this)}
+            >
+              <TextField
+                placeholder="Name"
+                type="text"
+                onChange={this.handleNameChange.bind(this)}
+                required
+                style={styles.textFieldStyles}
+              />
+              <TextField
+                placeholder="Description"
+                type="text"
+                onChange={this.handleDescriptionChange.bind(this)}
+                style={styles.textFieldStyles}
+              />
+              <Button type="submit" onstyle={{ maxWidth: "200px" }}>
+                Submit
+              </Button>
+            </form>
+            {this.state.roomExists ? (
+              <Typography color="error" variant="body1">
+                Room Already Exists
               </Typography>
-            </div>
-            <div>
-              <form
-                style={styles.centerStyling}
-                onSubmit={this.handleFormSubmit.bind(this)}
-              >
-                <TextField
-                  placeholder="Name"
-                  type="text"
-                  onChange={this.handleNameChange.bind(this)}
-                  required
-                  style={styles.textFieldStyles}
-                />
-                <TextField
-                  placeholder="Description"
-                  type="text"
-                  onChange={this.handleDescriptionChange.bind(this)}
-                  style={styles.textFieldStyles}
-                />
-                <Button type="submit" onstyle={{ maxWidth: "200px" }}>
-                  Submit
-                </Button>
-              </form>
-              {this.state.roomExists ? (
-                <Typography color="error" variant="body1">
-                  Room Already Exists
-                </Typography>
-              ) : null}
-            </div>
-          </Paper>
+            ) : null}
+          </div>
         </div>
       </div>
     );
