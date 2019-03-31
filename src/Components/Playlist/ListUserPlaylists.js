@@ -1,39 +1,39 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
 import Card from "../../../node_modules/@material-ui/core/Card";
-import { Spring } from "react-spring/renderprops";
+// import { Spring } from "react-spring/renderprops";
 
 const ListUserPlaylists = ({ items }) => (
   <div>
-    <Spring
+    {/* <Spring
       from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
       to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
     >
       {props => (
-        <div style={props}>
-          <React.Fragment>
-            {items.map(playlistItems => {
-              return (
-                <Card
-                  style={{
-                    width: 200,
-                    boxShadow: "box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6),"
-                  }}
-                  key={playlistItems.id}
-                >
-                  <img
-                    style={{ width: "100%" }}
-                    alt="mosaic"
-                    src={playlistItems.images[1].url}
-                  />
-                  <Typography align="center">{playlistItems.name}</Typography>
-                </Card>
-              );
-            })}
-          </React.Fragment>
-        </div>
+        <div style={props}> */}
+    <React.Fragment>
+      {items.map(playlistItems => {
+        return (
+          <Card
+            style={{
+              width: 200,
+              boxShadow: "box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6),"
+            }}
+            key={playlistItems.id}
+          >
+            <img
+              style={{ width: "100%" }}
+              alt="mosaic"
+              src={playlistItems.images[1].url}
+            />
+            <Typography align="center">{playlistItems.name}</Typography>
+          </Card>
+        );
+      })}
+    </React.Fragment>
+    {/* </div>
       )}
-    </Spring>
+    </Spring> */}
   </div>
 );
 

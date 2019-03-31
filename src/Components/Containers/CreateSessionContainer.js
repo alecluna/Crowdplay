@@ -3,7 +3,7 @@ import Typography from "../../../node_modules/@material-ui/core/Typography";
 import Header from "../../Components/Utils/Header";
 import firebase, { firestore } from "firebase";
 import { TextField, Button } from "@material-ui/core";
-import { Spring } from "react-spring/renderprops";
+// import { Spring } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -107,89 +107,89 @@ export default class CreateSessionContainer extends Component {
         <Header />
 
         <div style={styles.background}>
-          <Spring
+          {/* <Spring
             from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
             {props => (
-              <div style={props}>
-                <Typography
-                  style={{
-                    color: "black",
-                    fontWeight: "200",
-                    textAlign: "center"
-                  }}
-                  variant="display2"
-                >
-                  Host a Session:
-                </Typography>
-              </div>
+              <div style={props}> */}
+          <Typography
+            style={{
+              color: "black",
+              fontWeight: "200",
+              textAlign: "center"
+            }}
+            variant="display2"
+          >
+            Host a Session:
+          </Typography>
+          {/* </div>
             )}
-          </Spring>
+          </Spring> */}
 
-          <Spring
+          {/* <Spring
             from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
             {props => (
-              <div style={props}>
-                <form
-                  style={styles.centerStyling}
-                  onSubmit={this.handleFormSubmit.bind(this)}
-                >
-                  <TextField
-                    placeholder="Name"
-                    type="text"
-                    onChange={this.handleNameChange.bind(this)}
-                    required
-                    style={styles.textFieldStyles}
-                  />
-                  <TextField
-                    placeholder="Description"
-                    type="text"
-                    onChange={this.handleDescriptionChange.bind(this)}
-                    style={styles.textFieldStyles}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      flexDirection: "row",
-                      marginTop: "30px"
-                    }}
-                  >
-                    <Button
-                      color="primary"
-                      onClick={this.back}
-                      style={{
-                        color: "white",
-                        margin: "5px",
+              <div style={props}> */}
+          <form
+            style={styles.centerStyling}
+            onSubmit={this.handleFormSubmit.bind(this)}
+          >
+            <TextField
+              placeholder="Name"
+              type="text"
+              onChange={this.handleNameChange.bind(this)}
+              required
+              style={styles.textFieldStyles}
+            />
+            <TextField
+              placeholder="Description"
+              type="text"
+              onChange={this.handleDescriptionChange.bind(this)}
+              style={styles.textFieldStyles}
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "row",
+                marginTop: "30px"
+              }}
+            >
+              <Button
+                color="primary"
+                onClick={this.back}
+                style={{
+                  color: "white",
+                  margin: "5px",
 
-                        maxWidth: "200px",
-                        background:
-                          "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
-                      }}
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      color="primary"
-                      onClick={this.continue}
-                      style={{
-                        color: "white",
-                        margin: "5px",
-                        maxWidth: "200px",
-                        background:
-                          "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
-                      }}
-                    >
-                      Continue
-                    </Button>
-                  </div>
-                </form>
-              </div>
+                  maxWidth: "200px",
+                  background:
+                    "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                }}
+              >
+                Back
+              </Button>
+              <Button
+                color="primary"
+                onClick={this.continue}
+                style={{
+                  color: "white",
+                  margin: "5px",
+                  maxWidth: "200px",
+                  background:
+                    "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                }}
+              >
+                Continue
+              </Button>
+            </div>
+          </form>
+          {/* </div>
             )}
-          </Spring>
+          </Spring> */}
           {this.state.roomExists ? (
             <Typography color="error" variant="body1">
               Room Already Exists

@@ -3,7 +3,7 @@ import Typography from "../../../node_modules/@material-ui/core/Typography";
 import withRouter from "../../../node_modules/react-router-dom/withRouter";
 import Header from "../Utils/Header";
 import ListUserPlaylists from "../Playlist/ListUserPlaylists";
-import { Spring } from "react-spring/renderprops";
+// import { Spring } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -41,27 +41,27 @@ class PlaylistbuildContainer extends Component {
         }}
       >
         <Header />
-        <Spring
+        {/* <Spring
           from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
           to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
         >
           {props => (
-            <div style={props}>
-              <Typography
-                variant="display2"
-                align="center"
-                style={{
-                  marginTop: "5%",
-                  marginBottom: "5%",
-                  color: "black",
-                  fontWeight: "200"
-                }}
-              >
-                Your Playlists:
-              </Typography>
-            </div>
+            <div style={props}> */}
+        <Typography
+          variant="display2"
+          align="center"
+          style={{
+            marginTop: "5%",
+            marginBottom: "5%",
+            color: "black",
+            fontWeight: "200"
+          }}
+        >
+          Your Playlists:
+        </Typography>
+        {/* </div>
           )}
-        </Spring>
+        </Spring> */}
         <div style={styles.background}>
           <ListUserPlaylists items={items} />
         </div>

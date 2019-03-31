@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import queryString from "query-string";
 import Link from "react-router-dom/Link";
 import firebase from "firebase";
-import { Spring } from "react-spring/renderprops";
+// import { Spring } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -101,131 +101,130 @@ class LoginAuth extends Component {
               src={photoURL}
             />
 
-            <Spring
+            {/* <Spring
               from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
               to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
             >
               {props => (
-                <div style={props}>
-                  <div
-                    style={{
-                      marginTop: "50px",
-                      display: "flex",
-                      justifyContent: "space-around"
-                    }}
-                  >
-                    <Button
-                      variant="contained"
-                      style={{
-                        margin: "10px",
-                        background:
-                          "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
-                      }}
-                    >
-                      <Link
-                        style={{ textDecoration: "none " }}
-                        to={{
-                          pathname: "/createsession",
-                          state: {
-                            name: name,
-                            accessToken: accessToken,
-                            userID: userID,
-                            photoURL: photoURL
-                          }
-                        }}
-                      >
-                        <Typography style={{ color: "white" }}>
-                          Create a Session
-                        </Typography>
-                      </Link>
-                    </Button>
-
-                    <Button
-                      variant="contained"
-                      style={{
-                        margin: "10px",
-                        background:
-                          "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
-                      }}
-                    >
-                      <Link
-                        style={{ textDecoration: "none " }}
-                        to={{
-                          pathname: "/joinusers",
-                          state: {
-                            name: name,
-                            accessToken: accessToken,
-                            userID: userID,
-                            photoURL: photoURL
-                          }
-                        }}
-                      >
-                        <Typography style={{ color: "white" }}>
-                          View your Sessions
-                        </Typography>
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="contained"
-                      style={{
-                        margin: "10px",
-                        background:
-                          "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
-                      }}
-                    >
-                      <Link
-                        style={{ textDecoration: "none" }}
-                        variant="contained"
-                        to={{
-                          pathname: "/playlists",
-                          state: {
-                            name: name,
-                            accessToken: accessToken,
-                            userID: userID
-                          }
-                        }}
-                      >
-                        <Typography style={{ color: "white" }}>
-                          View Existing Playlists
-                        </Typography>
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </Spring>
-          </div>
-        ) : (
-          <Spring
-            from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
-            to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
-          >
-            {props => (
-              <div style={props}>
-                <Button
-                  variant="contained"
-                  style={{
-                    background:
-                      "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
-                  }}
-                  onClick={() => {
-                    window.location = window.location.href.includes("localhost")
-                      ? "http://localhost:8888/login"
-                      : "https://crowdplay-music-backend.herokuapp.com/login"; //prod URL here
+                <div style={props}> */}
+            <div
+              style={{
+                marginTop: "50px",
+                display: "flex",
+                justifyContent: "space-around"
+              }}
+            >
+              <Button
+                variant="contained"
+                style={{
+                  margin: "10px",
+                  background:
+                    "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                }}
+              >
+                <Link
+                  style={{ textDecoration: "none " }}
+                  to={{
+                    pathname: "/createsession",
+                    state: {
+                      name: name,
+                      accessToken: accessToken,
+                      userID: userID,
+                      photoURL: photoURL
+                    }
                   }}
                 >
-                  <Typography
-                    style={{
-                      color: "white",
-                      width: "15rem"
-                    }}
-                  >
-                    Login to your Spotify Account
+                  <Typography style={{ color: "white" }}>
+                    Create a Session
                   </Typography>
-                </Button>
-              </div>
-            )}
-          </Spring>
+                </Link>
+              </Button>
+
+              <Button
+                variant="contained"
+                style={{
+                  margin: "10px",
+                  background:
+                    "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                }}
+              >
+                <Link
+                  style={{ textDecoration: "none " }}
+                  to={{
+                    pathname: "/joinusers",
+                    state: {
+                      name: name,
+                      accessToken: accessToken,
+                      userID: userID,
+                      photoURL: photoURL
+                    }
+                  }}
+                >
+                  <Typography style={{ color: "white" }}>
+                    View your Sessions
+                  </Typography>
+                </Link>
+              </Button>
+              <Button
+                variant="contained"
+                style={{
+                  margin: "10px",
+                  background:
+                    "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                }}
+              >
+                <Link
+                  style={{ textDecoration: "none" }}
+                  variant="contained"
+                  to={{
+                    pathname: "/playlists",
+                    state: {
+                      name: name,
+                      accessToken: accessToken,
+                      userID: userID
+                    }
+                  }}
+                >
+                  <Typography style={{ color: "white" }}>
+                    View Existing Playlists
+                  </Typography>
+                </Link>
+              </Button>
+            </div>
+          </div>
+        ) : (
+          //     )}
+          //   </Spring>
+          // </div>
+          // <Spring
+          //   from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
+          //   to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
+          // >
+          //   {props => (
+          //     <div style={props}>
+          <Button
+            variant="contained"
+            style={{
+              background: "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+            }}
+            onClick={() => {
+              window.location = window.location.href.includes("localhost")
+                ? "http://localhost:8888/login"
+                : "https://crowdplay-music-backend.herokuapp.com/login"; //prod URL here
+            }}
+          >
+            <Typography
+              style={{
+                color: "white",
+                width: "15rem"
+              }}
+            >
+              Login to your Spotify Account
+            </Typography>
+          </Button>
+          //     </div>
+          //   )}
+          // </Spring>
         )}
       </div>
     );
