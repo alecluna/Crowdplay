@@ -4,7 +4,7 @@ import Typography from "../../../node_modules/@material-ui/core/Typography";
 import List from "../../../node_modules/@material-ui/core/List";
 import ListItem from "../../../node_modules/@material-ui/core/ListItem";
 import Header from "../Utils/Header";
-import { Spring, config } from "react-spring/renderprops";
+import { Spring } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -57,7 +57,6 @@ export default class Confirm extends Component {
         <Header />
         <div style={styles.background}>
           <Spring
-            config={config.stiff}
             from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
@@ -91,9 +90,7 @@ export default class Confirm extends Component {
               marginTop: "30px"
             }}
           >
-            {" "}
             <Spring
-              config={config.stiff}
               from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
               to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
             >

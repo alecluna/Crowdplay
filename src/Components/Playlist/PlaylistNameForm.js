@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import TextField from "../../../node_modules/@material-ui/core/TextField";
 import Button from "../../../node_modules/@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
-import { Spring, config } from "react-spring/renderprops";
 import Header from "../Utils/Header";
 import Link from "../../../node_modules/react-router-dom/Link";
+import { Spring } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -33,7 +33,6 @@ export default class PlaylistNameForm extends Component {
         <Header />
         <div style={styles.background}>
           <Spring
-            config={config.stiff}
             from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
@@ -50,7 +49,6 @@ export default class PlaylistNameForm extends Component {
             )}
           </Spring>
           <Spring
-            config={config.stiff}
             from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >

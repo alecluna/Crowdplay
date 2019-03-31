@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ChatMessage from "./ChatMessage";
 import firebase, { firestore } from "firebase";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
-import { Spring, config } from "react-spring/renderprops";
+import { Spring } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -104,11 +104,7 @@ export default class Chat extends Component {
       const { text, userID } = value;
       if (userID === propsUserID) {
         return (
-          <Spring
-            from={{ opacity: 0 }}
-            to={{ opacity: 1 }}
-            config={config.molasses}
-          >
+          <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
             {props => (
               <div style={props}>
                 <li

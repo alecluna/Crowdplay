@@ -1,12 +1,11 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
 import Card from "../../../node_modules/@material-ui/core/Card";
-import { Spring, config } from "react-spring/renderprops";
+import { Spring } from "react-spring/renderprops";
 
 const ListUserPlaylists = ({ items }) => (
   <div>
     <Spring
-      config={config.wobbly}
       from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
       to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
     >

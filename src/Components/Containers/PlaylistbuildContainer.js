@@ -3,7 +3,7 @@ import Typography from "../../../node_modules/@material-ui/core/Typography";
 import withRouter from "../../../node_modules/react-router-dom/withRouter";
 import Header from "../Utils/Header";
 import ListUserPlaylists from "../Playlist/ListUserPlaylists";
-import { Spring, config } from "react-spring/renderprops";
+import { Spring } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -42,7 +42,6 @@ class PlaylistbuildContainer extends Component {
       >
         <Header />
         <Spring
-          config={config.wobbly}
           from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
           to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
         >

@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import queryString from "query-string";
 import Link from "react-router-dom/Link";
 import firebase from "firebase";
-import { Spring, config } from "react-spring/renderprops";
+import { Spring } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -102,7 +102,6 @@ class LoginAuth extends Component {
             />
 
             <Spring
-              config={config.wobbly}
               from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
               to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
             >
@@ -198,7 +197,6 @@ class LoginAuth extends Component {
           </div>
         ) : (
           <Spring
-            config={config.wobbly}
             from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >

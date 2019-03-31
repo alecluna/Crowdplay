@@ -3,7 +3,7 @@ import Typography from "../../../node_modules/@material-ui/core/Typography";
 import Header from "../../Components/Utils/Header";
 import firebase, { firestore } from "firebase";
 import { TextField, Button } from "@material-ui/core";
-import { Spring, config } from "react-spring/renderprops";
+import { Spring } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -108,7 +108,6 @@ export default class CreateSessionContainer extends Component {
 
         <div style={styles.background}>
           <Spring
-            config={config.stiff}
             from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
@@ -129,7 +128,6 @@ export default class CreateSessionContainer extends Component {
           </Spring>
 
           <Spring
-            config={config.stiff}
             from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >

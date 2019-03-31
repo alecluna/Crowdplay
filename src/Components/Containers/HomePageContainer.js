@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
 import SpotifyLogo from "../../../src/assets/logo.png";
 import LoginAuth from "../../Components/LoginAuth";
-import { Spring, config } from "react-spring/renderprops";
+import { Spring } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -26,7 +26,6 @@ const HomePageContainer = () => (
       }}
     >
       <Spring
-        config={config.wobbly}
         from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
         to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
       >
