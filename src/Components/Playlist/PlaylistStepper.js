@@ -4,6 +4,7 @@ import PlaylistNameForm from "../Playlist/PlaylistNameForm";
 import Success from "../Playlist/Success";
 import PlaylistPrivacy from "../Playlist/PlaylistPrivacy";
 import Confirm from "../Playlist/Confirm";
+import CreateSessionContainer from "../Containers/CreateSessionContainer";
 
 export default class PlaylistStepper extends React.Component {
   constructor(props) {
@@ -45,10 +46,17 @@ export default class PlaylistStepper extends React.Component {
   };
 
   render() {
-    const { name, accessToken, userID } = this.props;
+    const { name, accessToken, userID, photoURL } = this.props;
 
     const { step, playlist, privatePlaylist } = this.state;
-    const value = { playlist, privatePlaylist, name, accessToken, userID };
+    const value = {
+      playlist,
+      privatePlaylist,
+      name,
+      accessToken,
+      userID,
+      photoURL
+    };
 
     switch (step) {
       case 1:
@@ -59,13 +67,18 @@ export default class PlaylistStepper extends React.Component {
             values={value}
           />
         );
+
       case 2:
         return (
-          <PlaylistPrivacy
+          <CreateSessionContainer
             nextStep={this.nextStep}
             prevStep={this.prevStep}
-            handleChange={this.handleChange}
+            playlistAPI={this.playlistAPI}
             values={value}
+            name={name}
+            accessToken={accessToken}
+            photoURL={photoURL}
+            userID={userID}
           />
         );
       case 3:

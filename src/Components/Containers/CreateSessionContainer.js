@@ -14,11 +14,7 @@ const styles = {
     alignItems: "center",
     flexDirection: "column"
   },
-  paperStyle: {
-    height: "75%",
-    width: "60%",
-    borderRadius: "5px"
-  },
+
   centerStyling: {
     display: "flex",
     justifyContent: "center",
@@ -43,6 +39,16 @@ export default class CreateSessionContainer extends Component {
     };
   }
 
+  continue = e => {
+    e.preventDefault();
+    this.props.nextStep();
+  };
+
+  back = e => {
+    e.preventDefault();
+    this.props.prevStep();
+  };
+
   handleDescriptionChange = e => {
     this.setState({ roomDescription: e.target.value });
   };
@@ -52,7 +58,7 @@ export default class CreateSessionContainer extends Component {
   };
 
   handleFormSubmit(event) {
-    const { name, accessToken, photoURL, userID } = this.props.location.state;
+    const { name, accessToken, photoURL, userID } = this.props;
     let { roomName, roomDescription } = this.state;
     event.preventDefault();
 
@@ -80,7 +86,7 @@ export default class CreateSessionContainer extends Component {
           //add room to user's joinedRoomsList
           firestoreRef
             .collection("users")
-            .doc(this.props.location.state.userID)
+            .doc(userID)
             .collection("joinedRooms")
             .add({ roomName: roomName, createdAt: firestore.Timestamp.now() });
           this.props.history.push({
@@ -122,7 +128,7 @@ export default class CreateSessionContainer extends Component {
               </div>
             )}
           </Spring>
-          <div style={styles.centerStyling} />
+
           <Spring
             config={config.stiff}
             from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
@@ -147,17 +153,54 @@ export default class CreateSessionContainer extends Component {
                     onChange={this.handleDescriptionChange.bind(this)}
                     style={styles.textFieldStyles}
                   />
-                  <Button
-                    type="submit"
+                  <div
                     style={{
-                      color: "white",
-                      maxWidth: "200px",
-                      background:
-                        "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                      display: "flex",
+                      justifyContent: "center",
+                      flexDirection: "row",
+                      marginTop: "30px"
                     }}
                   >
-                    Submit
-                  </Button>
+                    <Button
+                      type="submit"
+                      style={{
+                        color: "white",
+                        margin: "5px",
+                        maxWidth: "200px",
+                        background:
+                          "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                      }}
+                    >
+                      Submit
+                    </Button>
+                    <Button
+                      color="primary"
+                      onClick={this.back}
+                      style={{
+                        color: "white",
+                        margin: "5px",
+
+                        maxWidth: "200px",
+                        background:
+                          "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                      }}
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      color="primary"
+                      onClick={this.continue}
+                      style={{
+                        color: "white",
+                        margin: "5px",
+                        maxWidth: "200px",
+                        background:
+                          "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                      }}
+                    >
+                      Continue
+                    </Button>
+                  </div>
                 </form>
               </div>
             )}

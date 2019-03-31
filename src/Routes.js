@@ -5,8 +5,8 @@ import NotFoundPage from "./Components/Utils/NotFoundPage";
 import PlaylistbuildContainer from "./Components/Containers/PlaylistbuildContainer";
 import InviteUsers from "./Components/InviteUsers";
 import JoinUsers from "./Components/JoinUsers";
-import CreateSessionContainer from "./Components/Containers/CreateSessionContainer";
 import ChatRoomContainer from "./Components/Containers/ChatRoomContainer";
+import PlaylistStepper from "./Components/Playlist/PlaylistStepper";
 
 const Routes = () => {
   return (
@@ -26,7 +26,7 @@ const Routes = () => {
       <Route
         exact
         path="/createsession"
-        render={props => <CreateSessionContainer {...props} />}
+        render={props => <PlaylistStepper {...props} />}
       />
       <Route exact path="/inviteusers" component={InviteUsers} />
       <Route
