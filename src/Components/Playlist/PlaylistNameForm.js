@@ -4,6 +4,7 @@ import Button from "../../../node_modules/@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
 import { Spring, config } from "react-spring/renderprops";
 import Header from "../Utils/Header";
+import Link from "../../../node_modules/react-router-dom/Link";
 
 const styles = {
   background: {
@@ -63,23 +64,23 @@ export default class PlaylistNameForm extends Component {
                   />
                 </React.Fragment>
                 <br />
-
+                <Link to="/home" style={{ textDecoration: "none" }}>
+                  <Button
+                    type="submit"
+                    style={{
+                      color: "white",
+                      margin: "5px",
+                      maxWidth: "200px",
+                      background:
+                        "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                    }}
+                  >
+                    Back
+                  </Button>
+                </Link>
                 <Button
                   type="submit"
-                  onClick={this.submit}
-                  style={{
-                    color: "white",
-                    margin: "5px",
-                    maxWidth: "200px",
-                    background:
-                      "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
-                  }}
-                >
-                  Back
-                </Button>
-                <Button
-                  type="submit"
-                  onClick={this.submit}
+                  onClick={this.continue}
                   style={{
                     color: "white",
                     margin: "5px",

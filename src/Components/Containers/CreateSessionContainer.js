@@ -58,48 +58,47 @@ export default class CreateSessionContainer extends Component {
   };
 
   handleFormSubmit(event) {
-    const { name, accessToken, photoURL, userID } = this.props;
-    let { roomName, roomDescription } = this.state;
-    event.preventDefault();
-
-    let firestoreRef = firebase.firestore();
-    firestoreRef
-      .collection("rooms")
-      .doc(roomName)
-      .get()
-      .then(doc => {
-        if (doc.exists) {
-          this.setState({ roomExists: true });
-        } else {
-          //add room to rooms list
-          firestoreRef
-            .collection("rooms")
-            .doc(roomName)
-            .set({
-              roomName: roomName,
-              playListId: 1,
-              description: roomDescription,
-              createdAt: firestore.Timestamp.now(),
-              createdBy: name,
-              id: Math.floor(Math.random() * 10000000) + 1
-            });
-          //add room to user's joinedRoomsList
-          firestoreRef
-            .collection("users")
-            .doc(userID)
-            .collection("joinedRooms")
-            .add({ roomName: roomName, createdAt: firestore.Timestamp.now() });
-          this.props.history.push({
-            pathname: `/room/${roomName}`,
-            state: {
-              name: name,
-              accessToken: accessToken,
-              userID: userID,
-              photoURL: photoURL
-            }
-          });
-        }
-      });
+    // const { name, accessToken, photoURL, userID } = this.props;
+    // let { roomName, roomDescription } = this.state;
+    // event.preventDefault();
+    // let firestoreRef = firebase.firestore();
+    // firestoreRef
+    //   .collection("rooms")
+    //   .doc(roomName)
+    //   .get()
+    //   .then(doc => {
+    //     if (doc.exists) {
+    //       this.setState({ roomExists: true });
+    //     } else {
+    //       //add room to rooms list
+    //       firestoreRef
+    //         .collection("rooms")
+    //         .doc(roomName)
+    //         .set({
+    //           roomName: roomName,
+    //           playListId: 1,
+    //           description: roomDescription,
+    //           createdAt: firestore.Timestamp.now(),
+    //           createdBy: name,
+    //           id: Math.floor(Math.random() * 10000000) + 1
+    //         });
+    //       //add room to user's joinedRoomsList
+    //       firestoreRef
+    //         .collection("users")
+    //         .doc(userID)
+    //         .collection("joinedRooms")
+    //         .add({ roomName: roomName, createdAt: firestore.Timestamp.now() });
+    //       this.props.history.push({
+    //         pathname: `/room/${roomName}`,
+    //         state: {
+    //           name: name,
+    //           accessToken: accessToken,
+    //           userID: userID,
+    //           photoURL: photoURL
+    //         }
+    //       });
+    //     }
+    //   });
   }
 
   render() {
@@ -161,18 +160,6 @@ export default class CreateSessionContainer extends Component {
                       marginTop: "30px"
                     }}
                   >
-                    <Button
-                      type="submit"
-                      style={{
-                        color: "white",
-                        margin: "5px",
-                        maxWidth: "200px",
-                        background:
-                          "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
-                      }}
-                    >
-                      Submit
-                    </Button>
                     <Button
                       color="primary"
                       onClick={this.back}
