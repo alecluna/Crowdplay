@@ -21,7 +21,17 @@ const styles = {
 };
 
 export default class Confirm extends Component {
-  confirm = (playlist, privatePlaylist, name, accessToken, userID, e) => {
+  confirm = (
+    playlist,
+    privatePlaylist,
+    name,
+    accessToken,
+    userID,
+    roomName,
+    roomDescription,
+    roomExists,
+    e
+  ) => {
     e.preventDefault();
 
     console.log("Playlist name in confirm   " + playlist);
@@ -34,6 +44,16 @@ export default class Confirm extends Component {
       accessToken,
       userID
     );
+
+    this.props.createSessionFirebase(
+      name,
+      accessToken,
+      userID,
+      roomName,
+      roomDescription,
+      roomExists
+    );
+
     this.props.nextStep();
   };
 
@@ -50,8 +70,21 @@ export default class Confirm extends Component {
 
   render() {
     const {
-      values: { playlist, privatePlaylist, name, accessToken, userID }
+      values: {
+        playlist,
+        privatePlaylist,
+        name,
+        accessToken,
+        userID,
+        roomName,
+        roomDescription,
+        roomExists
+      }
     } = this.props;
+
+    console.log("Confirm Props: \n");
+
+    console.log(this.props);
     return (
       <div>
         <Header />
@@ -74,9 +107,10 @@ export default class Confirm extends Component {
               <Typography>Playlist Name: {playlist} </Typography>
             </ListItem>
             <ListItem>
-              <Typography>
-                Playlist Privacy: {this.private(privatePlaylist)}
-              </Typography>
+              <Typography>Crowdplay Session Name: {roomName}</Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>Description: {roomDescription}</Typography>
             </ListItem>
           </List>
           {/* </div>
@@ -120,7 +154,10 @@ export default class Confirm extends Component {
                 privatePlaylist,
                 name,
                 accessToken,
-                userID
+                userID,
+                roomName,
+                roomDescription,
+                roomExists
               )}
             >
               Confirm

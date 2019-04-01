@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import Typography from "../../../node_modules/@material-ui/core/Typography";
-import Header from "../../Components/Utils/Header";
-import firebase, { firestore } from "firebase";
+import Typography from "@material-ui/core/Typography";
+import Header from "../Utils/Header";
 import { TextField, Button } from "@material-ui/core";
 // import { Spring } from "react-spring/renderprops";
 
@@ -29,16 +28,7 @@ const styles = {
   }
 };
 
-export default class CreateSessionContainer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      roomName: "",
-      roomDescription: "",
-      roomExists: false
-    };
-  }
-
+export default class CreateSession extends Component {
   continue = e => {
     e.preventDefault();
     this.props.nextStep();
@@ -50,58 +40,18 @@ export default class CreateSessionContainer extends Component {
   };
 
   handleDescriptionChange = e => {
-    this.setState({ roomDescription: e.target.value });
+    this.setState({
+      roomDescription: e.target.value
+    });
   };
 
   handleNameChange = e => {
     this.setState({ roomName: e.target.value });
   };
 
-  handleFormSubmit(event) {
-    // const { name, accessToken, photoURL, userID } = this.props;
-    // let { roomName, roomDescription } = this.state;
-    // event.preventDefault();
-    // let firestoreRef = firebase.firestore();
-    // firestoreRef
-    //   .collection("rooms")
-    //   .doc(roomName)
-    //   .get()
-    //   .then(doc => {
-    //     if (doc.exists) {
-    //       this.setState({ roomExists: true });
-    //     } else {
-    //       //add room to rooms list
-    //       firestoreRef
-    //         .collection("rooms")
-    //         .doc(roomName)
-    //         .set({
-    //           roomName: roomName,
-    //           playListId: 1,
-    //           description: roomDescription,
-    //           createdAt: firestore.Timestamp.now(),
-    //           createdBy: name,
-    //           id: Math.floor(Math.random() * 10000000) + 1
-    //         });
-    //       //add room to user's joinedRoomsList
-    //       firestoreRef
-    //         .collection("users")
-    //         .doc(userID)
-    //         .collection("joinedRooms")
-    //         .add({ roomName: roomName, createdAt: firestore.Timestamp.now() });
-    //       this.props.history.push({
-    //         pathname: `/room/${roomName}`,
-    //         state: {
-    //           name: name,
-    //           accessToken: accessToken,
-    //           userID: userID,
-    //           photoURL: photoURL
-    //         }
-    //       });
-    //     }
-    //   });
-  }
-
   render() {
+    const { values, handleChange } = this.props;
+
     return (
       <div>
         <Header />
@@ -133,23 +83,24 @@ export default class CreateSessionContainer extends Component {
           >
             {props => (
               <div style={props}> */}
-          <form
-            style={styles.centerStyling}
-            onSubmit={this.handleFormSubmit.bind(this)}
-          >
-            <TextField
-              placeholder="Name"
-              type="text"
-              onChange={this.handleNameChange.bind(this)}
-              required
-              style={styles.textFieldStyles}
-            />
-            <TextField
-              placeholder="Description"
-              type="text"
-              onChange={this.handleDescriptionChange.bind(this)}
-              style={styles.textFieldStyles}
-            />
+          <form style={styles.centerStyling}>
+            <React.Fragment>
+              <TextField
+                label="Name"
+                onChange={handleChange("roomName")}
+                style={styles.textFieldStyles}
+                defaultValue={values.roomName}
+              />
+            </React.Fragment>
+            <React.Fragment>
+              <TextField
+                label="Description"
+                onChange={handleChange("roomDescription")}
+                style={styles.textFieldStyles}
+                defaultValue={values.roomDescription}
+              />
+            </React.Fragment>
+
             <div
               style={{
                 display: "flex",
@@ -190,7 +141,7 @@ export default class CreateSessionContainer extends Component {
           {/* </div>
             )}
           </Spring> */}
-          {this.state.roomExists ? (
+          {values.roomExists ? (
             <Typography color="error" variant="body1">
               Room Already Exists
             </Typography>
