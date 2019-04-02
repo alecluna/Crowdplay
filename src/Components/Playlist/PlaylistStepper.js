@@ -13,11 +13,10 @@ export default class PlaylistStepper extends React.Component {
       step: 1,
       playlist: "",
       privatePlaylist: "public",
-      sessionName: "",
-      sessionDescription: "",
       roomName: "",
       roomDescription: "",
-      roomExists: false
+      roomExists: false,
+      photoURL: ""
     };
   }
 
@@ -41,64 +40,70 @@ export default class PlaylistStepper extends React.Component {
   };
 
   createSessionFirebase = (
+    playlist,
+    privatePlaylist,
     name,
     accessToken,
-    photoURL,
     userID,
     roomName,
-    roomDescription
+    roomDescription,
+    roomExists,
+    photoURL
   ) => {
+    console.log("Within session firebase function: \n");
+
     console.log(
+      playlist,
+      privatePlaylist,
       name,
-      +" " +
-        accessToken +
-        " " +
-        photoURL +
-        " " +
-        userID +
-        " " +
-        roomName +
-        " " +
-        roomDescription
+      accessToken,
+      userID,
+      roomName,
+      roomDescription,
+      roomExists,
+      photoURL
     );
-    //   let firestoreRef = firebase.firestore();
-    //   firestoreRef
-    //     .collection("rooms")
-    //     .doc(roomName)
-    //     .get()
-    //     .then(doc => {
-    //       if (doc.exists) {
-    //         this.setState({ roomExists: true });
-    //       } else {
-    //         //add room to rooms list
-    //         firestoreRef
-    //           .collection("rooms")
-    //           .doc(roomName)
-    //           .set({
-    //             roomName: roomName,
-    //             playListId: Math.floor(Math.random() * 10000000) + 1,
-    //             description: roomDescription,
-    //             createdAt: firestore.Timestamp.now(),
-    //             createdBy: name,
-    //             id: Math.floor(Math.random() * 10000000) + 1
-    //           });
-    //         //add room to user's joinedRoomsList
-    //         firestoreRef
-    //           .collection("users")
-    //           .doc(userID)
-    //           .collection("joinedRooms")
-    //           .add({ roomName: roomName, createdAt: firestore.Timestamp.now() });
-    //         this.props.history.push({
-    //           pathname: `/room/${roomName}`,
-    //           state: {
-    //             name: name,
-    //             accessToken: accessToken,
-    //             userID: userID,
-    //             photoURL: photoURL
-    //           }
-    //         });
-    //       }
-    //     });
+    let firestoreRef = firebase.firestore();
+    firestoreRef
+      .collection("rooms")
+      .doc(roomName)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          this.setState({ roomExists: true });
+        } else {
+          //add room to rooms list
+          firestoreRef
+            .collection("rooms")
+            .doc(roomName)
+            .set({
+              roomName: roomName,
+              playListId: Math.floor(Math.random() * 10000000) + 1,
+              description: roomDescription,
+              createdAt: firestore.Timestamp.now(),
+              createdBy: name,
+              id: Math.floor(Math.random() * 10000000) + 1
+            });
+          //add room to user's joinedRoomsList
+          firestoreRef
+            .collection("users")
+            .doc(userID)
+            .collection("joinedRooms")
+            .add({
+              roomName: roomName,
+              createdAt: firestore.Timestamp.now()
+            });
+          this.props.history.push({
+            pathname: `/room/${roomName}`,
+            state: {
+              name: name,
+              accessToken: accessToken,
+              userID: userID,
+              photoURL: photoURL
+            }
+          });
+        }
+      });
   };
 
   nextStep = () => {
@@ -116,7 +121,7 @@ export default class PlaylistStepper extends React.Component {
   };
 
   render() {
-    const { name, accessToken, userID, photoURL } = this.props;
+    const { name, accessToken, userID, photoURL } = this.props.location.state;
 
     const {
       step,

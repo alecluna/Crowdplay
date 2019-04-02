@@ -30,13 +30,8 @@ export default class Confirm extends Component {
     roomName,
     roomDescription,
     roomExists,
-    e
+    photoURL
   ) => {
-    e.preventDefault();
-
-    console.log("Playlist name in confirm   " + playlist);
-    console.log("Playlist privacy   " + privatePlaylist);
-
     this.props.playlistAPI(
       playlist,
       privatePlaylist,
@@ -44,14 +39,19 @@ export default class Confirm extends Component {
       accessToken,
       userID
     );
+    console.log("CREATE SESSION VARS");
+    console.log(name, accessToken, userID, roomName, roomDescription);
 
     this.props.createSessionFirebase(
+      playlist,
+      privatePlaylist,
       name,
       accessToken,
       userID,
       roomName,
       roomDescription,
-      roomExists
+      roomExists,
+      photoURL
     );
 
     this.props.nextStep();
@@ -78,13 +78,23 @@ export default class Confirm extends Component {
         userID,
         roomName,
         roomDescription,
-        roomExists
+        roomExists,
+        photoURL
       }
     } = this.props;
 
-    console.log("Confirm Props: \n");
-
+    console.log("within render() of Confirm Props: \n");
     console.log(this.props);
+    console.log(
+      playlist,
+      privatePlaylist,
+      name,
+      accessToken,
+      userID,
+      roomName,
+      roomDescription,
+      roomExists
+    );
     return (
       <div>
         <Header />
@@ -157,7 +167,8 @@ export default class Confirm extends Component {
                 userID,
                 roomName,
                 roomDescription,
-                roomExists
+                roomExists,
+                photoURL
               )}
             >
               Confirm

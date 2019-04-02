@@ -39,16 +39,6 @@ export default class CreateSession extends Component {
     this.props.prevStep();
   };
 
-  handleDescriptionChange = e => {
-    this.setState({
-      roomDescription: e.target.value
-    });
-  };
-
-  handleNameChange = e => {
-    this.setState({ roomName: e.target.value });
-  };
-
   render() {
     const { values, handleChange } = this.props;
 

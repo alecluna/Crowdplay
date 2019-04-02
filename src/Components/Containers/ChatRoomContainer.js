@@ -52,7 +52,7 @@ export default class ChatRoomContainer extends Component {
           </Typography>
         </div>
         <Grid container>
-          <Grid item sm>
+          <Grid item sm style={{ margin: "10px" }}>
             <Paper elevation={3} style={{ padding: "10px", height: "100%" }}>
               <div
                 style={{
@@ -78,7 +78,7 @@ export default class ChatRoomContainer extends Component {
               </div>
             </Paper>
           </Grid>
-          <Grid item sm>
+          <Grid item sm style={{ margin: "10px" }}>
             <Paper elevation={3} style={{ padding: "10px" }}>
               <PlaylistSearch accessToken={accessToken} />
             </Paper>
