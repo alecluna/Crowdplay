@@ -21,12 +21,17 @@ const styles = {
 };
 
 export default class Confirm extends Component {
-  confirm = (playlist, privatePlaylist, name, accessToken, userID, e) => {
-    e.preventDefault();
-
-    console.log("Playlist name in confirm   " + playlist);
-    console.log("Playlist privacy   " + privatePlaylist);
-
+  confirm = (
+    playlist,
+    privatePlaylist,
+    name,
+    accessToken,
+    userID,
+    roomName,
+    roomDescription,
+    roomExists,
+    photoURL
+  ) => {
     this.props.playlistAPI(
       playlist,
       privatePlaylist,
@@ -34,6 +39,21 @@ export default class Confirm extends Component {
       accessToken,
       userID
     );
+    console.log("CREATE SESSION VARS");
+    console.log(name, accessToken, userID, roomName, roomDescription);
+
+    this.props.createSessionFirebase(
+      playlist,
+      privatePlaylist,
+      name,
+      accessToken,
+      userID,
+      roomName,
+      roomDescription,
+      roomExists,
+      photoURL
+    );
+
     this.props.nextStep();
   };
 
@@ -50,8 +70,31 @@ export default class Confirm extends Component {
 
   render() {
     const {
-      values: { playlist, privatePlaylist, name, accessToken, userID }
+      values: {
+        playlist,
+        privatePlaylist,
+        name,
+        accessToken,
+        userID,
+        roomName,
+        roomDescription,
+        roomExists,
+        photoURL
+      }
     } = this.props;
+
+    console.log("within render() of Confirm Props: \n");
+    console.log(this.props);
+    console.log(
+      playlist,
+      privatePlaylist,
+      name,
+      accessToken,
+      userID,
+      roomName,
+      roomDescription,
+      roomExists
+    );
     return (
       <div>
         <Header />
@@ -74,9 +117,10 @@ export default class Confirm extends Component {
               <Typography>Playlist Name: {playlist} </Typography>
             </ListItem>
             <ListItem>
-              <Typography>
-                Playlist Privacy: {this.private(privatePlaylist)}
-              </Typography>
+              <Typography>Crowdplay Session Name: {roomName}</Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>Description: {roomDescription}</Typography>
             </ListItem>
           </List>
           {/* </div>
@@ -120,7 +164,11 @@ export default class Confirm extends Component {
                 privatePlaylist,
                 name,
                 accessToken,
-                userID
+                userID,
+                roomName,
+                roomDescription,
+                roomExists,
+                photoURL
               )}
             >
               Confirm

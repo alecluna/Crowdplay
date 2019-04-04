@@ -39,7 +39,11 @@ export default class PlaylistSearch extends Component {
     return (
       <div>
         <React.Fragment>
-          <TextField placeholder="Playlist" onChange={this.handleChange} />
+          <TextField
+            style={{ width: "100%" }}
+            placeholder="Playlist"
+            onChange={this.handleChange}
+          />
         </React.Fragment>
       </div>
     );

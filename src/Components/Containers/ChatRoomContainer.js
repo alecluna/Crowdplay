@@ -3,6 +3,8 @@ import Header from "../Utils/Header";
 import Chat from "../ChatRoom/Chat";
 import PlaylistSearch from "../Playlist/PlaylistSearch";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
+import Grid from "../../../node_modules/@material-ui/core/Grid";
+import Paper from "../../../node_modules/@material-ui/core/Paper";
 
 const styles = {
   background: {
@@ -14,24 +16,6 @@ const styles = {
     alignItems: "center",
     marginBottom: "15px",
     marginTop: "15px"
-  },
-  row: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: "100%",
-    maxHeight: "100vh"
-  },
-  column: {
-    display: "flex",
-    flexDirection: "column",
-    flexBasis: "100%",
-    flex: "1",
-    height: "100%"
-  },
-
-  centerStyling: {
-    backgroundColor: "white"
   },
   listMessageStyleBlue: {
     backgroundColor: "#0076FF",
@@ -52,10 +36,6 @@ const styles = {
 };
 
 export default class ChatRoomContainer extends Component {
-  handleChange = input => e => {
-    this.setState({ [input]: e.target.value });
-  };
-
   render() {
     const { accessToken, userID, name, photoURL } = this.props.location.state;
     const { match } = this.props;
@@ -71,13 +51,11 @@ export default class ChatRoomContainer extends Component {
             Chat Room
           </Typography>
         </div>
-        <div style={styles.row}>
-          <div style={styles.column /*first column*/}>
-            <div style={styles.centerStyling}>
+        <Grid container>
+          <Grid item sm style={{ margin: "10px" }}>
+            <Paper elevation={3} style={{ padding: "10px", height: "100%" }}>
               <div
                 style={{
-                  boxSizing: "border-box",
-                  border: ".5px solid grey",
                   padding: "0 0 0 10px",
                   maxHeight: "70vh",
                   overflow: "scroll"
@@ -98,12 +76,14 @@ export default class ChatRoomContainer extends Component {
                   />
                 </div>
               </div>
-              <div style={styles.column /*second column*/}>
-                <PlaylistSearch accessToken={accessToken} />
-              </div>
-            </div>
-          </div>
-        </div>
+            </Paper>
+          </Grid>
+          <Grid item sm style={{ margin: "10px" }}>
+            <Paper elevation={3} style={{ padding: "10px" }}>
+              <PlaylistSearch accessToken={accessToken} />
+            </Paper>
+          </Grid>
+        </Grid>
       </div>
     );
   }

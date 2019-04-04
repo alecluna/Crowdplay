@@ -2,14 +2,22 @@ import React from "react";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
 import PlaylistNameForm from "../Playlist/PlaylistNameForm";
 import Success from "../Playlist/Success";
-import PlaylistPrivacy from "../Playlist/PlaylistPrivacy";
 import Confirm from "../Playlist/Confirm";
-import CreateSessionContainer from "../Containers/CreateSessionContainer";
+import CreateSession from "../Containers/CreateSession";
+import firebase, { firestore } from "firebase";
 
 export default class PlaylistStepper extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { step: 1, playlist: "", privatePlaylist: "public" };
+    this.state = {
+      step: 1,
+      playlist: "",
+      privatePlaylist: "public",
+      roomName: "",
+      roomDescription: "",
+      roomExists: false,
+      photoURL: ""
+    };
   }
 
   playlistAPI = (playlist, privatePlaylist, name, accessToken, userID) => {
@@ -31,6 +39,73 @@ export default class PlaylistStepper extends React.Component {
       .catch(console.log(console.error()));
   };
 
+  createSessionFirebase = (
+    playlist,
+    privatePlaylist,
+    name,
+    accessToken,
+    userID,
+    roomName,
+    roomDescription,
+    roomExists,
+    photoURL
+  ) => {
+    console.log("Within session firebase function: \n");
+
+    console.log(
+      playlist,
+      privatePlaylist,
+      name,
+      accessToken,
+      userID,
+      roomName,
+      roomDescription,
+      roomExists,
+      photoURL
+    );
+    let firestoreRef = firebase.firestore();
+    firestoreRef
+      .collection("rooms")
+      .doc(roomName)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          this.setState({ roomExists: true });
+        } else {
+          //add room to rooms list
+          firestoreRef
+            .collection("rooms")
+            .doc(roomName)
+            .set({
+              roomName: roomName,
+              playListId: Math.floor(Math.random() * 10000000) + 1,
+              description: roomDescription,
+              createdAt: firestore.Timestamp.now(),
+              createdBy: name,
+              id: Math.floor(Math.random() * 10000000) + 1
+            });
+          //add room to user's joinedRoomsList
+          firestoreRef
+            .collection("users")
+            .doc(userID)
+            .collection("joinedRooms")
+            .add({
+              roomName: roomName,
+              createdAt: firestore.Timestamp.now()
+            });
+          this.props.history.push({
+            pathname: `/room/${roomName}`,
+            state: {
+              name: name,
+              accessToken: accessToken,
+              userID: userID,
+              photoURL: photoURL
+            }
+          });
+        }
+      });
+  };
+
   nextStep = () => {
     const { step } = this.state;
     this.setState({ step: step + 1 });
@@ -46,16 +121,28 @@ export default class PlaylistStepper extends React.Component {
   };
 
   render() {
-    const { name, accessToken, userID, photoURL } = this.props;
+    const { name, accessToken, userID, photoURL } = this.props.location.state;
 
-    const { step, playlist, privatePlaylist } = this.state;
+    const {
+      step,
+      playlist,
+      privatePlaylist,
+      roomName,
+      roomDescription,
+      roomExists
+    } = this.state;
+
+    //prop drilling
     const value = {
       playlist,
       privatePlaylist,
       name,
       accessToken,
       userID,
-      photoURL
+      photoURL,
+      roomName,
+      roomDescription,
+      roomExists
     };
 
     switch (step) {
@@ -70,15 +157,12 @@ export default class PlaylistStepper extends React.Component {
 
       case 2:
         return (
-          <CreateSessionContainer
+          <CreateSession
             nextStep={this.nextStep}
             prevStep={this.prevStep}
             playlistAPI={this.playlistAPI}
+            handleChange={this.handleChange}
             values={value}
-            name={name}
-            accessToken={accessToken}
-            photoURL={photoURL}
-            userID={userID}
           />
         );
       case 3:
@@ -88,6 +172,7 @@ export default class PlaylistStepper extends React.Component {
             prevStep={this.prevStep}
             playlistAPI={this.playlistAPI}
             values={value}
+            createSessionFirebase={this.createSessionFirebase}
           />
         );
       case 4:
