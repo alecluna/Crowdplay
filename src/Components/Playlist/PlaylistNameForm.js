@@ -8,7 +8,7 @@ import Link from "../../../node_modules/react-router-dom/Link";
 
 const styles = {
   background: {
-    backgroundColor: "white",
+    backgroundColor: "#191414",
     height: "100vh",
     display: "flex",
     justifyContent: "center",
@@ -17,6 +17,12 @@ const styles = {
   },
   button: {
     margin: 15
+  },
+  textFieldStyles: {
+    width: 300,
+    marginBottom: "4%",
+    backgroundColor: "white",
+    borderRadius: "20px"
   }
 };
 
@@ -41,7 +47,7 @@ export default class PlaylistNameForm extends Component {
           <Typography
             align="center"
             variant="display2"
-            style={{ fontWeight: "200" }}
+            style={{ fontWeight: "200", color: "white", margin: "15px" }}
           >
             Name Your Playlist:
           </Typography>
@@ -58,7 +64,7 @@ export default class PlaylistNameForm extends Component {
             <TextField
               label="Playlist"
               onChange={handleChange("playlist")}
-              defaultValue={values.playlist}
+              style={styles.textFieldStyles}
             />
           </React.Fragment>
           <br />
@@ -76,9 +82,9 @@ export default class PlaylistNameForm extends Component {
                 style={{
                   color: "white",
                   margin: "5px",
+                  borderRadius: "20px",
                   maxWidth: "200px",
-                  background:
-                    "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                  background: "#1db954"
                 }}
               >
                 Back
@@ -90,8 +96,9 @@ export default class PlaylistNameForm extends Component {
               style={{
                 color: "white",
                 margin: "5px",
+                borderRadius: "20px",
                 maxWidth: "200px",
-                background: "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                background: "#1db954"
               }}
             >
               Continue

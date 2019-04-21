@@ -1,28 +1,26 @@
 import React, { Component } from "react";
 import Typography from "../../node_modules/@material-ui/core/Typography";
 import Header from "./Utils/Header";
-import Paper from "../../node_modules/@material-ui/core/Paper";
 import firebase, { firestore } from "firebase";
 import { Button, TextField } from "@material-ui/core";
 import JoinedRoomsContainer from "../Components/Containers/JoinedRoomsContainer";
 
 const styles = {
   background: {
-    backgroundColor: "#D3D3D3",
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  paperStyle: {
-    height: "75%",
-    width: "60%",
-    borderRadius: "5px"
+    backgroundColor: "#191414",
+    height: "100vh"
   },
   centerStyling: {
     display: "flex",
     justifyContent: "center",
-    marginTop: "30px"
+    alignItems: "center",
+    flexWrap: "wrap"
+  },
+  textFieldStyles: {
+    width: 300,
+    marginBottom: "4%",
+    backgroundColor: "white",
+    borderRadius: "20px"
   }
 };
 
@@ -119,7 +117,11 @@ class JoinUsers extends Component {
 
   showIfRoomNotFound = () => {
     return this.state.roomNotFound ? (
-      <Typography style={{ textAlign: "center" }} color="error" variant="title">
+      <Typography
+        style={{ textAlign: "center", color: "white" }}
+        color="error"
+        variant="title"
+      >
         Room Not Found
       </Typography>
     ) : null;
@@ -148,54 +150,68 @@ class JoinUsers extends Component {
       <div>
         <Header />
         <div style={styles.background}>
-          <Paper style={styles.paperStyle} elevation={11}>
-            <div style={styles.centerStyling}>
-              <Typography
-                variant="display2"
-                style={{ color: "black", fontWeight: "200" }}
-              >
-                My Sessions
-              </Typography>
-            </div>
-            <div style={styles.centerStyling} />
-
-            {this.showIfRoomNotFound()}
-            <form
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column"
-              }}
-              onSubmit={this.handleSearchForRoom.bind(this)}
-            >
-              <TextField
-                placeholder="Search for a room"
-                type="text"
-                onChange={this.changeSearchText.bind(this)}
-                value={this.state.searchRoomKeyWords}
-                style={{ width: 400 }}
-              />
-              <Button type="submit">Send</Button>
-            </form>
+          <div style={styles.centerStyling}>
             <Typography
-              align="center"
-              style={{ fontWeight: "200", fontSize: "2em" }}
-            >
-              Here are your avaliable rooms:
-            </Typography>
-            <div
+              variant="display2"
               style={{
-                height: "275px",
-                overflow: "scroll",
-                display: "flex",
-                justifyContent: "center",
-                flexWrap: "wrap"
+                color: "#FFFF",
+                fontWeight: "200",
+                paddingTop: "10%",
+                paddingBottom: "5%"
               }}
             >
-              {joinedRoomsMapped}
-            </div>
-          </Paper>
+              My Sessions
+            </Typography>
+          </div>
+          <div style={styles.centerStyling} />
+
+          {this.showIfRoomNotFound()}
+          <form
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column"
+            }}
+            onSubmit={this.handleSearchForRoom.bind(this)}
+          >
+            <TextField
+              placeholder="Search for a room"
+              type="text"
+              onChange={this.changeSearchText.bind(this)}
+              value={this.state.searchRoomKeyWords}
+              style={styles.textFieldStyles}
+            />
+            <Button
+              type="submit"
+              style={{
+                color: "white",
+                margin: "5px",
+                borderRadius: "20px",
+                maxWidth: "200px",
+                background: "#1db954"
+              }}
+            >
+              Send
+            </Button>
+          </form>
+          <Typography
+            align="center"
+            style={{ fontWeight: "200", fontSize: "2em", color: "white" }}
+          >
+            Here are your avaliable rooms:
+          </Typography>
+          <div
+            style={{
+              height: "275px",
+              overflow: "scroll",
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap"
+            }}
+          >
+            {joinedRoomsMapped}
+          </div>
         </div>
       </div>
     );

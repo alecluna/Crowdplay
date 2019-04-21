@@ -8,7 +8,7 @@ import Header from "../Utils/Header";
 
 const styles = {
   background: {
-    backgroundColor: "white",
+    backgroundColor: "#191414",
     height: "100vh",
     display: "flex",
     justifyContent: "center",
@@ -17,6 +17,10 @@ const styles = {
   },
   button: {
     margin: 15
+  },
+  fontStyles: {
+    fontWeight: "200",
+    color: "white"
   }
 };
 
@@ -39,8 +43,6 @@ export default class Confirm extends Component {
       accessToken,
       userID
     );
-    console.log("CREATE SESSION VARS");
-    console.log(name, accessToken, userID, roomName, roomDescription);
 
     this.props.createSessionFirebase(
       playlist,
@@ -83,7 +85,6 @@ export default class Confirm extends Component {
       }
     } = this.props;
 
-    console.log("within render() of Confirm Props: \n");
     console.log(this.props);
     console.log(
       playlist,
@@ -108,19 +109,25 @@ export default class Confirm extends Component {
           <Typography
             align="center"
             variant="display2"
-            style={{ fontWeight: "200" }}
+            style={styles.fontStyles}
           >
             Confirm
           </Typography>
           <List>
             <ListItem>
-              <Typography>Playlist Name: {playlist} </Typography>
+              <Typography style={styles.fontStyles}>
+                Playlist Name: {playlist}{" "}
+              </Typography>
             </ListItem>
             <ListItem>
-              <Typography>Crowdplay Session Name: {roomName}</Typography>
+              <Typography style={styles.fontStyles}>
+                Crowdplay Session Name: {roomName}
+              </Typography>
             </ListItem>
             <ListItem>
-              <Typography>Description: {roomDescription}</Typography>
+              <Typography style={styles.fontStyles}>
+                Description: {roomDescription}
+              </Typography>
             </ListItem>
           </List>
           {/* </div>
@@ -145,7 +152,8 @@ export default class Confirm extends Component {
                 color: "white",
                 margin: "5px",
                 maxWidth: "200px",
-                background: "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                borderRadius: "20px",
+                background: "#1db954"
               }}
               onClick={this.back}
             >
@@ -155,8 +163,9 @@ export default class Confirm extends Component {
               style={{
                 color: "white",
                 margin: "5px",
+                borderRadius: "20px",
                 maxWidth: "200px",
-                background: "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                background: "#1db954"
               }}
               onClick={this.confirm.bind(
                 this,

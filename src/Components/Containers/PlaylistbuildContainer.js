@@ -5,20 +5,10 @@ import Header from "../Utils/Header";
 import ListUserPlaylists from "../Playlist/ListUserPlaylists";
 // import { Spring } from "react-spring/renderprops";
 
-const styles = {
-  background: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexWrap: "wrap",
-    flexDirection: "row"
-  }
-};
-
 class PlaylistbuildContainer extends Component {
   constructor() {
     super();
-    this.state = { items: [] };
+    this.state = { items: [], href: "" };
   }
   componentDidMount = () => {
     const { accessToken } = this.props.location.state;
@@ -37,7 +27,8 @@ class PlaylistbuildContainer extends Component {
     return (
       <div
         style={{
-          height: "100vh"
+          height: "100vh",
+          background: "#191414"
         }}
       >
         <Header />
@@ -53,16 +44,16 @@ class PlaylistbuildContainer extends Component {
           style={{
             marginTop: "5%",
             marginBottom: "5%",
-            color: "black",
+            color: "#FFFF",
             fontWeight: "200"
           }}
         >
-          Your Playlists:
+          Your Avaliable Playlists:
         </Typography>
         {/* </div>
           )}
         </Spring> */}
-        <div style={styles.background}>
+        <div>
           <ListUserPlaylists items={items} />
         </div>
       </div>
