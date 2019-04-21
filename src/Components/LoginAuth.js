@@ -85,7 +85,8 @@ class LoginAuth extends Component {
                 alignItems: "center",
                 fontWeight: "200",
                 marginTop: "50px",
-                textAlign: "center"
+                textAlign: "center",
+                color: "white"
               }}
               variant="h6"
             >
@@ -118,8 +119,8 @@ class LoginAuth extends Component {
                 variant="contained"
                 style={{
                   margin: "10px",
-                  background:
-                    "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                  background: "#1db954",
+                  borderRadius: "20px"
                 }}
               >
                 <Link
@@ -144,8 +145,8 @@ class LoginAuth extends Component {
                 variant="contained"
                 style={{
                   margin: "10px",
-                  background:
-                    "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                  background: "#1db954",
+                  borderRadius: "20px"
                 }}
               >
                 <Link
@@ -169,8 +170,8 @@ class LoginAuth extends Component {
                 variant="contained"
                 style={{
                   margin: "10px",
-                  background:
-                    "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                  background: "#1db954",
+                  borderRadius: "20px"
                 }}
               >
                 <Link
@@ -205,7 +206,8 @@ class LoginAuth extends Component {
           <Button
             variant="contained"
             style={{
-              background: "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+              background: "#1db954",
+              borderRadius: "20px"
             }}
             onClick={() => {
               window.location = window.location.href.includes("localhost")
@@ -216,10 +218,12 @@ class LoginAuth extends Component {
             <Typography
               style={{
                 color: "white",
-                width: "15rem"
+                width: "10rem",
+                fontSize: "2em",
+                textAlign: "center"
               }}
             >
-              Login to your Spotify Account
+              Login
             </Typography>
           </Button>
           //     </div>

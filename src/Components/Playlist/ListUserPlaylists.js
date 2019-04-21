@@ -36,7 +36,10 @@ const ListUserPlaylists = ({ items }) => (
               <img
                 style={{ width: "100%" }}
                 alt="mosaic"
-                src={playlistItems.images[1].url}
+                src={
+                  playlistItems.images[1].url ||
+                  require(`../../assets/placeholder.jpg`)
+                }
               />
             </Link>
             <Typography align="center">{playlistItems.name}</Typography>

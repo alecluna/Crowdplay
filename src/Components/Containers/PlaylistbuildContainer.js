@@ -24,11 +24,11 @@ class PlaylistbuildContainer extends Component {
 
   render() {
     const { items } = this.state;
-    console.log(items);
     return (
       <div
         style={{
-          height: "100vh"
+          height: "100vh",
+          background: "#191414"
         }}
       >
         <Header />
@@ -44,7 +44,7 @@ class PlaylistbuildContainer extends Component {
           style={{
             marginTop: "5%",
             marginBottom: "5%",
-            color: "black",
+            color: "#FFFF",
             fontWeight: "200"
           }}
         >

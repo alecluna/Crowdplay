@@ -6,7 +6,7 @@ import { TextField, Button } from "@material-ui/core";
 
 const styles = {
   background: {
-    backgroundColor: "white",
+    backgroundColor: "black",
     height: "100vh",
     display: "flex",
     justifyContent: "center",
@@ -24,7 +24,9 @@ const styles = {
   },
   textFieldStyles: {
     width: 300,
-    marginBottom: "4%"
+    marginBottom: "4%",
+    backgroundColor: "white",
+    borderRadius: "20px"
   }
 };
 
@@ -55,7 +57,7 @@ export default class CreateSession extends Component {
               <div style={props}> */}
           <Typography
             style={{
-              color: "black",
+              color: "white",
               fontWeight: "200",
               textAlign: "center"
             }}
@@ -105,10 +107,9 @@ export default class CreateSession extends Component {
                 style={{
                   color: "white",
                   margin: "5px",
-
+                  borderRadius: "20px",
                   maxWidth: "200px",
-                  background:
-                    "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                  background: "#1db954"
                 }}
               >
                 Back
@@ -120,8 +121,8 @@ export default class CreateSession extends Component {
                   color: "white",
                   margin: "5px",
                   maxWidth: "200px",
-                  background:
-                    "linear-gradient(to right bottom, #00e5f9, #56b3ff)"
+                  background: "#1db954",
+                  borderRadius: "20px"
                 }}
               >
                 Continue

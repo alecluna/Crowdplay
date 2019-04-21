@@ -6,7 +6,7 @@ import LoginAuth from "../../Components/LoginAuth";
 
 const styles = {
   background: {
-    background: "white",
+    background: "#191414",
     height: "100vh",
     display: "flex",
     justifyContent: "center",
@@ -33,7 +33,12 @@ const HomePageContainer = () => (
           <div style={props}> */}
       <Typography
         variant="display2"
-        style={{ textAlign: "center", color: "black", fontWeight: "200" }}
+        style={{
+          fontSize: "3em",
+          textAlign: "center",
+          color: "white",
+          fontWeight: "200"
+        }}
       >
         CrowdPlay for&nbsp;
       </Typography>
