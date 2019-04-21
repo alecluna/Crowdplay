@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { TextField } from "@material-ui/core";
+import { Button } from "@material-ui/core";
+import uniqBy from "lodash/uniqBy";
 
 export default class PlaylistSearch extends Component {
   constructor(props) {
@@ -8,31 +10,41 @@ export default class PlaylistSearch extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleMusicSearch = (firstQuery = "Goodie Bag") => {
+  handleMusicSearch = value => {
     const { accessToken } = this.props;
-    const { query: updatedQuery } = this.state;
 
-    let query = updatedQuery || firstQuery;
-    console.log(query);
-
-    fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + accessToken,
-        Accept: "application/json",
-        "Content-Type": "application/json"
+    let newQuery = value;
+    const request = new Request(
+      `https://api.spotify.com/v1/search?q=${newQuery}&type=track`,
+      {
+        headers: new Headers({
+          Authorization: "Bearer " + accessToken,
+          Accept: "application/json"
+        })
       }
-    }).then(response => response.json());
-    //   .then(response => {
-    //     this.setState({ [music]: response. });
-    //   });
+    );
+
+    fetch(request)
+      .then(res => {
+        if (res.statusText === "Unauthorized") {
+          window.location.href = "./";
+        }
+        return res.json();
+      })
+      .then(res => {
+        res.items = res.tracks.items.map(item => {
+          return {
+            track: item
+          };
+        });
+      });
   };
 
   handleChange = e => {
     e.preventDefault();
-
-    this.setState({ query: e.target.value });
-    this.handleMusicSearch();
+    let value = e.target.value;
+    this.setState({ query: value });
+    this.handleMusicSearch(value);
   };
 
   render() {

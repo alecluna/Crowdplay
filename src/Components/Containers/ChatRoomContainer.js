@@ -80,7 +80,7 @@ export default class ChatRoomContainer extends Component {
           </Grid>
           <Grid item sm style={{ margin: "10px" }}>
             <Paper elevation={3} style={{ padding: "10px" }}>
-              <PlaylistSearch accessToken={accessToken} />
+              <PlaylistSearch accessToken={accessToken} userID={userID} />
             </Paper>
           </Grid>
         </Grid>
