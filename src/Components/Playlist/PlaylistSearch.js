@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { TextField } from "@material-ui/core";
 import { Button } from "@material-ui/core";
-import uniqBy from "lodash/uniqBy";
 
 export default class PlaylistSearch extends Component {
   constructor(props) {
