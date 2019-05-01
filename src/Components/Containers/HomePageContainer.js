@@ -42,7 +42,14 @@ const HomePageContainer = () => (
       >
         CrowdPlay for&nbsp;
       </Typography>
-      <img src={SpotifyLogo} style={{ height: "55px" }} alt="Spotify Logo" />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center"
+        }}
+      >
+        <img src={SpotifyLogo} style={{ height: "55px" }} alt="Spotify Logo" />
+      </div>
       {/* </div>
         )}
       </Spring> */}
