@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { TextField } from "@material-ui/core";
-import { Button } from "@material-ui/core";
+import { TextField, Typography } from "@material-ui/core";
 
 export default class PlaylistSearch extends Component {
   constructor(props) {
