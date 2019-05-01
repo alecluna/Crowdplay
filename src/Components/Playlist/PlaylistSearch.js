@@ -1,21 +1,23 @@
 import React, { Component } from "react";
-import { TextField } from "@material-ui/core";
-import { Button } from "@material-ui/core";
-import uniqBy from "lodash/uniqBy";
+import { TextField, Typography } from "@material-ui/core";
 
 export default class PlaylistSearch extends Component {
   constructor(props) {
     super(props);
-    this.state = { query: "", music: [] };
+    this.state = {
+      query: "",
+      searchMusic: [],
+      testState: ""
+    };
     this.handleChange = this.handleChange.bind(this);
+    this.handleMusicSearch = this.handleMusicSearch.bind(this);
   }
 
-  handleMusicSearch = value => {
+  handleMusicSearch = newQuery => {
     const { accessToken } = this.props;
 
-    let newQuery = value;
     const request = new Request(
-      `https://api.spotify.com/v1/search?q=${newQuery}&type=track`,
+      `https://api.spotify.com/v1/search?q=${newQuery}&type=track&limit=5`,
       {
         headers: new Headers({
           Authorization: "Bearer " + accessToken,
@@ -32,22 +34,47 @@ export default class PlaylistSearch extends Component {
         return res.json();
       })
       .then(res => {
-        res.items = res.tracks.items.map(item => {
-          return {
-            track: item
-          };
-        });
-      });
+        if (res.tracks !== null)
+          return res.tracks.items.map(item => {
+            return {
+              songName: item.name,
+              artist: item.artists[0].name,
+              imageLink: item.album.images[0].url
+            };
+          });
+        else {
+          return [];
+        }
+      })
+      .then(searchMusic => this.setState({ searchMusic }));
   };
 
   handleChange = e => {
     e.preventDefault();
     let value = e.target.value;
-    this.setState({ query: value });
-    this.handleMusicSearch(value);
+    if (value !== "" && value !== undefined) this.handleMusicSearch(value);
+  };
+
+  debounce = (a, b, c) => {
+    var d, e;
+    return function() {
+      function h() {
+        (d = null), c || (e = a.apply(f, g));
+      }
+      var f = this,
+        g = arguments;
+      return (
+        clearTimeout(d),
+        (d = setTimeout(h, b)),
+        c && !d && (e = a.apply(f, g)),
+        e
+      );
+    };
   };
 
   render() {
+    const { searchMusic } = this.state;
+    console.log(searchMusic);
     return (
       <div>
         <React.Fragment>
@@ -56,6 +83,13 @@ export default class PlaylistSearch extends Component {
             placeholder="Playlist"
             onChange={this.handleChange}
           />
+          {searchMusic.map((item, index) => {
+            return (
+              <div key={index}>
+                <Typography> {item.songName} </Typography>
+              </div>
+            );
+          })}
         </React.Fragment>
       </div>
     );
