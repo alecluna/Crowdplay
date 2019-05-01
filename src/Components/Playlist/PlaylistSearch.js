@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { TextField, Typography } from "@material-ui/core";
+import { TextField, List, ListItem, Typography } from "@material-ui/core";
+import { debounce } from "lodash";
 
 export default class PlaylistSearch extends Component {
   constructor(props) {
@@ -49,27 +50,24 @@ export default class PlaylistSearch extends Component {
       .then(searchMusic => this.setState({ searchMusic }));
   };
 
+  //closure for delaying synthetic events in React
+  debounceEvent = (...args) => {
+    this.debouncedEvent = debounce(...args);
+    return e => {
+      e.persist();
+      return this.debouncedEvent(e);
+    };
+  };
+
+  //unmount the event
+  componentWillUnmount = () => {
+    this.debounceEvent.cancel();
+  };
+
   handleChange = e => {
     e.preventDefault();
     let value = e.target.value;
     if (value !== "" && value !== undefined) this.handleMusicSearch(value);
-  };
-
-  debounce = (a, b, c) => {
-    var d, e;
-    return function() {
-      function h() {
-        (d = null), c || (e = a.apply(f, g));
-      }
-      var f = this,
-        g = arguments;
-      return (
-        clearTimeout(d),
-        (d = setTimeout(h, b)),
-        c && !d && (e = a.apply(f, g)),
-        e
-      );
-    };
   };
 
   render() {
@@ -81,12 +79,16 @@ export default class PlaylistSearch extends Component {
           <TextField
             style={{ width: "100%" }}
             placeholder="Playlist"
-            onChange={this.handleChange}
+            onChange={this.debounceEvent(this.handleChange, 500)}
           />
           {searchMusic.map((item, index) => {
             return (
               <div key={index}>
-                <Typography> {item.songName} </Typography>
+                <List>
+                  <ListItem button>
+                    <Typography>{item.songName}</Typography>
+                  </ListItem>
+                </List>
               </div>
             );
           })}
