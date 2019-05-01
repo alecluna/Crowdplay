@@ -8,10 +8,11 @@ export default class PlaylistSearch extends Component {
     this.state = {
       query: "",
       searchMusic: [],
-      testState: ""
+      pickedMusic: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleMusicSearch = this.handleMusicSearch.bind(this);
+    this.handleMusicPick = this.handleMusicPick.bind(this);
   }
 
   handleMusicSearch = newQuery => {
@@ -40,7 +41,7 @@ export default class PlaylistSearch extends Component {
             return {
               songName: item.name,
               artist: item.artists[0].name,
-              imageLink: item.album.images[0].url
+              imageLink: item.album.images[2].url
             };
           });
         else {
@@ -61,13 +62,19 @@ export default class PlaylistSearch extends Component {
 
   //unmount the event
   componentWillUnmount = () => {
-    this.debounceEvent.cancel();
+    this.debouncedEvent.cancel();
   };
 
   handleChange = e => {
     e.preventDefault();
     let value = e.target.value;
-    if (value !== "" && value !== undefined) this.handleMusicSearch(value);
+    value === "" || value === undefined
+      ? this.setState({ searchMusic: [] })
+      : this.handleMusicSearch(value);
+  };
+
+  handleMusicPick = songIndex => {
+    console.log(this.state.searchMusic[songIndex]);
   };
 
   render() {
@@ -85,8 +92,21 @@ export default class PlaylistSearch extends Component {
             return (
               <div key={index}>
                 <List>
-                  <ListItem button>
-                    <Typography>{item.songName}</Typography>
+                  <ListItem button onClick={() => this.handleMusicPick(index)}>
+                    <img
+                      src={item.imageLink}
+                      alt="spotify art"
+                      style={{
+                        width: "5rem",
+                        height: "5rem",
+                        padding: "4px",
+                        borderRadius: "10px",
+                        marginRight: "5px"
+                      }}
+                    />
+                    <Typography fontWeight="fontWeightMedium" fontSize={18}>
+                      <strong>{item.songName}</strong> - {item.artist}
+                    </Typography>
                   </ListItem>
                 </List>
               </div>
