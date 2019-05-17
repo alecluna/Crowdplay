@@ -34,7 +34,7 @@ const styles = {
     backgroundColor: "white"
   },
   listMessageStyleBlue: {
-    backgroundColor: "#0076FF",
+    backgroundColor: "white",
     color: "white",
     padding: "8px 12px",
     marginBottom: "8px",

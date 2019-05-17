@@ -15,11 +15,6 @@ const Routes = () => {
       <Route exact path="/home" component={Home} />
       <Route
         exact
-        path="/playlists"
-        render={props => <PlaylistbuildContainer {...props} />}
-      />
-      <Route
-        exact
         path="/joinusers"
         render={props => <JoinUsers {...props} />}
       />

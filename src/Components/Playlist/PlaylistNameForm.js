@@ -8,7 +8,7 @@ import Link from "../../../node_modules/react-router-dom/Link";
 
 const styles = {
   background: {
-    backgroundColor: "#191414",
+    backgroundColor: "white",
     height: "100vh",
     display: "flex",
     justifyContent: "center",

@@ -20,7 +20,7 @@ class App extends Component {
       <div className="App">
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+          href="https://fonts.googleapis.com/css?family=Gothic+A1"
         />
         <Routes />
       </div>

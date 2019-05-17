@@ -6,7 +6,7 @@ import LoginAuth from "../../Components/LoginAuth";
 
 const styles = {
   background: {
-    background: "#191414",
+    background: "white",
     height: "100vh",
     display: "flex",
     justifyContent: "center",
@@ -36,7 +36,7 @@ const HomePageContainer = () => (
         style={{
           fontSize: "3em",
           textAlign: "center",
-          color: "white",
+          color: "black",
           fontWeight: "200"
         }}
       >
