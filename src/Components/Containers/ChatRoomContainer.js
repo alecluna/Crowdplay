@@ -21,6 +21,7 @@ import Link from "../../../node_modules/react-router-dom/Link";
 import cplogo from "../../assets/crowdplaylogo.png";
 
 import PlaylistSearch from "../Playlist/PlaylistSearch";
+import PickedSong from "../ChatRoom/PickedSong";
 
 const drawerWidth = 240;
 
@@ -63,17 +64,24 @@ const styles = theme => ({
 
 class ResponsiveDrawer extends React.Component {
   state = {
-    mobileOpen: false
+    mobileOpen: false,
+    currentSong: ""
   };
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
+  addSong = song => {
+    this.setState({ currentSong: song }, () => {
+      console.log("Added: " + this.state.currentSong);
+    });
+  };
+
   render() {
     const { accessToken, userID, name, photoURL } = this.props.location.state;
-    const { match } = this.props;
-    const { classes, theme } = this.props;
+    const { classes, theme, match } = this.props;
+    const { currentSong } = this.state;
 
     const drawer = (
       <div>
@@ -178,7 +186,14 @@ class ResponsiveDrawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar}>
             <div style={{ marginTop: "80px" }}>
-              <PlaylistSearch accessToken={accessToken} userID={userID} />
+              <PlaylistSearch
+                accessToken={accessToken}
+                userID={userID}
+                addSong={this.addSong}
+              />
+              {currentSong ? (
+                <PickedSong pickedSong={currentSong} match={match} />
+              ) : null}
             </div>
           </div>
         </main>

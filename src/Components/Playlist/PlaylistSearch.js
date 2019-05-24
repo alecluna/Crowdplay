@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import { TextField, List, ListItem, Typography } from "@material-ui/core";
 import { debounce } from "lodash";
-import firebase from "firebase";
 
 export default class PlaylistSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
       count: 0,
-      searchMusic: [],
-      pickedMusic: {}
+      searchMusic: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleMusicSearch = this.handleMusicSearch.bind(this);
@@ -37,12 +35,15 @@ export default class PlaylistSearch extends Component {
         return res.json();
       })
       .then(res => {
+        //console.log(res);
+
         if (res.tracks !== null)
           return res.tracks.items.map(item => {
             return {
               songName: item.name,
               artist: item.artists[0].name,
-              imageLink: item.album.images[2].url
+              imageLink: item.album.images[2].url,
+              uri: item.uri
             };
           });
         else {
@@ -75,7 +76,8 @@ export default class PlaylistSearch extends Component {
   };
 
   handleMusicPick = songIndex => {
-    console.log(this.state.searchMusic[songIndex]);
+    let song = this.state.searchMusic[songIndex].uri;
+    this.props.addSong(song);
   };
 
   render() {

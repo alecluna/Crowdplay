@@ -60,7 +60,10 @@ export default class PickedSong extends Component {
   }
 
   componentDidMount() {
-    const { match } = this.props;
+    const { match, pickedSong } = this.props;
+    console.log(match);
+    console.log("Current Picked song:  " + pickedSong);
+
     this.messageFirestoreRef = firebase
       .firestore()
       .collection("rooms")
@@ -134,11 +137,6 @@ export default class PickedSong extends Component {
       }
     });
 
-    return (
-      <div>
-        {mappedMessages}
-        <ChatMessage addMessage={this.handleSubmitNewMessage.bind(this)} />
-      </div>
-    );
+    return <div>{mappedMessages}</div>;
   }
 }
