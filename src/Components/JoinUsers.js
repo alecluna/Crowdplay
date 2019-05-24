@@ -7,8 +7,7 @@ import JoinedRoomsContainer from "../Components/Containers/JoinedRoomsContainer"
 
 const styles = {
   background: {
-    backgroundColor: "white",
-    height: "100vh"
+    backgroundColor: "white"
   },
   centerStyling: {
     display: "flex",
@@ -150,7 +149,7 @@ class JoinUsers extends Component {
             <Typography
               style={{
                 fontWeight: "200",
-                paddingTop: "10%",
+                paddingTop: "5%",
                 paddingBottom: "5%"
               }}
               variant="display2"
@@ -159,9 +158,9 @@ class JoinUsers extends Component {
               My Sessions
             </Typography>
           </div>
-          <div style={styles.centerStyling} />
 
           {this.showIfRoomNotFound()}
+
           <form
             style={{
               display: "flex",
@@ -200,7 +199,7 @@ class JoinUsers extends Component {
           </Typography>
           <div
             style={{
-              height: "275px",
+              height: "400px",
               overflow: "scroll",
               display: "flex",
               justifyContent: "center",

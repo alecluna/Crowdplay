@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { TextField, List, ListItem, Typography } from "@material-ui/core";
 import { debounce } from "lodash";
+import firebase from "firebase";
 
 export default class PlaylistSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: "",
+      count: 0,
       searchMusic: [],
-      pickedMusic: []
+      pickedMusic: {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleMusicSearch = this.handleMusicSearch.bind(this);
@@ -79,7 +80,6 @@ export default class PlaylistSearch extends Component {
 
   render() {
     const { searchMusic } = this.state;
-    console.log(searchMusic);
     return (
       <div>
         <React.Fragment>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ChatMessage from "./ChatMessage";
 import firebase, { firestore } from "firebase";
-import Typography from "../../../node_modules/@material-ui/core/Typography";
+import Typography from "@material-ui/core/Typography";
 // import { Spring } from "react-spring/renderprops";
 
 const styles = {
@@ -51,7 +51,7 @@ const styles = {
   }
 };
 
-export default class Chat extends Component {
+export default class PickedSong extends Component {
   constructor() {
     super();
     this.state = {
