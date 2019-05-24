@@ -7,7 +7,7 @@ import JoinedRoomsContainer from "../Components/Containers/JoinedRoomsContainer"
 
 const styles = {
   background: {
-    backgroundColor: "#191414",
+    backgroundColor: "white",
     height: "100vh"
   },
   centerStyling: {
@@ -117,12 +117,8 @@ class JoinUsers extends Component {
 
   showIfRoomNotFound = () => {
     return this.state.roomNotFound ? (
-      <Typography
-        style={{ textAlign: "center", color: "white" }}
-        color="error"
-        variant="title"
-      >
-        Room Not Found
+      <Typography align="center" color="error" variant="title">
+        Sorry, Room Not Found!
       </Typography>
     ) : null;
   };
@@ -152,13 +148,13 @@ class JoinUsers extends Component {
         <div style={styles.background}>
           <div style={styles.centerStyling}>
             <Typography
-              variant="display2"
               style={{
-                color: "#FFFF",
                 fontWeight: "200",
                 paddingTop: "10%",
                 paddingBottom: "5%"
               }}
+              variant="display2"
+              color="textPrimary"
             >
               My Sessions
             </Typography>
@@ -197,7 +193,8 @@ class JoinUsers extends Component {
           </form>
           <Typography
             align="center"
-            style={{ fontWeight: "200", fontSize: "2em", color: "white" }}
+            variant="h5"
+            style={{ fontWeight: "200", margin: "10px" }}
           >
             Here are your avaliable rooms:
           </Typography>
