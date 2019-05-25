@@ -51,92 +51,35 @@ const styles = {
   }
 };
 
-export default class PickedSong extends Component {
-  constructor() {
-    super();
-    this.state = {
-      messages: {}
-    };
-  }
+const PickedSong = ({ messages, currentSong }) => (
+  <div>
+    <Typography>{currentSong}</Typography>
+  </div>
+);
+//{
+// const mappedMessages = Object.entries(messages).map(([key, value]) => {
+//   const { userID, text } = value;
+//   return (
+//     // <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
+//     //   {props => (
+//     //     <div style={props}>
+//     <li
+//       style={{
+//         listStyleType: "none",
+//         alignSelf: "flex-end"
+//       }}
+//       key={key}
+//     >
+//       <Typography style={styles.listMessageStyleBlue}>
+//         {currentSong}
+//       </Typography>
+//     </li>
+//     //     </div>
+//     //   )}
+//     // </Spring>
+//   );
+// });
+//   return <div>{mappedMessages}</div>;
+// }
 
-  componentDidMount() {
-    const { match, pickedSong } = this.props;
-    console.log(match);
-    console.log("Current Picked song:  " + pickedSong);
-
-    this.messageFirestoreRef = firebase
-      .firestore()
-      .collection("rooms")
-      .doc(match.params.roomId)
-      .collection("messages");
-    this.listenMessages = this.listenMessages.bind(this);
-    this.listenMessages();
-  }
-
-  listenMessages() {
-    this.messageFirestoreRef
-      .orderBy("timestamp", "asc")
-      .onSnapshot(snapshot => {
-        let messages = [];
-        snapshot.docs.forEach(message => {
-          messages.push(message.data());
-        });
-        this.setState({ messages });
-      });
-  }
-
-  handleSubmitNewMessage = () => {
-    const { name, photoURL, userID, pickedSong } = this.props;
-    if (pickedSong && pickedSong.trim()) {
-      let messageInfo = {
-        text: pickedSong,
-        photoURL: photoURL,
-        userID: userID,
-        name: name,
-        timestamp: firestore.Timestamp.now()
-      };
-      this.messageFirestoreRef.add(messageInfo);
-    }
-  };
-
-  render() {
-    const { messages } = this.state;
-    const { userID: propsUserID } = this.props;
-
-    const mappedMessages = Object.entries(messages).map(([key, value]) => {
-      const { text, userID } = value;
-      if (userID === propsUserID) {
-        return (
-          // <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
-          //   {props => (
-          //     <div style={props}>
-          <li
-            style={{
-              listStyleType: "none",
-              alignSelf: "flex-end"
-            }}
-            key={key}
-          >
-            <Typography style={styles.listMessageStyleBlue}>{text}</Typography>
-          </li>
-          //     </div>
-          //   )}
-          // </Spring>
-        );
-      } else {
-        return (
-          <li
-            style={{
-              listStyleType: "none"
-            }}
-            key={key}
-          >
-            <Typography style={styles.listMessageStyleGrey}>{text}</Typography>
-          </li>
-        );
-      }
-    });
-
-    return <div>{mappedMessages}</div>;
-  }
-}
+export default PickedSong;

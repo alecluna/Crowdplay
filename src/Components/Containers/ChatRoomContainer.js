@@ -73,8 +73,8 @@ class ResponsiveDrawer extends React.Component {
 
   componentDidMount = () => {
     const { roomId } = this.props.match.params;
-    const { match, pickedSong } = this.props;
-    console.log(match);
+    const { pickedSong } = this.props;
+    console.log(this.props.match.params.roomId);
     console.log("Current Picked song:  " + pickedSong);
 
     this.messageFirestoreRef = firebase
@@ -86,7 +86,7 @@ class ResponsiveDrawer extends React.Component {
     this.listenMessages();
   };
 
-  listenMessages() {
+  listenMessages = () => {
     this.messageFirestoreRef
       .orderBy("timestamp", "asc")
       .onSnapshot(snapshot => {
@@ -96,35 +96,22 @@ class ResponsiveDrawer extends React.Component {
         });
         this.setState({ messages });
       });
-  }
+  };
 
-  // listenMessages = () => {
-  //   this.messageFirestoreRef
-  //     .orderBy("timestamp", "asc")
-  //     .onSnapshot(snapshot => {
-  //       let messages = [];
-  //       snapshot.docs.forEach(message => {
-  //         messages.push(message.data());
-  //       });
-  //       this.setState({ messages });
-  //     });
-  // };
+  handleSubmitNewMessage = song => {
+    const { name, photoURL, userID } = this.props.location.state;
 
-  // handleSubmitNewMessage = () => {
-  //   const { name, photoURL, userID } = this.props;
-  //   const { currentSong } = this.state;
-
-  //   if (currentSong && currentSong.trim()) {
-  //     let messageInfo = {
-  //       text: currentSong,
-  //       photoURL: photoURL,
-  //       userID: userID,
-  //       name: name,
-  //       timestamp: firestore.Timestamp.now()
-  //     };
-  //     this.messageFirestoreRef.add(messageInfo);
-  //   }
-  // };
+    if (song && song.trim()) {
+      let messageInfo = {
+        text: song,
+        photoURL: photoURL,
+        userID: userID,
+        name: name,
+        timestamp: firestore.Timestamp.now()
+      };
+      this.messageFirestoreRef.add(messageInfo);
+    }
+  };
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -134,13 +121,15 @@ class ResponsiveDrawer extends React.Component {
     this.setState({ currentSong: song }, () => {
       console.log("Added: " + this.state.currentSong);
     });
+    console.log("firing new handle submit...");
+    this.handleSubmitNewMessage(song);
   };
 
   render() {
     const { accessToken, userID, name, photoURL } = this.props.location.state;
     const { classes, theme, match } = this.props;
-    const { currentSong } = this.state;
-    console.log(match);
+    const { currentSong, messages } = this.state;
+    console.log(messages);
 
     const drawer = (
       <div>
@@ -251,15 +240,7 @@ class ResponsiveDrawer extends React.Component {
                 userID={userID}
                 addSong={this.addSong}
               />
-              {currentSong ? (
-                <PickedSong
-                  name={name}
-                  photoURL={photoURL}
-                  pickedSong={currentSong}
-                  match={match}
-                  listenMessages={this.listenMessages}
-                />
-              ) : null}
+              <PickedSong currentSong={currentSong} messages={messages} />
             </div>
           </div>
         </main>
