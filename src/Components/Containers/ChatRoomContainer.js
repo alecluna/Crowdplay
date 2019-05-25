@@ -22,6 +22,7 @@ import cplogo from "../../assets/crowdplaylogo.png";
 
 import PlaylistSearch from "../Playlist/PlaylistSearch";
 import PickedSong from "../ChatRoom/PickedSong";
+import firebase, { firestore } from "firebase";
 
 const drawerWidth = 240;
 
@@ -37,6 +38,7 @@ const styles = theme => ({
   },
   appBar: {
     marginLeft: drawerWidth,
+    backgroundColor: "white",
     [theme.breakpoints.up("sm")]: {
       width: `calc(100% - ${drawerWidth}px)`
     }
@@ -65,8 +67,64 @@ const styles = theme => ({
 class ResponsiveDrawer extends React.Component {
   state = {
     mobileOpen: false,
-    currentSong: ""
+    currentSong: "",
+    messages: {}
   };
+
+  componentDidMount = () => {
+    const { roomId } = this.props.match.params;
+    const { match, pickedSong } = this.props;
+    console.log(match);
+    console.log("Current Picked song:  " + pickedSong);
+
+    this.messageFirestoreRef = firebase
+      .firestore()
+      .collection("rooms")
+      .doc(roomId)
+      .collection("messages");
+    this.listenMessages = this.listenMessages.bind(this);
+    this.listenMessages();
+  };
+
+  listenMessages() {
+    this.messageFirestoreRef
+      .orderBy("timestamp", "asc")
+      .onSnapshot(snapshot => {
+        let messages = [];
+        snapshot.docs.forEach(message => {
+          messages.push(message.data());
+        });
+        this.setState({ messages });
+      });
+  }
+
+  // listenMessages = () => {
+  //   this.messageFirestoreRef
+  //     .orderBy("timestamp", "asc")
+  //     .onSnapshot(snapshot => {
+  //       let messages = [];
+  //       snapshot.docs.forEach(message => {
+  //         messages.push(message.data());
+  //       });
+  //       this.setState({ messages });
+  //     });
+  // };
+
+  // handleSubmitNewMessage = () => {
+  //   const { name, photoURL, userID } = this.props;
+  //   const { currentSong } = this.state;
+
+  //   if (currentSong && currentSong.trim()) {
+  //     let messageInfo = {
+  //       text: currentSong,
+  //       photoURL: photoURL,
+  //       userID: userID,
+  //       name: name,
+  //       timestamp: firestore.Timestamp.now()
+  //     };
+  //     this.messageFirestoreRef.add(messageInfo);
+  //   }
+  // };
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -82,6 +140,7 @@ class ResponsiveDrawer extends React.Component {
     const { accessToken, userID, name, photoURL } = this.props.location.state;
     const { classes, theme, match } = this.props;
     const { currentSong } = this.state;
+    console.log(match);
 
     const drawer = (
       <div>
@@ -94,6 +153,7 @@ class ResponsiveDrawer extends React.Component {
           Joined
         </Typography>
         <Divider />
+        {/* Refactor as own component */}
         <List>
           {["Alec Luna", "Dummy Account", "Josh", "whereisalec"].map(
             (text, index) => (
@@ -114,6 +174,7 @@ class ResponsiveDrawer extends React.Component {
           Your Songs
         </Typography>
         <Divider />
+        {/* Refactor as own component */}
         <List>
           {["Replay", "Passionfruit", "Dang"].map((text, index) => (
             <ListItem button key={index}>
@@ -130,7 +191,7 @@ class ResponsiveDrawer extends React.Component {
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <IconButton
-              color="inherit"
+              color="default"
               aria-label="Open drawer"
               onClick={this.handleDrawerToggle}
               className={classes.menuButton}
@@ -149,14 +210,13 @@ class ResponsiveDrawer extends React.Component {
                   alt="CrowdPlay"
                 />
               </Link>
-              <Typography variant="h6" color="inherit">
-                Crowdplay
+              <Typography variant="h6" color="default">
+                {this.props.match.params.roomId}
               </Typography>
             </Toolbar>
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
             <Drawer
               container={this.props.container}
@@ -192,7 +252,13 @@ class ResponsiveDrawer extends React.Component {
                 addSong={this.addSong}
               />
               {currentSong ? (
-                <PickedSong pickedSong={currentSong} match={match} />
+                <PickedSong
+                  name={name}
+                  photoURL={photoURL}
+                  pickedSong={currentSong}
+                  match={match}
+                  listenMessages={this.listenMessages}
+                />
               ) : null}
             </div>
           </div>

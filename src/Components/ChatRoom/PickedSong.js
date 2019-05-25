@@ -85,11 +85,11 @@ export default class PickedSong extends Component {
       });
   }
 
-  handleSubmitNewMessage(messageText) {
-    const { name, photoURL, userID } = this.props;
-    if (messageText && messageText.trim()) {
+  handleSubmitNewMessage = () => {
+    const { name, photoURL, userID, pickedSong } = this.props;
+    if (pickedSong && pickedSong.trim()) {
       let messageInfo = {
-        text: messageText,
+        text: pickedSong,
         photoURL: photoURL,
         userID: userID,
         name: name,
@@ -97,7 +97,7 @@ export default class PickedSong extends Component {
       };
       this.messageFirestoreRef.add(messageInfo);
     }
-  }
+  };
 
   render() {
     const { messages } = this.state;

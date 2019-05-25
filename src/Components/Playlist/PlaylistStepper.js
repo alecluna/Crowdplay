@@ -93,6 +93,7 @@ export default class PlaylistStepper extends React.Component {
               roomName: roomName,
               createdAt: firestore.Timestamp.now()
             });
+
           this.props.history.push({
             pathname: `/room/${roomName}`,
             state: {

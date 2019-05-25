@@ -84,37 +84,35 @@ export default class PlaylistSearch extends Component {
     const { searchMusic } = this.state;
     return (
       <div>
-        <React.Fragment>
-          <TextField
-            style={{ width: "100%" }}
-            placeholder="Playlist"
-            onChange={this.debounceEvent(this.handleChange, 500)}
-          />
-          {searchMusic.map((item, index) => {
-            return (
-              <div key={index}>
-                <List>
-                  <ListItem button onClick={() => this.handleMusicPick(index)}>
-                    <img
-                      src={item.imageLink}
-                      alt="spotify art"
-                      style={{
-                        width: "5rem",
-                        height: "5rem",
-                        padding: "4px",
-                        borderRadius: "10px",
-                        marginRight: "5px"
-                      }}
-                    />
-                    <Typography fontWeight="fontWeightMedium" fontSize={18}>
-                      <strong>{item.songName}</strong> - {item.artist}
-                    </Typography>
-                  </ListItem>
-                </List>
-              </div>
-            );
-          })}
-        </React.Fragment>
+        <TextField
+          style={{ width: "100%" }}
+          placeholder="Add to Playlist"
+          onChange={this.debounceEvent(this.handleChange, 500)}
+        />
+        {searchMusic.map((item, index) => {
+          return (
+            <React.Fragment key={index}>
+              <List>
+                <ListItem button onClick={() => this.handleMusicPick(index)}>
+                  <img
+                    src={item.imageLink}
+                    alt="spotify art"
+                    style={{
+                      width: "5rem",
+                      height: "5rem",
+                      padding: "4px",
+                      borderRadius: "10px",
+                      marginRight: "5px"
+                    }}
+                  />
+                  <Typography fontWeight="fontWeightMedium" fontSize={18}>
+                    <strong>{item.songName}</strong> - {item.artist}
+                  </Typography>
+                </ListItem>
+              </List>
+            </React.Fragment>
+          );
+        })}
       </div>
     );
   }
