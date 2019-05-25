@@ -21,7 +21,7 @@ import Link from "../../../node_modules/react-router-dom/Link";
 import cplogo from "../../assets/crowdplaylogo.png";
 
 import PlaylistSearch from "../Playlist/PlaylistSearch";
-import PickedSong from "../ChatRoom/PickedSong";
+import RenderPickedMusic from "../ChatRoom/RenderPickedMusic";
 import firebase, { firestore } from "firebase";
 
 const drawerWidth = 240;
@@ -73,9 +73,6 @@ class ResponsiveDrawer extends React.Component {
 
   componentDidMount = () => {
     const { roomId } = this.props.match.params;
-    const { pickedSong } = this.props;
-    console.log(this.props.match.params.roomId);
-    console.log("Current Picked song:  " + pickedSong);
 
     this.messageFirestoreRef = firebase
       .firestore()
@@ -88,7 +85,7 @@ class ResponsiveDrawer extends React.Component {
 
   listenMessages = () => {
     this.messageFirestoreRef
-      .orderBy("timestamp", "asc")
+      .orderBy("timestamp", "desc")
       .onSnapshot(snapshot => {
         let messages = [];
         snapshot.docs.forEach(message => {
@@ -118,16 +115,13 @@ class ResponsiveDrawer extends React.Component {
   };
 
   addSong = song => {
-    this.setState({ currentSong: song }, () => {
-      console.log("Added: " + this.state.currentSong);
-    });
-    console.log("firing new handle submit...");
+    this.setState({ currentSong: song });
     this.handleSubmitNewMessage(song);
   };
 
   render() {
-    const { accessToken, userID, name, photoURL } = this.props.location.state;
-    const { classes, theme, match } = this.props;
+    const { accessToken, userID } = this.props.location.state;
+    const { classes, theme } = this.props;
     const { currentSong, messages } = this.state;
     console.log(messages);
 
@@ -240,7 +234,12 @@ class ResponsiveDrawer extends React.Component {
                 userID={userID}
                 addSong={this.addSong}
               />
-              <PickedSong currentSong={currentSong} messages={messages} />
+              <RenderPickedMusic
+                classes={classes}
+                theme={theme}
+                currentSong={currentSong}
+                messages={messages}
+              />
             </div>
           </div>
         </main>
