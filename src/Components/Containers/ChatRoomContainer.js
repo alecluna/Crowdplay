@@ -24,7 +24,7 @@ import PlaylistSearch from "../Playlist/PlaylistSearch";
 import RenderPickedMusic from "../ChatRoom/RenderPickedMusic";
 import firebase, { firestore } from "firebase";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const styles = theme => ({
   root: {
@@ -159,11 +159,15 @@ class ResponsiveDrawer extends React.Component {
         <Divider />
         {/* Refactor as own component */}
         <List>
-          {["Replay", "Passionfruit", "Dang"].map((text, index) => (
-            <ListItem button key={index}>
-              <Typography align="center"> {text}</Typography>
-            </ListItem>
-          ))}
+          {Object.entries(messages).map(([key, value]) => {
+            const { text } = value;
+
+            return (
+              <ListItem button key={key}>
+                <Typography align="center"> {text}</Typography>
+              </ListItem>
+            );
+          })}
         </List>
       </div>
     );

@@ -85,7 +85,7 @@ export default class PlaylistSearch extends Component {
     return (
       <div>
         <TextField
-          style={{ width: "100%" }}
+          style={{ width: "100%", marginBottom: "10px" }}
           placeholder="Add to Playlist"
           onChange={this.debounceEvent(this.handleChange, 500)}
         />

@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Typography } from "@material-ui/core";
+import { Avatar, Typography, List, ListItem, Paper } from "@material-ui/core";
 // import { Spring } from "react-spring/renderprops";
 
 const styles = {
@@ -17,8 +17,9 @@ const styles = {
     backgroundColor: "white",
     padding: "8px 12px",
     marginBottom: "8px",
-    borderRadius: "16px",
-    marginRight: "8px"
+    borderRadius: "10px",
+    marginRight: "8px",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.23)"
   }
 };
 
@@ -30,18 +31,16 @@ const RenderPickedMusic = ({ messages, classes }) => {
       // <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
       //   {props => (
       //     <div style={props}>
-      <li
-        style={{
-          listStyleType: "none",
-          alignSelf: "flex-end"
-        }}
-        key={key}
-      >
-        <Avatar className={classes.avatar}>{name.charAt(0)}</Avatar>
-        <Typography style={styles.listMessageStyleBlue}>
-          {name} added the song: {text}
-        </Typography>
-      </li>
+      <List key={key}>
+        <ListItem>
+          <Paper style={{ borderRadius: "20px" }}>
+            <Avatar className={classes.avatar}>{name.charAt(0)}</Avatar>
+            <Typography>
+              {name} added the song: {text}
+            </Typography>
+          </Paper>
+        </ListItem>
+      </List>
       //     </div>
       //   )}
       // </Spring>
