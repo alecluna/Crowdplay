@@ -41,8 +41,6 @@ export default class PlaylistSearch extends Component {
         return res.json();
       })
       .then(res => {
-        //console.log(res);
-
         if (res.tracks !== null)
           return res.tracks.items.map(item => {
             return {
@@ -82,8 +80,12 @@ export default class PlaylistSearch extends Component {
   };
 
   handleMusicPick = songIndex => {
-    let song = this.state.searchMusic[songIndex].uri;
-    this.props.addSong(song);
+    let songURI = this.state.searchMusic[songIndex].uri;
+    let songImage = this.state.searchMusic[songIndex].imageLink;
+    let artist = this.state.searchMusic[songIndex].artist;
+    let songName = this.state.searchMusic[songIndex].songName;
+
+    this.props.addSong(songURI, songImage, artist, songName);
     this.setState({ searchMusic: [] });
   };
 

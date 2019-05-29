@@ -55,7 +55,8 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: "5px"
+    padding: "5px",
+    backgroundColor: "white"
   },
   avatar: {
     margin: 10,
@@ -67,8 +68,11 @@ const styles = theme => ({
 class ResponsiveDrawer extends React.Component {
   state = {
     mobileOpen: false,
-    currentSong: "",
-    messages: {}
+    messages: {},
+    songURI: "",
+    songImage: "",
+    artist: "",
+    songName: ""
   };
 
   componentDidMount = () => {
@@ -95,13 +99,14 @@ class ResponsiveDrawer extends React.Component {
       });
   };
 
-  handleSubmitNewMessage = song => {
-    const { name, photoURL, userID } = this.props.location.state;
+  handleSubmitNewMessage = (songName, songImage, artist) => {
+    const { name, userID } = this.props.location.state;
 
-    if (song && song.trim()) {
+    if (songName && songName.trim()) {
       let messageInfo = {
-        text: song,
-        photoURL: photoURL,
+        text: songName,
+        photoURL: songImage,
+        songArtist: artist,
         userID: userID,
         name: name,
         timestamp: firestore.Timestamp.now()
@@ -114,16 +119,28 @@ class ResponsiveDrawer extends React.Component {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
-  addSong = song => {
-    this.setState({ currentSong: song });
-    this.handleSubmitNewMessage(song);
+  addSong = (songURI, songImage, artist, songName) => {
+    this.setState(
+      {
+        songURI: songURI,
+        songImage: songImage,
+        artist: artist,
+        songName: songName
+      },
+      () =>
+        this.handleSubmitNewMessage(
+          this.state.songName,
+          this.state.songImage,
+          this.state.artist
+        )
+    );
   };
 
   render() {
     const { accessToken, userID } = this.props.location.state;
     const { classes, theme } = this.props;
-    const { currentSong, messages } = this.state;
-    console.log(messages);
+    const { messages, songURI, songImage, artist, songName } = this.state;
+    const music = { songURI, songImage, artist, songName };
 
     const drawer = (
       <div>
@@ -241,7 +258,7 @@ class ResponsiveDrawer extends React.Component {
               <RenderPickedMusic
                 classes={classes}
                 theme={theme}
-                currentSong={currentSong}
+                currentSong={music}
                 messages={messages}
               />
             </div>

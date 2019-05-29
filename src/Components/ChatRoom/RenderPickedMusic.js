@@ -3,9 +3,8 @@ import { Avatar, Typography, List, ListItem, Paper } from "@material-ui/core";
 import { Spring } from "react-spring/renderprops";
 
 const RenderPickedMusic = ({ messages, classes }) => {
-  console.log(messages);
   const mappedMessages = Object.entries(messages).map(([key, value]) => {
-    const { text, name } = value;
+    const { text, name, photoURL, songArtist } = value;
     return (
       <List key={key} style={{ position: "relative", zIndex: "0" }}>
         <Spring from={{ opacity: 0 }} to={{ opacity: 1 }}>
@@ -13,10 +12,31 @@ const RenderPickedMusic = ({ messages, classes }) => {
             <div style={props}>
               <ListItem>
                 <Avatar className={classes.avatar}>{name.charAt(0)}</Avatar>
-                <Paper style={{ borderRadius: "10px", padding: "10px" }}>
-                  <Typography>
-                    {name} added the song: {text}
-                  </Typography>
+                <Paper
+                  style={{
+                    borderRadius: "0 10px 10px 10px",
+                    padding: "10px"
+                  }}
+                >
+                  <p
+                    style={{
+                      fontWeight: "300",
+                      fontFamily: "Khula",
+                      color: "black"
+                    }}
+                  >
+                    {name} added:
+                  </p>
+                  <div style={{ display: "flex", justifyContent: "row" }}>
+                    <img
+                      src={photoURL}
+                      alt="album art"
+                      style={{ borderRadius: "10px" }}
+                    />
+                    <Typography style={{ fontWeight: "300" }}>
+                      {text} by {songArtist}
+                    </Typography>
+                  </div>
                 </Paper>
               </ListItem>
             </div>
