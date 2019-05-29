@@ -11,7 +11,7 @@ export default function Header() {
       <AppBar
         position="static"
         color="primary"
-        style={{ width: "100%", backgroundColor: "#191414" }}
+        style={{ width: "100%", backgroundColor: "white" }}
       >
         <Toolbar>
           <Link to="/home">
@@ -25,7 +25,7 @@ export default function Header() {
               alt="CrowdPlay"
             />
           </Link>
-          <Typography variant="h6" color="inherit">
+          <Typography variant="h6" color="default">
             Crowdplay
           </Typography>
         </Toolbar>

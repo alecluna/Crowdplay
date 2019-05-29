@@ -1,26 +1,30 @@
 import React from "react";
+import {
+  AppBar,
+  CssBaseline,
+  Divider,
+  Drawer,
+  Hidden,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography,
+  Avatar
+} from "@material-ui/core";
 import PropTypes from "prop-types";
-import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
 import Link from "../../../node_modules/react-router-dom/Link";
 import cplogo from "../../assets/crowdplaylogo.png";
 
 import PlaylistSearch from "../Playlist/PlaylistSearch";
+import RenderPickedMusic from "../ChatRoom/RenderPickedMusic";
+import firebase, { firestore } from "firebase";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const styles = theme => ({
   root: {
@@ -34,6 +38,7 @@ const styles = theme => ({
   },
   appBar: {
     marginLeft: drawerWidth,
+    backgroundColor: "white",
     [theme.breakpoints.up("sm")]: {
       width: `calc(100% - ${drawerWidth}px)`
     }
@@ -50,7 +55,7 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3
+    padding: "5px"
   },
   avatar: {
     margin: 10,
@@ -61,17 +66,64 @@ const styles = theme => ({
 
 class ResponsiveDrawer extends React.Component {
   state = {
-    mobileOpen: false
+    mobileOpen: false,
+    currentSong: "",
+    messages: {}
+  };
+
+  componentDidMount = () => {
+    const { roomId } = this.props.match.params;
+
+    this.messageFirestoreRef = firebase
+      .firestore()
+      .collection("rooms")
+      .doc(roomId)
+      .collection("messages");
+    this.listenMessages = this.listenMessages.bind(this);
+    this.listenMessages();
+  };
+
+  listenMessages = () => {
+    this.messageFirestoreRef
+      .orderBy("timestamp", "desc")
+      .onSnapshot(snapshot => {
+        let messages = [];
+        snapshot.docs.forEach(message => {
+          messages.push(message.data());
+        });
+        this.setState({ messages });
+      });
+  };
+
+  handleSubmitNewMessage = song => {
+    const { name, photoURL, userID } = this.props.location.state;
+
+    if (song && song.trim()) {
+      let messageInfo = {
+        text: song,
+        photoURL: photoURL,
+        userID: userID,
+        name: name,
+        timestamp: firestore.Timestamp.now()
+      };
+      this.messageFirestoreRef.add(messageInfo);
+    }
   };
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
+  addSong = song => {
+    this.setState({ currentSong: song });
+    this.handleSubmitNewMessage(song);
+  };
+
   render() {
-    const { accessToken, userID, name, photoURL } = this.props.location.state;
-    const { match } = this.props;
+    const { accessToken, userID } = this.props.location.state;
     const { classes, theme } = this.props;
+    const { currentSong, messages } = this.state;
+    console.log(messages);
 
     const drawer = (
       <div>
@@ -84,6 +136,7 @@ class ResponsiveDrawer extends React.Component {
           Joined
         </Typography>
         <Divider />
+        {/* Refactor as own component */}
         <List>
           {["Alec Luna", "Dummy Account", "Josh", "whereisalec"].map(
             (text, index) => (
@@ -104,12 +157,17 @@ class ResponsiveDrawer extends React.Component {
           Your Songs
         </Typography>
         <Divider />
+        {/* Refactor as own component */}
         <List>
-          {["Replay", "Passionfruit", "Dang"].map((text, index) => (
-            <ListItem button key={index}>
-              <Typography align="center"> {text}</Typography>
-            </ListItem>
-          ))}
+          {Object.entries(messages).map(([key, value]) => {
+            const { text } = value;
+
+            return (
+              <ListItem button key={key}>
+                <Typography align="center"> {text}</Typography>
+              </ListItem>
+            );
+          })}
         </List>
       </div>
     );
@@ -120,7 +178,7 @@ class ResponsiveDrawer extends React.Component {
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <IconButton
-              color="inherit"
+              color="default"
               aria-label="Open drawer"
               onClick={this.handleDrawerToggle}
               className={classes.menuButton}
@@ -139,14 +197,13 @@ class ResponsiveDrawer extends React.Component {
                   alt="CrowdPlay"
                 />
               </Link>
-              <Typography variant="h6" color="inherit">
-                Crowdplay
+              <Typography variant="h6" color="default">
+                {this.props.match.params.roomId}
               </Typography>
             </Toolbar>
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
             <Drawer
               container={this.props.container}
@@ -176,7 +233,17 @@ class ResponsiveDrawer extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar}>
             <div style={{ marginTop: "80px" }}>
-              <PlaylistSearch accessToken={accessToken} userID={userID} />
+              <PlaylistSearch
+                accessToken={accessToken}
+                userID={userID}
+                addSong={this.addSong}
+              />
+              <RenderPickedMusic
+                classes={classes}
+                theme={theme}
+                currentSong={currentSong}
+                messages={messages}
+              />
             </div>
           </div>
         </main>

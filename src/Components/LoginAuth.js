@@ -82,13 +82,12 @@ class LoginAuth extends Component {
             <Typography
               style={{
                 justifyContent: "center",
-                alignItems: "center",
                 fontWeight: "200",
                 marginTop: "50px",
-                textAlign: "center",
-                color: "white"
+                textAlign: "center"
               }}
               variant="h6"
+              color="default"
             >
               Welcome {name}!
             </Typography>
@@ -163,31 +162,6 @@ class LoginAuth extends Component {
                 >
                   <Typography style={{ color: "white" }}>
                     View your Sessions
-                  </Typography>
-                </Link>
-              </Button>
-              <Button
-                variant="contained"
-                style={{
-                  margin: "10px",
-                  background: "#1db954",
-                  borderRadius: "20px"
-                }}
-              >
-                <Link
-                  style={{ textDecoration: "none" }}
-                  variant="contained"
-                  to={{
-                    pathname: "/playlists",
-                    state: {
-                      name: name,
-                      accessToken: accessToken,
-                      userID: userID
-                    }
-                  }}
-                >
-                  <Typography style={{ color: "white" }}>
-                    View Existing Playlists
                   </Typography>
                 </Link>
               </Button>

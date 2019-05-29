@@ -1,14 +1,19 @@
 import React, { Component } from "react";
-import { TextField, List, ListItem, Typography } from "@material-ui/core";
+import {
+  TextField,
+  List,
+  ListItem,
+  Typography,
+  Paper
+} from "@material-ui/core";
 import { debounce } from "lodash";
 
 export default class PlaylistSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: "",
-      searchMusic: [],
-      pickedMusic: []
+      count: 0,
+      searchMusic: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleMusicSearch = this.handleMusicSearch.bind(this);
@@ -36,12 +41,15 @@ export default class PlaylistSearch extends Component {
         return res.json();
       })
       .then(res => {
+        //console.log(res);
+
         if (res.tracks !== null)
           return res.tracks.items.map(item => {
             return {
               songName: item.name,
               artist: item.artists[0].name,
-              imageLink: item.album.images[2].url
+              imageLink: item.album.images[2].url,
+              uri: item.uri
             };
           });
         else {
@@ -74,45 +82,53 @@ export default class PlaylistSearch extends Component {
   };
 
   handleMusicPick = songIndex => {
-    console.log(this.state.searchMusic[songIndex]);
+    let song = this.state.searchMusic[songIndex].uri;
+    this.props.addSong(song);
   };
 
   render() {
     const { searchMusic } = this.state;
-    console.log(searchMusic);
+    let base = 30;
+    let absouteCounter = 100;
     return (
       <div>
-        <React.Fragment>
-          <TextField
-            style={{ width: "100%" }}
-            placeholder="Playlist"
-            onChange={this.debounceEvent(this.handleChange, 500)}
-          />
-          {searchMusic.map((item, index) => {
-            return (
-              <div key={index}>
-                <List>
-                  <ListItem button onClick={() => this.handleMusicPick(index)}>
-                    <img
-                      src={item.imageLink}
-                      alt="spotify art"
-                      style={{
-                        width: "5rem",
-                        height: "5rem",
-                        padding: "4px",
-                        borderRadius: "10px",
-                        marginRight: "5px"
-                      }}
-                    />
-                    <Typography fontWeight="fontWeightMedium" fontSize={18}>
-                      <strong>{item.songName}</strong> - {item.artist}
-                    </Typography>
-                  </ListItem>
-                </List>
-              </div>
-            );
-          })}
-        </React.Fragment>
+        <TextField
+          style={{ width: "100%", marginBottom: "10px" }}
+          placeholder="Add to Playlist"
+          onChange={this.debounceEvent(this.handleChange, 500)}
+        />
+        {searchMusic.map((item, index) => {
+          return (
+            <Paper
+              key={index}
+              style={{
+                position: "absolute",
+                zIndex: "1",
+                top: `${(base += absouteCounter)}px`,
+                width: "80%"
+              }}
+            >
+              <List>
+                <ListItem button onClick={() => this.handleMusicPick(index)}>
+                  <img
+                    src={item.imageLink}
+                    alt="spotify art"
+                    style={{
+                      width: "5rem",
+                      height: "5rem",
+                      padding: "4px",
+                      borderRadius: "10px",
+                      marginRight: "5px"
+                    }}
+                  />
+                  <Typography fontWeight="fontWeightMedium" fontSize={18}>
+                    <strong>{item.songName}</strong> - {item.artist}
+                  </Typography>
+                </ListItem>
+              </List>
+            </Paper>
+          );
+        })}
       </div>
     );
   }

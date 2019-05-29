@@ -6,7 +6,7 @@ import { TextField, Button } from "@material-ui/core";
 
 const styles = {
   background: {
-    backgroundColor: "black",
+    backgroundColor: "white",
     height: "100vh",
     display: "flex",
     justifyContent: "center",
