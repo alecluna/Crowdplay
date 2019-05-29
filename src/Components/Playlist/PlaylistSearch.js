@@ -84,6 +84,7 @@ export default class PlaylistSearch extends Component {
   handleMusicPick = songIndex => {
     let song = this.state.searchMusic[songIndex].uri;
     this.props.addSong(song);
+    this.setState({ searchMusic: [] });
   };
 
   render() {
