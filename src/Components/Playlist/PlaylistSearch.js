@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { TextField, List, ListItem, Typography } from "@material-ui/core";
+import {
+  TextField,
+  List,
+  ListItem,
+  Typography,
+  Paper
+} from "@material-ui/core";
 import { debounce } from "lodash";
 
 export default class PlaylistSearch extends Component {
@@ -82,6 +88,8 @@ export default class PlaylistSearch extends Component {
 
   render() {
     const { searchMusic } = this.state;
+    let base = 30;
+    let absouteCounter = 100;
     return (
       <div>
         <TextField
@@ -91,7 +99,15 @@ export default class PlaylistSearch extends Component {
         />
         {searchMusic.map((item, index) => {
           return (
-            <React.Fragment key={index}>
+            <Paper
+              key={index}
+              style={{
+                position: "absolute",
+                zIndex: "1",
+                top: `${(base += absouteCounter)}px`,
+                width: "80%"
+              }}
+            >
               <List>
                 <ListItem button onClick={() => this.handleMusicPick(index)}>
                   <img
@@ -110,7 +126,7 @@ export default class PlaylistSearch extends Component {
                   </Typography>
                 </ListItem>
               </List>
-            </React.Fragment>
+            </Paper>
           );
         })}
       </div>
