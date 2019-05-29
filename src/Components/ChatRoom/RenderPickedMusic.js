@@ -20,20 +20,28 @@ const RenderPickedMusic = ({ messages, classes }) => {
                 >
                   <p
                     style={{
-                      fontWeight: "300",
+                      fontWeight: "500",
                       fontFamily: "Khula",
                       color: "black"
                     }}
                   >
                     {name} added:
                   </p>
-                  <div style={{ display: "flex", justifyContent: "row" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "row",
+                      alignItems: "center"
+                    }}
+                  >
                     <img
                       src={photoURL}
                       alt="album art"
                       style={{ borderRadius: "10px" }}
                     />
-                    <Typography style={{ fontWeight: "300" }}>
+                    <Typography
+                      style={{ paddingLeft: "10px", fontWeight: "300" }}
+                    >
                       {text} by {songArtist}
                     </Typography>
                   </div>
