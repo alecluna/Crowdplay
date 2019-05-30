@@ -69,6 +69,8 @@ class ResponsiveDrawer extends React.Component {
   state = {
     mobileOpen: false,
     messages: {},
+    users: {},
+    joinedRoomNames: [],
     songURI: "",
     songImage: "",
     artist: "",
@@ -77,14 +79,25 @@ class ResponsiveDrawer extends React.Component {
 
   componentDidMount = () => {
     const { roomId } = this.props.match.params;
+    const { userID } = this.props.location.state;
 
     this.messageFirestoreRef = firebase
       .firestore()
       .collection("rooms")
       .doc(roomId)
       .collection("messages");
+
     this.listenMessages = this.listenMessages.bind(this);
     this.listenMessages();
+
+    this.usersFirestoreRef = firebase
+      .firestore()
+      .collection("users")
+      .doc(userID)
+      .collection("joinedRooms");
+
+    this.listenUsers = this.listenUsers.bind(this);
+    this.listenUsers();
   };
 
   listenMessages = () => {
@@ -97,6 +110,25 @@ class ResponsiveDrawer extends React.Component {
         });
         this.setState({ messages });
       });
+  };
+
+  listenUsers = () => {
+    //grabbing from parent component when playlist was built
+    const { roomId } = this.props.match.params;
+    const { name } = this.props.location.state;
+
+    //if roomId is the same as the document's roomname, add user
+    this.usersFirestoreRef.orderBy("createdAt", "desc").onSnapshot(snapshot => {
+      let listofNames = [];
+      snapshot.docs.forEach(doc => {
+        if (roomId.trim() === doc.data().roomName.trim()) {
+          listofNames.push(name);
+        }
+      });
+      this.setState({ joinedRoomNames: listofNames }, () =>
+        console.log(this.state.joinedRoomNames)
+      );
+    });
   };
 
   handleSubmitNewMessage = (songName, songImage, artist) => {
@@ -139,7 +171,14 @@ class ResponsiveDrawer extends React.Component {
   render() {
     const { accessToken, userID } = this.props.location.state;
     const { classes, theme } = this.props;
-    const { messages, songURI, songImage, artist, songName } = this.state;
+    const {
+      messages,
+      songURI,
+      songImage,
+      artist,
+      songName,
+      joinedRoomNames
+    } = this.state;
     const music = { songURI, songImage, artist, songName };
 
     const drawer = (
@@ -155,16 +194,14 @@ class ResponsiveDrawer extends React.Component {
         <Divider />
         {/* Refactor as own component */}
         <List>
-          {["Alec Luna", "Dummy Account", "Josh", "whereisalec"].map(
-            (text, index) => (
-              <ListItem button key={index}>
-                <ListItemIcon>
-                  <Avatar className={classes.avatar}>{text.charAt(0)}</Avatar>
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            )
-          )}
+          {joinedRoomNames.map((text, index) => (
+            <ListItem button key={index}>
+              <ListItemIcon>
+                <Avatar className={classes.avatar}>{text.charAt(0)}</Avatar>
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
         </List>
         <Typography
           align="center"
@@ -177,11 +214,13 @@ class ResponsiveDrawer extends React.Component {
         {/* Refactor as own component */}
         <List>
           {Object.entries(messages).map(([key, value]) => {
-            const { text } = value;
+            const { text, songArtist } = value;
 
             return (
               <ListItem button key={key}>
-                <Typography align="center"> {text}</Typography>
+                <Typography align="left">
+                  {text} - {songArtist}
+                </Typography>
               </ListItem>
             );
           })}
