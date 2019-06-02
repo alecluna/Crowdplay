@@ -12,14 +12,15 @@ const styles = {
   centerStyling: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
-    flexWrap: "wrap"
+    flexWrap: "no-wrap",
+    alignItems: "center"
   },
   textFieldStyles: {
-    width: 300,
     marginBottom: "4%",
     backgroundColor: "white",
-    borderRadius: "20px"
+    borderRadius: "20px",
+    marginRight: "5%",
+    marginLeft: "5%"
   }
 };
 
@@ -173,6 +174,8 @@ class JoinUsers extends Component {
             <TextField
               placeholder="Search for a room"
               type="text"
+              align="center"
+              fullWidth
               onChange={this.changeSearchText.bind(this)}
               value={this.state.searchRoomKeyWords}
               style={styles.textFieldStyles}
@@ -200,7 +203,7 @@ class JoinUsers extends Component {
           <div
             style={{
               height: "400px",
-              overflow: "scroll",
+              overflowY: "scroll",
               display: "flex",
               justifyContent: "center",
               flexWrap: "wrap"

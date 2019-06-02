@@ -92,7 +92,7 @@ export default class PlaylistSearch extends Component {
   render() {
     const { searchMusic } = this.state;
     let base = 30;
-    let absouteCounter = 100;
+    let absouteCounter = 115;
     return (
       <div>
         <TextField

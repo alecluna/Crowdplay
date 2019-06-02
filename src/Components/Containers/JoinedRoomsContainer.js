@@ -15,14 +15,18 @@ class JoinedRoomsContainer extends Component {
     return (
       <div>
         <Card
-          style={{ width: "200px", margin: "10px", borderRadius: "5px" }}
+          style={{
+            height: "5rem",
+            width: "30em",
+            margin: "10px",
+            borderRadius: "5px"
+          }}
           key={name}
         >
           <CardContent>
             <Typography
-              variant="body1"
               fontWeight="fontWeightLight"
-              style={{ fontSize: ".9em" }}
+              style={{ fontSize: "1em" }}
             >
               <Link
                 style={{
