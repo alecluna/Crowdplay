@@ -20,7 +20,7 @@ const styles = {
   },
   fontStyles: {
     fontWeight: "200",
-    color: "white"
+    color: "black"
   }
 };
 
@@ -85,17 +85,6 @@ export default class Confirm extends Component {
       }
     } = this.props;
 
-    console.log(this.props);
-    console.log(
-      playlist,
-      privatePlaylist,
-      name,
-      accessToken,
-      userID,
-      roomName,
-      roomDescription,
-      roomExists
-    );
     return (
       <div>
         <Header />

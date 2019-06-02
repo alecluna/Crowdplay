@@ -47,7 +47,8 @@ export default class PlaylistNameForm extends Component {
           <Typography
             align="center"
             variant="display2"
-            style={{ fontWeight: "200", color: "white", margin: "15px" }}
+            color="default"
+            style={{ fontWeight: "200", margin: "15px" }}
           >
             Name Your Playlist:
           </Typography>

@@ -91,15 +91,6 @@ class LoginAuth extends Component {
             >
               Welcome {name}!
             </Typography>
-            <img
-              alt="Spotify Profile"
-              style={{
-                width: "200px",
-                height: "200px",
-                borderRadius: "50%"
-              }}
-              src={photoURL}
-            />
 
             {/* <Spring
               from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}

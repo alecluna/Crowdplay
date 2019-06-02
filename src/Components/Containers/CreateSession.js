@@ -57,11 +57,11 @@ export default class CreateSession extends Component {
               <div style={props}> */}
           <Typography
             style={{
-              color: "white",
               fontWeight: "200",
               textAlign: "center"
             }}
             variant="display2"
+            color="default"
           >
             Host a Session:
           </Typography>
