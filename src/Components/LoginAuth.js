@@ -8,7 +8,6 @@ import firebase from "firebase";
 
 const styles = {
   background: {
-    marginTop: "5%",
     display: "flex",
     justifyContent: "center"
   }
@@ -83,7 +82,6 @@ class LoginAuth extends Component {
               style={{
                 justifyContent: "center",
                 fontWeight: "200",
-                marginTop: "50px",
                 textAlign: "center"
               }}
               variant="h6"

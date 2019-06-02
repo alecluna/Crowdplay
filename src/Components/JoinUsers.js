@@ -168,7 +168,8 @@ class JoinUsers extends Component {
               justifyContent: "center",
               alignItems: "center",
               flexDirection: "column",
-              padding: "5em"
+              paddingLeft: "5em",
+              paddingRight: "5em"
             }}
             onSubmit={this.handleSearchForRoom.bind(this)}
           >

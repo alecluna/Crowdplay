@@ -7,7 +7,7 @@ import LoginAuth from "../../Components/LoginAuth";
 const styles = {
   background: {
     background: "white",
-    height: "100vh",
+    height: "90vh",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
