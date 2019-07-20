@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, Typography, List, ListItem, Paper } from "@material-ui/core";
-// import { Spring } from "react-spring/renderprops";
+//import { Spring } from "react-spring/renderprops";
 
 const RenderPickedMusic = ({ messages, classes }) => {
   const mappedMessages = Object.entries(messages).map(([key, value]) => {

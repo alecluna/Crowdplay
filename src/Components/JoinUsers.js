@@ -4,6 +4,7 @@ import Header from "./Utils/Header";
 import firebase, { firestore } from "firebase";
 import { Button, TextField } from "@material-ui/core";
 import JoinedRoomsContainer from "../Components/Containers/JoinedRoomsContainer";
+import { Spring } from "react-spring/renderprops";
 
 const styles = {
   background: {
@@ -146,19 +147,28 @@ class JoinUsers extends Component {
       <div>
         <Header />
         <div style={styles.background}>
-          <div style={styles.centerStyling}>
-            <Typography
-              style={{
-                fontWeight: "200",
-                paddingTop: "5%",
-                paddingBottom: "5%"
-              }}
-              variant="display2"
-              color="textPrimary"
-            >
-              My Sessions
-            </Typography>
-          </div>
+          <Spring
+            from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
+            to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
+          >
+            {props => (
+              <div style={props}>
+                <div style={styles.centerStyling}>
+                  <Typography
+                    style={{
+                      fontWeight: "200",
+                      paddingTop: "5%",
+                      paddingBottom: "5%"
+                    }}
+                    variant="display2"
+                    color="textPrimary"
+                  >
+                    My Sessions
+                  </Typography>
+                </div>
+              </div>
+            )}
+          </Spring>
 
           {this.showIfRoomNotFound()}
 

@@ -49,7 +49,7 @@ class LoginAuth extends Component {
           window.alert("Try logging in again to refresh your token");
         }
       })
-      .then(data => {
+      .then(() => {
         let firestore = firebase.firestore();
         firebase
           .firestore()
