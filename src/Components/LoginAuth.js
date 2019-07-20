@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import queryString from "query-string";
 import Link from "react-router-dom/Link";
 import firebase from "firebase";
-import axios from "axios";
 // import { Spring } from "react-spring/renderprops";
 
 const styles = {
@@ -17,40 +16,14 @@ const styles = {
 class LoginAuth extends Component {
   constructor() {
     super();
-    this.state = {
-      loggedIn: false,
-      name: "",
-      accessToken: "",
-      userID: "",
-      photoURL: []
-    };
-  }
-
-  getToken() {
-    const GATEWAY_URL =
-      "https://g1cze6si2h.execute-api.us-east-1.amazonaws.com/default/getSpotifyAuth";
-    axios
-      .get(GATEWAY_URL, {
-        headers: {
-          "x-api-key": process.env.REACT_APP_AWS_LAMBDA_KEY
-        }
-      })
-      .then(response => {
-        console.log(response.json());
-        return response.json();
-      })
-      .then(json => {
-        console.log("new token received");
-        this.setState({
-          accessToken: json.done.json.access_token,
-          loggedIn: true
-        });
-      })
-      .catch(error => console.log(error));
+    this.state = { name: "", accessToken: "", userID: "", photoURL: [] };
   }
 
   componentDidMount() {
-    let { accessToken } = this.state;
+    let parsed = queryString.parse(window.location.search);
+    console.log(window.location);
+    let accessToken = parsed.access_token;
+    console.log(parsed);
     if (!accessToken) return;
     fetch("https://api.spotify.com/v1/me", {
       headers: { Authorization: "Bearer " + accessToken }
@@ -100,10 +73,10 @@ class LoginAuth extends Component {
   }
 
   render() {
-    const { loggedIn, name, accessToken, userID, photoURL } = this.state;
+    const { name, accessToken, userID, photoURL } = this.state;
     return (
       <div style={styles.background}>
-        {loggedIn ? (
+        {name ? (
           <div style={{ width: "75%" }}>
             <Typography
               style={{
@@ -199,7 +172,11 @@ class LoginAuth extends Component {
               background: "#1db954",
               borderRadius: "20px"
             }}
-            onClick={() => this.getToken()}
+            onClick={() => {
+              window.location = window.location.href.includes("localhost")
+                ? "http://localhost:8888/login"
+                : "https://crowdplay-music-backend.herokuapp.com/login"; //prod URL here
+            }}
           >
             <Typography
               style={{
