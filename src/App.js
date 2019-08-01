@@ -7,9 +7,9 @@ require("dotenv");
 
 var firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
-  authDomain: "spotify-crowdplay.firebaseapp.com",
-  databaseURL: "https://spotify-crowdplay.firebaseio.com",
-  projectId: "spotify-crowdplay",
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASEURL,
+  projectId: process.env.REACT_APP_PROJECTID,
   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_MESSAGE_ID
 };
