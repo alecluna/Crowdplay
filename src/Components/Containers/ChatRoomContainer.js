@@ -74,13 +74,18 @@ class ResponsiveDrawer extends React.Component {
     songURI: "",
     songImage: "",
     artist: "",
-    songName: ""
+    songName: "",
+    spotifyPlaylistID: ""
   };
 
   componentDidMount = () => {
     const { roomId } = this.props.match.params;
-    const { userID } = this.props.location.state;
+    const { userID, spotifyPlaylistID } = this.props.location.state;
 
+    this.setState = ({ spotifyPlaylistID: spotifyPlaylistID },
+    () => {
+      console.log(this.state.spotifyPlaylistID);
+    });
     this.messageFirestoreRef = firebase
       .firestore()
       .collection("rooms")
@@ -159,13 +164,19 @@ class ResponsiveDrawer extends React.Component {
         artist: artist,
         songName: songName
       },
-      () =>
+      () => {
         this.handleSubmitNewMessage(
           this.state.songName,
           this.state.songImage,
           this.state.artist
-        )
+        );
+        this.addtoSpotify();
+      }
     );
+  };
+
+  addtoSpotify = () => {
+    console.log("add to spotify  : " + this.state.songName);
   };
 
   render() {

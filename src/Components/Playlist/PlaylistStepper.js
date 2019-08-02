@@ -16,7 +16,8 @@ export default class PlaylistStepper extends React.Component {
       roomName: "",
       roomDescription: "",
       roomExists: false,
-      photoURL: ""
+      photoURL: "",
+      spotifyPlaylistID: ""
     };
   }
 
@@ -33,8 +34,11 @@ export default class PlaylistStepper extends React.Component {
         public: "true"
       })
     })
-      .then(response => {
-        response.json();
+      .then(response => response.json())
+      .then(data => {
+        let playlistIDFromPost = data.id;
+        console.log(playlistIDFromPost);
+        this.setState({ spotifyPlaylistID: playlistIDFromPost }); //fix this
       })
       .catch(console.log(console.error()));
   };
@@ -52,6 +56,9 @@ export default class PlaylistStepper extends React.Component {
   ) => {
     console.log("Within session firebase function: \n");
 
+    let { spotifyPlaylistID } = this.state;
+
+    console.log("playlist ID: " + spotifyPlaylistID);
     console.log(
       playlist,
       privatePlaylist,
@@ -82,7 +89,8 @@ export default class PlaylistStepper extends React.Component {
               description: roomDescription,
               createdAt: firestore.Timestamp.now(),
               createdBy: name,
-              id: Math.floor(Math.random() * 10000000) + 1
+              id: Math.floor(Math.random() * 10000000) + 1,
+              spotifyPlaylistID: spotifyPlaylistID
             });
           //add room to user's joinedRoomsList
           firestoreRef
@@ -100,7 +108,8 @@ export default class PlaylistStepper extends React.Component {
               name: name,
               accessToken: accessToken,
               userID: userID,
-              photoURL: photoURL
+              photoURL: photoURL,
+              spotifyPlaylistID: spotifyPlaylistID
             }
           });
         }
@@ -130,7 +139,8 @@ export default class PlaylistStepper extends React.Component {
       privatePlaylist,
       roomName,
       roomDescription,
-      roomExists
+      roomExists,
+      spotifyPlaylistID
     } = this.state;
 
     //prop drilling
@@ -143,7 +153,8 @@ export default class PlaylistStepper extends React.Component {
       photoURL,
       roomName,
       roomDescription,
-      roomExists
+      roomExists,
+      spotifyPlaylistID
     };
 
     switch (step) {
