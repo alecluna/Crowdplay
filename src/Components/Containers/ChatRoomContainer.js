@@ -82,10 +82,9 @@ class ResponsiveDrawer extends React.Component {
     const { roomId } = this.props.match.params;
     const { userID, spotifyPlaylistID } = this.props.location.state;
 
-    this.setState = ({ spotifyPlaylistID: spotifyPlaylistID },
-    () => {
-      console.log(this.state.spotifyPlaylistID);
-    });
+    console.log("playlist ID in chat room container" + spotifyPlaylistID);
+    this.setState({ spotifyPlaylistID: spotifyPlaylistID });
+
     this.messageFirestoreRef = firebase
       .firestore()
       .collection("rooms")
@@ -176,7 +175,22 @@ class ResponsiveDrawer extends React.Component {
   };
 
   addtoSpotify = () => {
-    console.log("add to spotify  : " + this.state.songName);
+    let { spotifyPlaylistID, songURI } = this.state;
+    const { accessToken } = this.props.location.state;
+
+    fetch(
+      `https://api.spotify.com/v1/playlists/${spotifyPlaylistID}/tracks?uris=spotify%3Atrack%3A${songURI}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      }
+    )
+      .then(response => response.json())
+      .catch(error => console.log(error));
   };
 
   render() {

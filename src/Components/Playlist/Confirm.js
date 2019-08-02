@@ -41,14 +41,6 @@ export default class Confirm extends Component {
       privatePlaylist,
       name,
       accessToken,
-      userID
-    );
-
-    this.props.createSessionFirebase(
-      playlist,
-      privatePlaylist,
-      name,
-      accessToken,
       userID,
       roomName,
       roomDescription,

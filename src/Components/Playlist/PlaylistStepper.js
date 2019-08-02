@@ -21,7 +21,17 @@ export default class PlaylistStepper extends React.Component {
     };
   }
 
-  playlistAPI = (playlist, privatePlaylist, name, accessToken, userID) => {
+  playlistAPI = (
+    playlist,
+    privatePlaylist,
+    name,
+    accessToken,
+    userID,
+    roomName,
+    roomDescription,
+    roomExists,
+    photoURL
+  ) => {
     fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, {
       method: "POST",
       headers: {
@@ -37,8 +47,20 @@ export default class PlaylistStepper extends React.Component {
       .then(response => response.json())
       .then(data => {
         let playlistIDFromPost = data.id;
-        console.log(playlistIDFromPost);
-        this.setState({ spotifyPlaylistID: playlistIDFromPost }); //fix this
+        this.setState({ spotifyPlaylistID: playlistIDFromPost }, () => {
+          this.createSessionFirebase(
+            playlist,
+            privatePlaylist,
+            name,
+            accessToken,
+            userID,
+            roomName,
+            roomDescription,
+            roomExists,
+            photoURL,
+            playlistIDFromPost
+          );
+        });
       })
       .catch(console.log(console.error()));
   };
@@ -52,13 +74,12 @@ export default class PlaylistStepper extends React.Component {
     roomName,
     roomDescription,
     roomExists,
-    photoURL
+    photoURL,
+    playlistIDFromPost
   ) => {
     console.log("Within session firebase function: \n");
 
-    let { spotifyPlaylistID } = this.state;
-
-    console.log("playlist ID: " + spotifyPlaylistID);
+    console.log("playlist ID: " + playlistIDFromPost);
     console.log(
       playlist,
       privatePlaylist,
@@ -90,7 +111,7 @@ export default class PlaylistStepper extends React.Component {
               createdAt: firestore.Timestamp.now(),
               createdBy: name,
               id: Math.floor(Math.random() * 10000000) + 1,
-              spotifyPlaylistID: spotifyPlaylistID
+              spotifyPlaylistID: playlistIDFromPost
             });
           //add room to user's joinedRoomsList
           firestoreRef
@@ -109,7 +130,7 @@ export default class PlaylistStepper extends React.Component {
               accessToken: accessToken,
               userID: userID,
               photoURL: photoURL,
-              spotifyPlaylistID: spotifyPlaylistID
+              spotifyPlaylistID: playlistIDFromPost
             }
           });
         }

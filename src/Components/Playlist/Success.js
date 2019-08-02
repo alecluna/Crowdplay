@@ -11,7 +11,6 @@ const styles = {
 
 const Success = () => (
   <div>
-    <Typography>Success! Send all the props to API</Typography>
     <div
       style={{
         display: "flex",
@@ -19,21 +18,9 @@ const Success = () => (
         alignItems: "center"
       }}
     >
-      <Button
-        variant="outlined"
-        size="medium"
-        color="primary"
-        style={styles.button}
-      >
-        <Link
-          style={{ textDecoration: "none" }}
-          to={{
-            pathname: "/inviteusers"
-          }}
-        >
-          <Typography>Invite Users</Typography>
-        </Link>
-      </Button>
+      <Typography color="textSecondary" variant="h4">
+        Success! Redirecting...
+      </Typography>
     </div>
   </div>
 );
