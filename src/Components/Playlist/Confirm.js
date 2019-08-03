@@ -25,29 +25,8 @@ const styles = {
 };
 
 export default class Confirm extends Component {
-  confirm = (
-    playlist,
-    privatePlaylist,
-    name,
-    accessToken,
-    userID,
-    roomName,
-    roomDescription,
-    roomExists,
-    photoURL
-  ) => {
-    this.props.playlistAPI(
-      playlist,
-      privatePlaylist,
-      name,
-      accessToken,
-      userID,
-      roomName,
-      roomDescription,
-      roomExists,
-      photoURL
-    );
-
+  confirm = (...args) => {
+    this.props.playlistAPI(...args);
     this.props.nextStep();
   };
 

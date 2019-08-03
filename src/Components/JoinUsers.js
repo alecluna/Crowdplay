@@ -13,8 +13,9 @@ const styles = {
   centerStyling: {
     display: "flex",
     justifyContent: "center",
-    flexWrap: "no-wrap",
-    alignItems: "center"
+    flexWrap: "wrap",
+    alignItems: "center",
+    flexDirection: "row"
   },
   textFieldStyles: {
     marginBottom: "4%",
@@ -29,7 +30,6 @@ class JoinUsers extends Component {
   constructor() {
     super();
     this.state = {
-      userId: "userId1",
       sessionId: "",
       chatId: "",
       text: "",

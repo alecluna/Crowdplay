@@ -23,6 +23,7 @@ import cplogo from "../../assets/crowdplaylogo.png";
 import PlaylistSearch from "../Playlist/PlaylistSearch";
 import RenderPickedMusic from "../ChatRoom/RenderPickedMusic";
 import firebase, { firestore } from "firebase";
+import axios from "axios";
 
 const drawerWidth = 300;
 
@@ -80,11 +81,18 @@ class ResponsiveDrawer extends React.Component {
 
   componentDidMount = () => {
     const { roomId } = this.props.match.params;
-    const { userID, spotifyPlaylistID } = this.props.location.state;
+    const { userID } = this.props.location.state;
 
-    console.log("playlist ID in chat room container" + spotifyPlaylistID);
-    this.setState({ spotifyPlaylistID: spotifyPlaylistID });
+    //ref for room's playlist ID
+    let roomRef = firebase
+      .firestore()
+      .collection("rooms")
+      .doc(roomId);
 
+    this.retreivePlaylistID = this.retreivePlaylistID.bind(this);
+    this.retreivePlaylistID(roomRef);
+
+    //ref for room's messages
     this.messageFirestoreRef = firebase
       .firestore()
       .collection("rooms")
@@ -94,6 +102,7 @@ class ResponsiveDrawer extends React.Component {
     this.listenMessages = this.listenMessages.bind(this);
     this.listenMessages();
 
+    //ref for room's joined users
     this.usersFirestoreRef = firebase
       .firestore()
       .collection("users")
@@ -102,6 +111,19 @@ class ResponsiveDrawer extends React.Component {
 
     this.listenUsers = this.listenUsers.bind(this);
     this.listenUsers();
+  };
+
+  retreivePlaylistID = roomRef => {
+    roomRef
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          this.setState({ spotifyPlaylistID: doc.data().spotifyPlaylistID });
+        }
+      })
+      .catch(error => {
+        console.log("Error getting document:", error);
+      });
   };
 
   listenMessages = () => {
@@ -129,9 +151,7 @@ class ResponsiveDrawer extends React.Component {
           listofNames.push(name);
         }
       });
-      this.setState({ joinedRoomNames: listofNames }, () =>
-        console.log(this.state.joinedRoomNames)
-      );
+      this.setState({ joinedRoomNames: listofNames });
     });
   };
 
@@ -175,18 +195,19 @@ class ResponsiveDrawer extends React.Component {
   };
 
   addtoSpotify = () => {
-    let { spotifyPlaylistID, songURI } = this.state;
+    const { spotifyPlaylistID, songURI } = this.state;
     const { accessToken } = this.props.location.state;
 
+    //for some reason axios.post returns a 401 error, while fetch does not
     fetch(
-      `https://api.spotify.com/v1/playlists/${spotifyPlaylistID}/tracks?uris=spotify%3Atrack%3A${songURI}`,
+      `https://api.spotify.com/v1/playlists/${spotifyPlaylistID}/tracks?uris=${songURI}`,
       {
-        method: "POST",
         headers: {
-          Authorization: "Bearer " + accessToken,
           Accept: "application/json",
+          Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json"
-        }
+        },
+        method: "POST"
       }
     )
       .then(response => response.json())
