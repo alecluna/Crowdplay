@@ -1,47 +1,59 @@
 import React from "react";
 import { Avatar, Typography, List, ListItem, Paper } from "@material-ui/core";
-//import { Spring } from "react-spring/renderprops";
+import { Spring } from "react-spring/renderprops";
 
 const RenderPickedMusic = ({ messages, classes }) => {
   const mappedMessages = Object.entries(messages).map(([key, value]) => {
     const { text, name, photoURL, songArtist } = value;
     return (
       <List key={key} style={{ position: "relative", zIndex: "0" }}>
-        <ListItem>
-          <Avatar className={classes.avatar}>{name.charAt(0)}</Avatar>
-          <Paper
-            style={{
-              borderRadius: "0 10px 10px 10px",
-              padding: "10px"
-            }}
-          >
-            <p
-              style={{
-                fontWeight: "500",
-                fontFamily: "Khula",
-                color: "black"
-              }}
-            >
-              {name} added:
-            </p>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "row",
-                alignItems: "center"
-              }}
-            >
-              <img
-                src={photoURL}
-                alt="album art"
-                style={{ borderRadius: "10px" }}
-              />
-              <Typography style={{ paddingLeft: "10px", fontWeight: "300" }}>
-                {text} by {songArtist}
-              </Typography>
+        <Spring
+          from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
+          to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
+        >
+          {props => (
+            <div style={props}>
+              <ListItem>
+                <Avatar className={classes.avatar}>{name.charAt(0)}</Avatar>
+                <Paper
+                  style={{
+                    borderRadius: "0 10px 10px 10px",
+                    padding: "10px"
+                  }}
+                  elevation="15"
+                >
+                  <p
+                    style={{
+                      fontWeight: "500",
+                      fontFamily: "Khula",
+                      color: "black"
+                    }}
+                  >
+                    {name} added:
+                  </p>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "row",
+                      alignItems: "center"
+                    }}
+                  >
+                    <img
+                      src={photoURL}
+                      alt="album art"
+                      style={{ borderRadius: "10px" }}
+                    />
+                    <Typography
+                      style={{ paddingLeft: "10px", fontWeight: "300" }}
+                    >
+                      {text} by {songArtist}
+                    </Typography>
+                  </div>
+                </Paper>
+              </ListItem>
             </div>
-          </Paper>
-        </ListItem>
+          )}
+        </Spring>
       </List>
     );
   });
