@@ -14,7 +14,14 @@ const RenderPickedMusic = ({ messages, classes }) => {
           {props => (
             <div style={props}>
               <ListItem>
-                <Avatar className={classes.avatar}>{name.charAt(0)}</Avatar>
+                <Avatar
+                  style={{
+                    backgroundColor: "#1db954"
+                  }}
+                  className={classes.avatar}
+                >
+                  {name.charAt(0)}
+                </Avatar>
                 <Paper
                   style={{
                     borderRadius: "0 10px 10px 10px",
@@ -44,6 +51,7 @@ const RenderPickedMusic = ({ messages, classes }) => {
                       style={{ borderRadius: "10px" }}
                     />
                     <Typography
+                      color="textSecondary"
                       style={{ paddingLeft: "10px", fontWeight: "300" }}
                     >
                       {text} by {songArtist}

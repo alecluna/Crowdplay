@@ -1,10 +1,17 @@
 import React, { Component } from "react";
-import Typography from "../../../node_modules/@material-ui/core/Typography";
 import Link from "../../../node_modules/react-router-dom/Link";
-import Card from "../../../node_modules/@material-ui/core/Card";
-import CardContent from "../../../node_modules/@material-ui/core/CardContent";
 import DeleteRoundedIcon from "../../../node_modules/@material-ui/icons/DeleteRounded";
-import Button from "../../../node_modules/@material-ui/core/Button";
+
+import { Button, Typography, CardContent, Paper } from "@material-ui/core";
+
+const styles = {
+  cardStyle: {
+    margin: "20px",
+    width: window.innerWidth < 450 ? "15em" : "25em",
+    height: 125,
+    borderRadius: "10px"
+  }
+};
 
 class JoinedRoomsContainer extends Component {
   deleteChatRoom = roomName => {
@@ -14,50 +21,43 @@ class JoinedRoomsContainer extends Component {
     const { roomName, name, accessToken, userID, photoURL } = this.props;
     return (
       <div>
-        <Card
-          style={{
-            height: "5rem",
-            width: "30em",
-            margin: "10px",
-            borderRadius: "5px"
-          }}
-          key={name}
-        >
-          <CardContent>
-            <Typography
-              fontWeight="fontWeightLight"
-              style={{ fontSize: "1em" }}
-            >
-              <Link
-                style={{
-                  textDecoration: "none",
-                  color: "black",
-                  width: "100%"
-                }}
-                to={{
-                  pathname: `/room/${roomName}`,
-                  state: {
-                    name: `${name}`,
-                    accessToken: `${accessToken}`,
-                    userID: `${userID}`,
-                    photoURL: `${photoURL}`
-                  }
-                }}
+        <Paper elevation="15" style={styles.cardStyle} key={name}>
+          <Link
+            style={{
+              textDecoration: "none",
+              color: "black",
+              width: "100%"
+            }}
+            to={{
+              pathname: `/room/${roomName}`,
+              state: {
+                name: `${name}`,
+                accessToken: `${accessToken}`,
+                userID: `${userID}`,
+                photoURL: `${photoURL}`
+              }
+            }}
+          >
+            <CardContent>
+              <Typography
+                fontWeight="fontWeightLight"
+                variant="h6"
+                color="textSecondary"
               >
                 {roomName}
-              </Link>
-              <Button
-                style={{ float: "right" }}
-                type="submit"
-                onClick={() => {
-                  this.deleteChatRoom(roomName);
-                }}
-              >
-                <DeleteRoundedIcon />
-              </Button>
-            </Typography>
-          </CardContent>
-        </Card>
+                <Button
+                  style={{ float: "right" }}
+                  type="submit"
+                  onClick={() => {
+                    this.deleteChatRoom(roomName);
+                  }}
+                >
+                  <DeleteRoundedIcon />
+                </Button>
+              </Typography>
+            </CardContent>
+          </Link>
+        </Paper>
       </div>
     );
   }

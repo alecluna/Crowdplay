@@ -172,50 +172,57 @@ class JoinUsers extends Component {
 
           {this.showIfRoomNotFound()}
 
-          <form
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-              paddingLeft: "5em",
-              paddingRight: "5em"
-            }}
-            onSubmit={this.handleSearchForRoom.bind(this)}
+          <Spring
+            from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
+            to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
-            <TextField
-              placeholder="Search for a room"
-              type="text"
-              align="center"
-              fullWidth
-              onChange={this.changeSearchText.bind(this)}
-              value={this.state.searchRoomKeyWords}
-              style={styles.textFieldStyles}
-            />
-            <Button
-              type="submit"
-              style={{
-                color: "white",
-                margin: "5px",
-                borderRadius: "20px",
-                maxWidth: "200px",
-                background: "#1db954"
-              }}
-            >
-              Send
-            </Button>
-          </form>
+            {props => (
+              <div style={props}>
+                <form
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    paddingLeft: "5em",
+                    paddingRight: "5em"
+                  }}
+                  onSubmit={this.handleSearchForRoom.bind(this)}
+                >
+                  <TextField
+                    placeholder="Search for a room"
+                    type="text"
+                    align="center"
+                    fullWidth
+                    onChange={this.changeSearchText.bind(this)}
+                    value={this.state.searchRoomKeyWords}
+                    style={styles.textFieldStyles}
+                  />
+                  <Button
+                    type="submit"
+                    style={{
+                      color: "white",
+                      margin: "5px",
+                      borderRadius: "20px",
+                      maxWidth: "200px",
+                      background: "#1db954"
+                    }}
+                  >
+                    Search
+                  </Button>
+                </form>
+              </div>
+            )}
+          </Spring>
           <Typography
             align="center"
             variant="h5"
             style={{ fontWeight: "200", margin: "10px" }}
           >
-            Here are your avaliable rooms:
+            Avaliable rooms:
           </Typography>
           <div
             style={{
-              height: "400px",
-              overflowY: "scroll",
               display: "flex",
               justifyContent: "center",
               flexWrap: "wrap"

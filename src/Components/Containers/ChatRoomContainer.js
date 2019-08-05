@@ -62,7 +62,7 @@ const styles = theme => ({
   avatar: {
     margin: 10,
     color: "#fff",
-    backgroundColor: "purple"
+    backgroundColor: "#1db954"
   }
 });
 
