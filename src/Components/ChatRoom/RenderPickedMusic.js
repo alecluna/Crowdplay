@@ -62,12 +62,12 @@ const RenderPickedMusic = ({
                       style={{ paddingLeft: "10px", fontWeight: "300" }}
                     >
                       {text} by {songArtist}
+                      <ThumbsUpDown
+                        thumbsUp={thumbsUp}
+                        thumbsDown={thumbsDown}
+                        thumbsCounter={thumbsCounter}
+                      />
                     </Typography>
-                    <ThumbsUpDown
-                      thumbsUp={thumbsUp}
-                      thumbsDown={thumbsDown}
-                      thumbsCounter={thumbsCounter}
-                    />
                   </div>
                 </Paper>
               </ListItem>

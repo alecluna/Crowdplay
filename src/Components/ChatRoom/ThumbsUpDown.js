@@ -3,20 +3,28 @@ import thumbs from "../../assets/thumbs-up.svg";
 import { Typography } from "@material-ui/core";
 
 const ThumbsUpDown = ({ thumbsUp, thumbsDown, thumbsCounter }) => (
-  <div>
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "flex-start",
+      flexDirection: "row",
+      flexWrap: "no-wrap",
+      margin: "5px"
+    }}
+  >
     <img
       onClick={thumbsUp}
-      style={{ height: 35, padding: 10 }}
+      style={{ height: 25, padding: 5 }}
       src={thumbs}
       alt="thumbs"
     />
     <img
       onClick={thumbsDown}
-      style={{ height: 35, padding: 10, transform: "rotate(180deg)" }}
+      style={{ height: 25, padding: 5, transform: "rotate(180deg)" }}
       src={thumbs}
       alt="thumbs"
     />
-    <Typography variant="h6" style={{ color: "green" }}>
+    <Typography style={{ color: "green", fontSize: 16 }}>
       {thumbsCounter}
     </Typography>
   </div>

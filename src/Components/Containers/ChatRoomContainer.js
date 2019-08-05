@@ -24,7 +24,7 @@ import PlaylistSearch from "../Playlist/PlaylistSearch";
 import RenderPickedMusic from "../ChatRoom/RenderPickedMusic";
 import firebase, { firestore } from "firebase";
 
-const drawerWidth = 300;
+const drawerWidth = 250;
 
 const styles = theme => ({
   root: {
