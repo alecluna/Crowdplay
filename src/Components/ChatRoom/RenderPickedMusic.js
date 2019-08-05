@@ -1,8 +1,15 @@
 import React from "react";
 import { Avatar, Typography, List, ListItem, Paper } from "@material-ui/core";
 import { Spring } from "react-spring/renderprops";
+import ThumbsUpDown from "./ThumbsUpDown";
 
-const RenderPickedMusic = ({ messages, classes }) => {
+const RenderPickedMusic = ({
+  messages,
+  classes,
+  thumbsUp,
+  thumbsDown,
+  thumbsCounter
+}) => {
   const mappedMessages = Object.entries(messages).map(([key, value]) => {
     const { text, name, photoURL, songArtist } = value;
     return (
@@ -56,6 +63,11 @@ const RenderPickedMusic = ({ messages, classes }) => {
                     >
                       {text} by {songArtist}
                     </Typography>
+                    <ThumbsUpDown
+                      thumbsUp={thumbsUp}
+                      thumbsDown={thumbsDown}
+                      thumbsCounter={thumbsCounter}
+                    />
                   </div>
                 </Paper>
               </ListItem>

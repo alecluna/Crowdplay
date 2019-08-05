@@ -1,13 +1,5 @@
 import React from "react";
 import Typography from "../../../node_modules/@material-ui/core/Typography";
-import Link from "../../../node_modules/react-router-dom/Link";
-import Button from "../../../node_modules/@material-ui/core/Button";
-
-const styles = {
-  button: {
-    margin: 15
-  }
-};
 
 const Success = () => (
   <div>
@@ -18,7 +10,12 @@ const Success = () => (
         alignItems: "center"
       }}
     >
-      <Typography color="textSecondary" variant="h4">
+      <Typography
+        style={{ marginTop: 30 }}
+        color="textSecondary"
+        variant="h4"
+        align="center"
+      >
         Success! Redirecting...
       </Typography>
     </div>

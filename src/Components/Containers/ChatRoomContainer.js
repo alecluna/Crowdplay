@@ -23,7 +23,6 @@ import cplogo from "../../assets/crowdplaylogo.png";
 import PlaylistSearch from "../Playlist/PlaylistSearch";
 import RenderPickedMusic from "../ChatRoom/RenderPickedMusic";
 import firebase, { firestore } from "firebase";
-import axios from "axios";
 
 const drawerWidth = 300;
 
@@ -76,7 +75,8 @@ class ResponsiveDrawer extends React.Component {
     songImage: "",
     artist: "",
     songName: "",
-    spotifyPlaylistID: ""
+    spotifyPlaylistID: "",
+    thumbsCounter: 0
   };
 
   componentDidMount = () => {
@@ -214,6 +214,14 @@ class ResponsiveDrawer extends React.Component {
       .catch(error => console.log(error));
   };
 
+  thumbsUp = () => {
+    this.setState({ thumbsCounter: this.state.thumbsCounter + 1 });
+  };
+
+  thumbsDown = () => {
+    this.setState({ thumbsCounter: this.state.thumbsCounter - 1 });
+  };
+
   render() {
     const { accessToken, userID } = this.props.location.state;
     const { classes, theme } = this.props;
@@ -223,7 +231,8 @@ class ResponsiveDrawer extends React.Component {
       songImage,
       artist,
       songName,
-      joinedRoomNames
+      joinedRoomNames,
+      thumbsCounter
     } = this.state;
     const music = { songURI, songImage, artist, songName };
 
@@ -345,6 +354,9 @@ class ResponsiveDrawer extends React.Component {
                 theme={theme}
                 currentSong={music}
                 messages={messages}
+                thumbsUp={this.thumbsUp}
+                thumbsDown={this.thumbsDown}
+                thumbsCounter={thumbsCounter}
               />
             </div>
           </div>
