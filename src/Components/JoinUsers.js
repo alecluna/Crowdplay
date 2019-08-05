@@ -148,7 +148,7 @@ class JoinUsers extends Component {
         <Header />
         <div style={styles.background}>
           <Spring
-            from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
+            from={{ opacity: 0, transform: "translate3d(0,-30px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
             {props => (
@@ -157,8 +157,7 @@ class JoinUsers extends Component {
                   <Typography
                     style={{
                       fontWeight: "200",
-                      paddingTop: "5%",
-                      paddingBottom: "5%"
+                      paddingBottom: "3%"
                     }}
                     variant="display2"
                     color="textPrimary"
@@ -173,7 +172,7 @@ class JoinUsers extends Component {
           {this.showIfRoomNotFound()}
 
           <Spring
-            from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
+            from={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
             {props => (
