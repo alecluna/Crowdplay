@@ -35,10 +35,14 @@ export default class Confirm extends Component {
     this.props.prevStep();
   };
 
-  private = privatePlaylist => {
-    if (privatePlaylist === "public") return "public";
-    else if (privatePlaylist === "private") return "private";
-    else return "collaborative";
+  error = () => {
+    return this.props.values.name.trim().length === 0 ||
+      this.props.values.roomName.trim().length === 0 ||
+      this.props.values.roomDescription.trim().length === 0 ? (
+      <Typography align="center" color="error" variant="title">
+        Missing Playlist Name, Session Name or Description.
+      </Typography>
+    ) : null;
   };
 
   render() {
@@ -76,7 +80,7 @@ export default class Confirm extends Component {
                 <List>
                   <ListItem>
                     <Typography style={styles.fontStyles}>
-                      Playlist Name: {playlist}{" "}
+                      Playlist Name: {playlist}
                     </Typography>
                   </ListItem>
                   <ListItem>
@@ -93,6 +97,7 @@ export default class Confirm extends Component {
               </div>
             )}
           </Spring>
+          {this.error()}
           <div
             style={{
               display: "flex",
@@ -119,6 +124,7 @@ export default class Confirm extends Component {
                   >
                     Back
                   </Button>
+
                   <Button
                     style={{
                       color: "white",
@@ -127,6 +133,7 @@ export default class Confirm extends Component {
                       maxWidth: "200px",
                       background: "#1db954"
                     }}
+                    disabled={this.error() ? true : false}
                     onClick={this.confirm.bind(
                       this,
                       playlist,

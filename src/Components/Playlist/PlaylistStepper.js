@@ -62,7 +62,7 @@ export default class PlaylistStepper extends React.Component {
           );
         });
       })
-      .catch(console.log(console.error()));
+      .catch(error => console.log(error));
   };
 
   createSessionFirebase = (
@@ -77,20 +77,6 @@ export default class PlaylistStepper extends React.Component {
     photoURL,
     playlistIDFromPost
   ) => {
-    console.log("Within session firebase function: \n");
-
-    console.log("playlist ID: " + playlistIDFromPost);
-    console.log(
-      playlist,
-      privatePlaylist,
-      name,
-      accessToken,
-      userID,
-      roomName,
-      roomDescription,
-      roomExists,
-      photoURL
-    );
     let firestoreRef = firebase.firestore();
     firestoreRef
       .collection("rooms")
