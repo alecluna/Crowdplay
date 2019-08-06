@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import Button from "../../../node_modules/@material-ui/core/Button";
-import Typography from "../../../node_modules/@material-ui/core/Typography";
-import List from "../../../node_modules/@material-ui/core/List";
-import ListItem from "../../../node_modules/@material-ui/core/ListItem";
+import { Button, Typography, List, ListItem } from "@material-ui/core";
 import Header from "../Utils/Header";
 import { Spring } from "react-spring/renderprops";
 
@@ -14,9 +11,6 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column"
-  },
-  button: {
-    margin: 15
   },
   fontStyles: {
     fontWeight: "200",
