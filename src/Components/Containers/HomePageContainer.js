@@ -3,6 +3,8 @@ import Typography from "../../../node_modules/@material-ui/core/Typography";
 import SpotifyLogo from "../../../src/assets/logo.png";
 import LoginAuth from "../../Components/LoginAuth";
 import { Spring } from "react-spring/renderprops";
+import withRoot from "../Utils/withRoot";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
   background: {
@@ -62,4 +64,4 @@ const HomePageContainer = () => (
   </div>
 );
 
-export default HomePageContainer;
+export default withRoot(HomePageContainer);
