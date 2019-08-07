@@ -36,8 +36,15 @@ const RenderPickedMusic = ({ messages, classes, thumbsUp, thumbsDown }) => {
                   <p
                     style={{
                       fontWeight: "500",
-                      fontFamily: "Khula",
-                      color: "black"
+                      fontFamily: [
+                        "-apple-system",
+                        "BlinkMacSystemFont",
+                        '"Segoe UI"',
+                        "Roboto",
+                        '"Helvetica Neue"'
+                      ],
+                      color: "black",
+                      padding: "5px"
                     }}
                   >
                     {name} added:
