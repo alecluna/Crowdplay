@@ -3,19 +3,16 @@ import { Avatar, Typography, List, ListItem, Paper } from "@material-ui/core";
 import { Spring } from "react-spring/renderprops";
 import ThumbsUpDown from "./ThumbsUpDown";
 
-const RenderPickedMusic = ({
-  messages,
-  classes,
-  thumbsUp,
-  thumbsDown,
-  thumbsCounter
-}) => {
+const RenderPickedMusic = ({ messages, classes, thumbsUp, thumbsDown }) => {
   const mappedMessages = Object.entries(messages).map(([key, value]) => {
-    const { text, name, photoURL, songArtist, likeCount } = value;
+    const { text, name, photoURL, songArtist, songURI, likeCount } = value;
+    //let namez = value.snapshot.name();
+
+    //console.log(namez);
     return (
       <List key={key} style={{ position: "relative", zIndex: "0" }}>
         <Spring
-          from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
+          from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
           to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
         >
           {props => (
@@ -67,6 +64,8 @@ const RenderPickedMusic = ({
                         thumbsUp={thumbsUp}
                         thumbsDown={thumbsDown}
                         likeCount={likeCount}
+                        key={key}
+                        songURI={songURI}
                       />
                     </Typography>
                   </div>

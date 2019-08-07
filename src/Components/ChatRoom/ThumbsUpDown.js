@@ -2,7 +2,7 @@ import React from "react";
 import thumbs from "../../assets/thumbs-up.svg";
 import { Typography } from "@material-ui/core";
 
-const ThumbsUpDown = ({ thumbsUp, thumbsDown, likeCount }) => (
+const ThumbsUpDown = ({ thumbsUp, thumbsDown, likeCount, songURI }) => (
   <div
     style={{
       display: "flex",
@@ -19,7 +19,6 @@ const ThumbsUpDown = ({ thumbsUp, thumbsDown, likeCount }) => (
       alt="thumbs"
     />
     <img
-      onClick={thumbsDown}
       style={{ height: 25, padding: 5, transform: "rotate(180deg)" }}
       src={thumbs}
       alt="thumbs"

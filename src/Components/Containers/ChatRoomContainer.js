@@ -84,13 +84,13 @@ class ResponsiveDrawer extends React.Component {
     const { userID } = this.props.location.state;
 
     //ref for room's playlist ID
-    let roomRef = firebase
+    this.roomRef = firebase
       .firestore()
       .collection("rooms")
       .doc(roomId);
 
     this.retreivePlaylistID = this.retreivePlaylistID.bind(this);
-    this.retreivePlaylistID(roomRef);
+    this.retreivePlaylistID();
 
     //ref for room's messages
     this.messageFirestoreRef = firebase
@@ -113,8 +113,8 @@ class ResponsiveDrawer extends React.Component {
     this.listenUsers();
   };
 
-  retreivePlaylistID = roomRef => {
-    roomRef
+  retreivePlaylistID = () => {
+    this.roomRef
       .get()
       .then(doc => {
         if (doc.exists) {
@@ -155,7 +155,7 @@ class ResponsiveDrawer extends React.Component {
     });
   };
 
-  handleSubmitNewMessage = (songName, songImage, artist) => {
+  handleSubmitNewMessage = (songName, songImage, artist, songURI) => {
     const { name, userID } = this.props.location.state;
 
     if (songName && songName.trim()) {
@@ -166,7 +166,8 @@ class ResponsiveDrawer extends React.Component {
         userID: userID,
         name: name,
         timestamp: firestore.Timestamp.now(),
-        likeCount: 0
+        likeCount: 0,
+        songURI: songURI
       };
       this.messageFirestoreRef.add(messageInfo);
     }
@@ -188,7 +189,8 @@ class ResponsiveDrawer extends React.Component {
         this.handleSubmitNewMessage(
           this.state.songName,
           this.state.songImage,
-          this.state.artist
+          this.state.artist,
+          this.state.songURI
         );
         this.addtoSpotify();
       }
@@ -216,22 +218,32 @@ class ResponsiveDrawer extends React.Component {
   };
 
   thumbsUp = () => {
-    const { messages } = this.state;
-    this.setState({ thumbsCounter: this.state.thumbsCounter + 1 });
-    console.log(messages);
-    // .get()
-    // .then(doc => {
-    //   if (doc.exists) {
-    //     this.setState({ spotifyPlaylistID: doc.data().spotifyPlaylistID });
-    //   }
-    // })
-    // .catch(error => {
-    //   console.log("Error getting document:", error);
-    // });
-  };
+    const increment = firebase.firestore.FieldValue.increment(1);
 
-  thumbsDown = () => {
-    this.setState({ thumbsCounter: this.state.thumbsCounter - 1 });
+    //this.messageFirestoreRef.doc().update({ likeCount: increment });
+
+    const { messages } = this.state;
+    console.log(messages);
+    // this.messageFirestoreRef
+    //   .orderBy("timestamp", "desc")
+    //   .onSnapshot(snapshot => {
+    //     snapshot.docs.forEach(message => {
+    //       console.log(message.data().songURI);
+
+    //       if (message.data().songURI.trim() === songURI.trim()){
+    //         message.get().data()
+    //       }
+    //     });
+    //   });
+
+    // // .then(doc => {
+    // //   if (doc.exists) {
+    // //     this.setState({ spotifyPlaylistID: doc.data().spotifyPlaylistID });
+    // //   }
+    // // })
+    // // .catch(error => {
+    // //   console.log("Error getting document:", error);
+    // // });
   };
 
   render() {
@@ -364,7 +376,6 @@ class ResponsiveDrawer extends React.Component {
               <RenderPickedMusic
                 classes={classes}
                 theme={theme}
-                currentSong={music}
                 messages={messages}
                 thumbsUp={this.thumbsUp}
                 thumbsDown={this.thumbsDown}
