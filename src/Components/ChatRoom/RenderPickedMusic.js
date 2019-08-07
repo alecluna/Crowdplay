@@ -11,7 +11,7 @@ const RenderPickedMusic = ({
   thumbsCounter
 }) => {
   const mappedMessages = Object.entries(messages).map(([key, value]) => {
-    const { text, name, photoURL, songArtist } = value;
+    const { text, name, photoURL, songArtist, likeCount } = value;
     return (
       <List key={key} style={{ position: "relative", zIndex: "0" }}>
         <Spring
@@ -34,7 +34,7 @@ const RenderPickedMusic = ({
                     borderRadius: "0 10px 10px 10px",
                     padding: "10px"
                   }}
-                  elevation="15"
+                  elevation={15}
                 >
                   <p
                     style={{
@@ -60,12 +60,13 @@ const RenderPickedMusic = ({
                     <Typography
                       color="textSecondary"
                       style={{ paddingLeft: "10px", fontWeight: "300" }}
+                      component={"span"}
                     >
                       {text} by {songArtist}
                       <ThumbsUpDown
                         thumbsUp={thumbsUp}
                         thumbsDown={thumbsDown}
-                        thumbsCounter={thumbsCounter}
+                        likeCount={likeCount}
                       />
                     </Typography>
                   </div>

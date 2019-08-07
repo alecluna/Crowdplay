@@ -2,7 +2,7 @@ import React from "react";
 import thumbs from "../../assets/thumbs-up.svg";
 import { Typography } from "@material-ui/core";
 
-const ThumbsUpDown = ({ thumbsUp, thumbsDown, thumbsCounter }) => (
+const ThumbsUpDown = ({ thumbsUp, thumbsDown, likeCount }) => (
   <div
     style={{
       display: "flex",
@@ -24,8 +24,8 @@ const ThumbsUpDown = ({ thumbsUp, thumbsDown, thumbsCounter }) => (
       src={thumbs}
       alt="thumbs"
     />
-    <Typography style={{ color: "green", fontSize: 16 }}>
-      {thumbsCounter}
+    <Typography component={"span"} style={{ color: "green", fontSize: 16 }}>
+      {likeCount}
     </Typography>
   </div>
 );

@@ -165,7 +165,8 @@ class ResponsiveDrawer extends React.Component {
         songArtist: artist,
         userID: userID,
         name: name,
-        timestamp: firestore.Timestamp.now()
+        timestamp: firestore.Timestamp.now(),
+        likeCount: 0
       };
       this.messageFirestoreRef.add(messageInfo);
     }
@@ -215,7 +216,18 @@ class ResponsiveDrawer extends React.Component {
   };
 
   thumbsUp = () => {
+    const { messages } = this.state;
     this.setState({ thumbsCounter: this.state.thumbsCounter + 1 });
+    console.log(messages);
+    // .get()
+    // .then(doc => {
+    //   if (doc.exists) {
+    //     this.setState({ spotifyPlaylistID: doc.data().spotifyPlaylistID });
+    //   }
+    // })
+    // .catch(error => {
+    //   console.log("Error getting document:", error);
+    // });
   };
 
   thumbsDown = () => {

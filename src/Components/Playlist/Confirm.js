@@ -130,7 +130,7 @@ export default class Confirm extends Component {
                     disabled={this.error() ? true : false}
                     onClick={this.confirm.bind(
                       this,
-                      playlist,
+                      playlist  ,
                       privatePlaylist,
                       name,
                       accessToken,

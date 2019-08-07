@@ -21,7 +21,7 @@ class JoinedRoomsContainer extends Component {
     const { roomName, name, accessToken, userID, photoURL } = this.props;
     return (
       <div>
-        <Paper elevation="15" style={styles.cardStyle} key={name}>
+        <Paper elevation={15} style={styles.cardStyle} key={name}>
           <Link
             style={{
               textDecoration: "none",
