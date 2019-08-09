@@ -5,10 +5,7 @@ import ThumbsUpDown from "./ThumbsUpDown";
 
 const RenderPickedMusic = ({ messages, classes, thumbsUp, thumbsDown }) => {
   const mappedMessages = Object.entries(messages).map(([key, value]) => {
-    const { text, name, photoURL, songArtist, songURI, likeCount } = value;
-    //let namez = value.snapshot.name();
-
-    //console.log(namez);
+    const { text, name, photoURL, songArtist, likeCount, id } = value;
     return (
       <List key={key} style={{ position: "relative", zIndex: "0" }}>
         <Spring
@@ -72,7 +69,7 @@ const RenderPickedMusic = ({ messages, classes, thumbsUp, thumbsDown }) => {
                         thumbsDown={thumbsDown}
                         likeCount={likeCount}
                         key={key}
-                        songURI={songURI}
+                        id={id}
                       />
                     </Typography>
                   </div>

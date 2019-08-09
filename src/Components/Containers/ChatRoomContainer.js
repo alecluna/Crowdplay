@@ -130,11 +130,13 @@ class ResponsiveDrawer extends React.Component {
     this.messageFirestoreRef
       .orderBy("timestamp", "desc")
       .onSnapshot(snapshot => {
-        let messages = [];
-        snapshot.docs.forEach(message => {
-          messages.push(message.data());
+        let messagesFromSnapShot = snapshot.docs.map(message => {
+          let tempObj = { id: message.id };
+          let mergedObj = Object.assign(message.data(), tempObj);
+          return mergedObj;
         });
-        this.setState({ messages });
+
+        this.setState({ messages: messagesFromSnapShot });
       });
   };
 
@@ -151,7 +153,9 @@ class ResponsiveDrawer extends React.Component {
           listofNames.push(name);
         }
       });
-      this.setState({ joinedRoomNames: listofNames });
+      this.setState({
+        joinedRoomNames: [...this.state.joinedRoomNames, ...listofNames]
+      });
     });
   };
 
@@ -217,48 +221,20 @@ class ResponsiveDrawer extends React.Component {
       .catch(error => console.log(error));
   };
 
-  thumbsUp = () => {
+  thumbsUp = id => {
     const increment = firebase.firestore.FieldValue.increment(1);
+    this.messageFirestoreRef.doc(id).update({ likeCount: increment });
+  };
 
-    //this.messageFirestoreRef.doc().update({ likeCount: increment });
-
-    const { messages } = this.state;
-    console.log(messages);
-    // this.messageFirestoreRef
-    //   .orderBy("timestamp", "desc")
-    //   .onSnapshot(snapshot => {
-    //     snapshot.docs.forEach(message => {
-    //       console.log(message.data().songURI);
-
-    //       if (message.data().songURI.trim() === songURI.trim()){
-    //         message.get().data()
-    //       }
-    //     });
-    //   });
-
-    // // .then(doc => {
-    // //   if (doc.exists) {
-    // //     this.setState({ spotifyPlaylistID: doc.data().spotifyPlaylistID });
-    // //   }
-    // // })
-    // // .catch(error => {
-    // //   console.log("Error getting document:", error);
-    // // });
+  thumbsDown = id => {
+    const increment = firebase.firestore.FieldValue.increment(-1);
+    this.messageFirestoreRef.doc(id).update({ likeCount: increment });
   };
 
   render() {
     const { accessToken, userID } = this.props.location.state;
     const { classes, theme } = this.props;
-    const {
-      messages,
-      songURI,
-      songImage,
-      artist,
-      songName,
-      joinedRoomNames,
-      thumbsCounter
-    } = this.state;
-    const music = { songURI, songImage, artist, songName };
+    const { messages, joinedRoomNames, thumbsCounter } = this.state;
 
     const drawer = (
       <div>
