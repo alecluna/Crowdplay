@@ -45,18 +45,18 @@ class JoinedRoomsContainer extends Component {
                 color="textSecondary"
               >
                 {roomName}
-                <Button
-                  style={{ float: "right" }}
-                  type="submit"
-                  onClick={() => {
-                    this.deleteChatRoom(roomName);
-                  }}
-                >
-                  <DeleteRoundedIcon />
-                </Button>
               </Typography>
             </CardContent>
           </Link>
+          <Button
+            style={{ float: "right" }}
+            type="submit"
+            onClick={() => {
+              this.deleteChatRoom(roomName);
+            }}
+          >
+            <DeleteRoundedIcon />
+          </Button>
         </Paper>
       </div>
     );

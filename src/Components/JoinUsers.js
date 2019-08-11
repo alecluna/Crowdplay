@@ -52,10 +52,10 @@ class JoinUsers extends Component {
       .collection("joinedRooms")
       .orderBy("createdAt", "desc")
       .onSnapshot(snapshot => {
-        let roomNames = [];
-        snapshot.docs.forEach(doc => {
-          roomNames.push(doc.data().roomName);
+        let roomNames = snapshot.docs.map(doc => {
+          return doc.data().roomName;
         });
+
         this.setState({ joinedRooms: roomNames });
       });
   };
@@ -103,22 +103,24 @@ class JoinUsers extends Component {
 
   deleteChatRoom = nameofRoom => {
     console.log(nameofRoom);
-    //TODO add Firebase function
-    // this.fireStoreRooms
-    //   .doc(nameofRoom)
-    //   .then(querySnapshot => {
-    //     querySnapshot.forEach(function(doc) {
-    //       doc.ref.delete();
-    //     });
-    //   })
-    //   .catch(function(error) {
-    //     console.error("Error removing document: ", error);
-    //   });
+    /**
+     * Call the 'recursiveDelete' callable function with a path to initiate
+     * a server-side delete.
+     */
+    let deleteFn = firebase.functions().httpsCallable("recursiveDelete");
+    deleteFn({ path: `spotify-crowdpay/rooms/${nameofRoom.trim()}` })
+      .then(result => {
+        console.log("Delete success: " + JSON.stringify(result));
+      })
+      .catch(err => {
+        console.warn(err);
+      });
   };
 
   showIfRoomNotFound = () => {
-    return this.state.roomNotFound ? (
-      <Typography align="center" color="error" variant="title">
+    const { roomNotFound } = this.state;
+    return roomNotFound ? (
+      <Typography align="center" color="error" variant="h4">
         Sorry, Room Not Found!
       </Typography>
     ) : null;
