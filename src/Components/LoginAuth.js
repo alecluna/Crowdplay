@@ -9,8 +9,8 @@ import { Spring } from "react-spring/renderprops";
 const styles = {
   background: {
     display: "flex",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 };
 
 class LoginAuth extends Component {
@@ -21,32 +21,21 @@ class LoginAuth extends Component {
 
   componentDidMount() {
     let parsed = queryString.parse(window.location.search);
-    console.log(window.location);
     let accessToken = parsed.access_token;
-    console.log(parsed);
-    if (!accessToken) return;
-    fetch("https://api.spotify.com/v1/me", {
-      headers: { Authorization: "Bearer " + accessToken }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
+
+    this.getSpotifyData(accessToken)
+      .then((data) => {
         if (data) {
           if (data.images && data.images.length) {
             this.setState({
-              photoURL: data.images[0].url
+              photoURL: data.images[0].url,
             });
           }
-
           this.setState({
             name: data.display_name,
             accessToken: accessToken,
-            userID: data.id
+            userID: data.id,
           });
-
-          console.log("Welcome! user_ID:  " + this.state.userID);
-        } else {
-          window.alert("Try logging in again to refresh your token");
         }
       })
       .then(() => {
@@ -56,20 +45,31 @@ class LoginAuth extends Component {
           .collection("users")
           .doc(this.state.userID)
           .get()
-          .then(doc => {
+          .then((doc) => {
             if (!doc.exists) {
               //this should occur in account creation. probably in backend
-              firestore
-                .collection("users")
-                .doc(this.state.userID)
-                .set({
-                  name: this.state.name,
-                  userID: this.state.userID,
-                  photoURL: this.state.photoURL
-                });
+              firestore.collection("users").doc(this.state.userID).set({
+                name: this.state.name,
+                userID: this.state.userID,
+                photoURL: this.state.photoURL,
+              });
             }
           });
-      });
+      })
+      .catch((error) => console.log("error: ", error));
+  }
+
+  async getSpotifyData(accessToken) {
+    const response = await fetch("https://api.spotify.com/v1/me", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+
+    return data;
   }
 
   render() {
@@ -82,7 +82,7 @@ class LoginAuth extends Component {
               style={{
                 justifyContent: "center",
                 fontWeight: "200",
-                textAlign: "center"
+                textAlign: "center",
               }}
               variant="h6"
               color="default"
@@ -94,13 +94,13 @@ class LoginAuth extends Component {
               from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
               to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
             >
-              {props => (
+              {(props) => (
                 <div style={props}>
                   <div
                     style={{
                       marginTop: "50px",
                       display: "flex",
-                      justifyContent: "space-around"
+                      justifyContent: "space-around",
                     }}
                   >
                     <Button
@@ -108,7 +108,7 @@ class LoginAuth extends Component {
                       style={{
                         margin: "10px",
                         background: "#1db954",
-                        borderRadius: "20px"
+                        borderRadius: "20px",
                       }}
                     >
                       <Link
@@ -119,8 +119,8 @@ class LoginAuth extends Component {
                             name: name,
                             accessToken: accessToken,
                             userID: userID,
-                            photoURL: photoURL
-                          }
+                            photoURL: photoURL,
+                          },
                         }}
                       >
                         <Typography style={{ color: "white" }}>
@@ -134,7 +134,7 @@ class LoginAuth extends Component {
                       style={{
                         margin: "10px",
                         background: "#1db954",
-                        borderRadius: "20px"
+                        borderRadius: "20px",
                       }}
                     >
                       <Link
@@ -145,8 +145,8 @@ class LoginAuth extends Component {
                             name: name,
                             accessToken: accessToken,
                             userID: userID,
-                            photoURL: photoURL
-                          }
+                            photoURL: photoURL,
+                          },
                         }}
                       >
                         <Typography style={{ color: "white" }}>
@@ -164,13 +164,13 @@ class LoginAuth extends Component {
             from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
-            {props => (
+            {(props) => (
               <div style={props}>
                 <Button
                   variant="contained"
                   style={{
                     background: "#1db954",
-                    borderRadius: "20px"
+                    borderRadius: "20px",
                   }}
                   onClick={() => {
                     window.location = window.location.href.includes("localhost")
@@ -183,7 +183,7 @@ class LoginAuth extends Component {
                       color: "white",
                       width: "10rem",
                       fontSize: "2em",
-                      textAlign: "center"
+                      textAlign: "center",
                     }}
                   >
                     Login
