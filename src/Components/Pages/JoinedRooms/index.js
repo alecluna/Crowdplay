@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Link from "../../../node_modules/react-router-dom/Link";
-import DeleteRoundedIcon from "../../../node_modules/@material-ui/icons/DeleteRounded";
+import Link from "react-router-dom/Link";
+import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 
 import { Button, Typography, CardContent, Paper } from "@material-ui/core";
 
@@ -17,6 +17,7 @@ class JoinedRooms extends Component {
   deleteChatRoom = (roomName) => {
     this.props.deleteChatRoom(roomName);
   };
+
   render() {
     const { roomName, name, accessToken, userID, photoURL } = this.props;
     return (

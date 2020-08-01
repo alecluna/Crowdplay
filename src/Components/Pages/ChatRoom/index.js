@@ -16,13 +16,13 @@ import {
 import PropTypes from "prop-types";
 import MenuIcon from "@material-ui/icons/Menu";
 import { withStyles } from "@material-ui/core/styles";
-import Link from "../../../node_modules/react-router-dom/Link";
-import cplogo from "../../assets/crowdplaylogo.png";
+import Link from "react-router-dom/Link";
+import cplogo from "../../../assets/crowdplaylogo.png";
 
-import PlaylistSearch from "../Playlist/PlaylistSearch";
-import RenderPickedMusic from "../ChatRoom/RenderPickedMusic";
+import PlaylistSearch from "../../Playlist/PlaylistSearch";
+import RenderPickedMusic from "../../ChatRoom/RenderPickedMusic";
 import firebase, { firestore } from "firebase";
-import Avatar from "../Reusable/Avatar";
+import Avatar from "../../Reusable/Avatar";
 
 const drawerWidth = 250;
 
@@ -65,7 +65,7 @@ const styles = (theme) => ({
   },
 });
 
-class ResponsiveDrawer extends React.Component {
+class ChatRoom extends React.Component {
   state = {
     mobileOpen: false,
     messages: {},
@@ -364,9 +364,9 @@ class ResponsiveDrawer extends React.Component {
   }
 }
 
-ResponsiveDrawer.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
+ChatRoom.propTypes = {
+  classes: PropTypes.object,
+  theme: PropTypes.object,
 };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default withStyles(styles, { withTheme: true })(ChatRoom);

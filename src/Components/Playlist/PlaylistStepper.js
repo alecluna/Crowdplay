@@ -3,7 +3,7 @@ import Typography from "../../../node_modules/@material-ui/core/Typography";
 import PlaylistNameForm from "../Playlist/PlaylistNameForm";
 import Success from "../Playlist/Success";
 import Confirm from "../Playlist/Confirm";
-import CreateSession from "../Pages/CreateSession";
+import CreateSession from "../Pages/CreateSession/index";
 import firebase, { firestore } from "firebase";
 
 export default class PlaylistStepper extends React.Component {

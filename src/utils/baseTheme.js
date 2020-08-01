@@ -14,15 +14,6 @@ export default createMuiTheme({
       main: "#1db954",
       hover: "#19d45b",
     },
-    gray: {
-      lightest: "#f5f5f5",
-      lighter: "#eeeeee",
-      ghostText: "#b3b3b3",
-      light: "#9f9f9f",
-      main: "#979797",
-      dark: "#5e5e5e",
-      darkest: "#232323",
-    },
     error: {
       main: "rgba(255,0,0,1)",
     },

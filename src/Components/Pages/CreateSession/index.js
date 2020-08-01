@@ -1,42 +1,34 @@
 import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
-import Header from "../Utils/Header";
+import Header from "../../Utils/Header";
 import { TextField, Button } from "@material-ui/core";
 import { Spring } from "react-spring/renderprops";
+import { StyledBackground } from "./styles";
 
 const styles = {
-  background: {
-    backgroundColor: "white",
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column"
-  },
-
   centerStyling: {
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
     alignItems: "center",
     alignContent: "center",
-    marginTop: "30px"
+    marginTop: "30px",
   },
   textFieldStyles: {
     width: 300,
     marginBottom: "4%",
     backgroundColor: "white",
-    borderRadius: "20px"
-  }
+    borderRadius: "20px",
+  },
 };
 
 export default class CreateSession extends Component {
-  continue = e => {
+  continue = (e) => {
     e.preventDefault();
     this.props.nextStep();
   };
 
-  back = e => {
+  back = (e) => {
     e.preventDefault();
     this.props.prevStep();
   };
@@ -48,18 +40,18 @@ export default class CreateSession extends Component {
       <div>
         <Header />
 
-        <div style={styles.background}>
+        <StyledBackground>
           <Spring
             from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
-            {props => (
+            {(props) => (
               <div style={props}>
                 <Typography
                   style={{
                     color: "black",
                     fontWeight: "200",
-                    textAlign: "center"
+                    textAlign: "center",
                   }}
                   variant="display2"
                 >
@@ -73,7 +65,7 @@ export default class CreateSession extends Component {
             from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
-            {props => (
+            {(props) => (
               <div style={props}>
                 <form style={styles.centerStyling}>
                   <React.Fragment>
@@ -98,7 +90,7 @@ export default class CreateSession extends Component {
                       display: "flex",
                       justifyContent: "center",
                       flexDirection: "row",
-                      marginTop: "30px"
+                      marginTop: "30px",
                     }}
                   >
                     <Button
@@ -109,7 +101,7 @@ export default class CreateSession extends Component {
                         margin: "5px",
                         borderRadius: "20px",
                         maxWidth: "200px",
-                        background: "#1db954"
+                        background: "#1db954",
                       }}
                     >
                       Back
@@ -122,7 +114,7 @@ export default class CreateSession extends Component {
                         margin: "5px",
                         maxWidth: "200px",
                         background: "#1db954",
-                        borderRadius: "20px"
+                        borderRadius: "20px",
                       }}
                     >
                       Continue
@@ -137,7 +129,7 @@ export default class CreateSession extends Component {
               Room Already Exists
             </Typography>
           ) : null}
-        </div>
+        </StyledBackground>
       </div>
     );
   }

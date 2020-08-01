@@ -3,7 +3,7 @@ import Typography from "../../node_modules/@material-ui/core/Typography";
 import Header from "./Utils/Header";
 import firebase, { firestore } from "firebase";
 import { TextField } from "@material-ui/core";
-import JoinedRooms from "../Components/Pages/JoinedRooms";
+import JoinedRooms from "./Pages/JoinedRooms";
 import { Spring } from "react-spring/renderprops";
 import Button from "./Reusable/Button";
 
