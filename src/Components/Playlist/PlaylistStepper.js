@@ -3,7 +3,7 @@ import Typography from "../../../node_modules/@material-ui/core/Typography";
 import PlaylistNameForm from "../Playlist/PlaylistNameForm";
 import Success from "../Playlist/Success";
 import Confirm from "../Playlist/Confirm";
-import CreateSession from "../Containers/CreateSession";
+import CreateSession from "../Pages/CreateSession";
 import firebase, { firestore } from "firebase";
 
 export default class PlaylistStepper extends React.Component {
@@ -17,7 +17,7 @@ export default class PlaylistStepper extends React.Component {
       roomDescription: "",
       roomExists: false,
       photoURL: "",
-      spotifyPlaylistID: ""
+      spotifyPlaylistID: "",
     };
   }
 
@@ -37,15 +37,15 @@ export default class PlaylistStepper extends React.Component {
       headers: {
         Authorization: "Bearer " + accessToken,
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name: playlist,
-        public: "true"
-      })
+        public: "true",
+      }),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         let playlistIDFromPost = data.id;
         this.setState({ spotifyPlaylistID: playlistIDFromPost }, () => {
           this.createSessionFirebase(
@@ -62,7 +62,7 @@ export default class PlaylistStepper extends React.Component {
           );
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   createSessionFirebase = (
@@ -82,7 +82,7 @@ export default class PlaylistStepper extends React.Component {
       .collection("rooms")
       .doc(roomName)
       .get()
-      .then(doc => {
+      .then((doc) => {
         if (doc.exists) {
           this.setState({ roomExists: true });
         } else {
@@ -97,7 +97,7 @@ export default class PlaylistStepper extends React.Component {
               createdAt: firestore.Timestamp.now(),
               createdBy: name,
               id: Math.floor(Math.random() * 10000000) + 1,
-              spotifyPlaylistID: playlistIDFromPost
+              spotifyPlaylistID: playlistIDFromPost,
             });
           //add room to user's joinedRoomsList
           firestoreRef
@@ -106,7 +106,7 @@ export default class PlaylistStepper extends React.Component {
             .collection("joinedRooms")
             .add({
               roomName: roomName,
-              createdAt: firestore.Timestamp.now()
+              createdAt: firestore.Timestamp.now(),
             });
 
           this.props.history.push({
@@ -116,8 +116,8 @@ export default class PlaylistStepper extends React.Component {
               accessToken: accessToken,
               userID: userID,
               photoURL: photoURL,
-              spotifyPlaylistID: playlistIDFromPost
-            }
+              spotifyPlaylistID: playlistIDFromPost,
+            },
           });
         }
       });
@@ -133,7 +133,7 @@ export default class PlaylistStepper extends React.Component {
     this.setState({ step: step - 1 });
   };
 
-  handleChange = input => e => {
+  handleChange = (input) => (e) => {
     this.setState({ [input]: e.target.value });
   };
 
@@ -147,7 +147,7 @@ export default class PlaylistStepper extends React.Component {
       roomName,
       roomDescription,
       roomExists,
-      spotifyPlaylistID
+      spotifyPlaylistID,
     } = this.state;
 
     //prop drilling
@@ -161,7 +161,7 @@ export default class PlaylistStepper extends React.Component {
       roomName,
       roomDescription,
       roomExists,
-      spotifyPlaylistID
+      spotifyPlaylistID,
     };
 
     switch (step) {

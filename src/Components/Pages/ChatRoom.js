@@ -12,7 +12,6 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-  Avatar
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -23,46 +22,47 @@ import cplogo from "../../assets/crowdplaylogo.png";
 import PlaylistSearch from "../Playlist/PlaylistSearch";
 import RenderPickedMusic from "../ChatRoom/RenderPickedMusic";
 import firebase, { firestore } from "firebase";
+import Avatar from "../Reusable/Avatar";
 
 const drawerWidth = 250;
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {
       width: drawerWidth,
-      flexShrink: 0
-    }
+      flexShrink: 0,
+    },
   },
   appBar: {
     marginLeft: drawerWidth,
     backgroundColor: "white",
     [theme.breakpoints.up("sm")]: {
-      width: `calc(100% - ${drawerWidth}px)`
-    }
+      width: `calc(100% - ${drawerWidth}px)`,
+    },
   },
   menuButton: {
     marginRight: 20,
     [theme.breakpoints.up("sm")]: {
-      display: "none"
-    }
+      display: "none",
+    },
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   content: {
     flexGrow: 1,
     padding: "5px",
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   avatar: {
     margin: 10,
     color: "#fff",
-    backgroundColor: "#1db954"
-  }
+    backgroundColor: "#1db954",
+  },
 });
 
 class ResponsiveDrawer extends React.Component {
@@ -76,7 +76,7 @@ class ResponsiveDrawer extends React.Component {
     artist: "",
     songName: "",
     spotifyPlaylistID: "",
-    thumbsCounter: 0
+    thumbsCounter: 0,
   };
 
   componentDidMount = () => {
@@ -84,10 +84,7 @@ class ResponsiveDrawer extends React.Component {
     const { userID } = this.props.location.state;
 
     //ref for room's playlist ID
-    this.roomRef = firebase
-      .firestore()
-      .collection("rooms")
-      .doc(roomId);
+    this.roomRef = firebase.firestore().collection("rooms").doc(roomId);
 
     this.retreivePlaylistID = this.retreivePlaylistID.bind(this);
     this.retreivePlaylistID();
@@ -116,12 +113,12 @@ class ResponsiveDrawer extends React.Component {
   retreivePlaylistID = () => {
     this.roomRef
       .get()
-      .then(doc => {
+      .then((doc) => {
         if (doc.exists) {
           this.setState({ spotifyPlaylistID: doc.data().spotifyPlaylistID });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("Error getting document:", error);
       });
   };
@@ -129,8 +126,8 @@ class ResponsiveDrawer extends React.Component {
   listenMessages = () => {
     this.messageFirestoreRef
       .orderBy("timestamp", "desc")
-      .onSnapshot(snapshot => {
-        let messagesFromSnapShot = snapshot.docs.map(message => {
+      .onSnapshot((snapshot) => {
+        let messagesFromSnapShot = snapshot.docs.map((message) => {
           let tempObj = { id: message.id };
           let mergedObj = Object.assign(message.data(), tempObj);
           return mergedObj;
@@ -146,17 +143,19 @@ class ResponsiveDrawer extends React.Component {
     const { name } = this.props.location.state;
 
     //if roomId is the same as the document's roomname, add user
-    this.usersFirestoreRef.orderBy("createdAt", "desc").onSnapshot(snapshot => {
-      let listofNames = [];
-      snapshot.docs.forEach(doc => {
-        if (roomId.trim() === doc.data().roomName.trim()) {
-          listofNames.push(name);
-        }
+    this.usersFirestoreRef
+      .orderBy("createdAt", "desc")
+      .onSnapshot((snapshot) => {
+        let listofNames = [];
+        snapshot.docs.forEach((doc) => {
+          if (roomId.trim() === doc.data().roomName.trim()) {
+            listofNames.push(name);
+          }
+        });
+        this.setState({
+          joinedRoomNames: [...this.state.joinedRoomNames, ...listofNames],
+        });
       });
-      this.setState({
-        joinedRoomNames: [...this.state.joinedRoomNames, ...listofNames]
-      });
-    });
   };
 
   handleSubmitNewMessage = (songName, songImage, artist, songURI) => {
@@ -171,14 +170,14 @@ class ResponsiveDrawer extends React.Component {
         name: name,
         timestamp: firestore.Timestamp.now(),
         likeCount: 0,
-        songURI: songURI
+        songURI: songURI,
       };
       this.messageFirestoreRef.add(messageInfo);
     }
   };
 
   handleDrawerToggle = () => {
-    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+    this.setState((state) => ({ mobileOpen: !state.mobileOpen }));
   };
 
   addSong = (songURI, songImage, artist, songName) => {
@@ -187,7 +186,7 @@ class ResponsiveDrawer extends React.Component {
         songURI: songURI,
         songImage: songImage,
         artist: artist,
-        songName: songName
+        songName: songName,
       },
       () => {
         this.handleSubmitNewMessage(
@@ -212,21 +211,21 @@ class ResponsiveDrawer extends React.Component {
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        method: "POST"
+        method: "POST",
       }
     )
-      .then(response => response.json())
-      .catch(error => console.log(error));
+      .then((response) => response.json())
+      .catch((error) => console.log(error));
   };
 
-  thumbsUp = id => {
+  thumbsUp = (id) => {
     const increment = firebase.firestore.FieldValue.increment(1);
     this.messageFirestoreRef.doc(id).update({ likeCount: increment });
   };
 
-  thumbsDown = id => {
+  thumbsDown = (id) => {
     const increment = firebase.firestore.FieldValue.increment(-1);
     this.messageFirestoreRef.doc(id).update({ likeCount: increment });
   };
@@ -252,7 +251,7 @@ class ResponsiveDrawer extends React.Component {
           {joinedRoomNames.map((text, index) => (
             <ListItem button key={index}>
               <ListItemIcon>
-                <Avatar className={classes.avatar}>{text.charAt(0)}</Avatar>
+                <Avatar>{text.charAt(0).toUpperCase()}</Avatar>
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -303,7 +302,7 @@ class ResponsiveDrawer extends React.Component {
                   style={{
                     float: "left",
                     height: "3em",
-                    paddingRight: "20px"
+                    paddingRight: "20px",
                   }}
                   alt="CrowdPlay"
                 />
@@ -323,7 +322,7 @@ class ResponsiveDrawer extends React.Component {
               open={this.state.mobileOpen}
               onClose={this.handleDrawerToggle}
               classes={{
-                paper: classes.drawerPaper
+                paper: classes.drawerPaper,
               }}
             >
               {drawer}
@@ -332,7 +331,7 @@ class ResponsiveDrawer extends React.Component {
           <Hidden xsDown implementation="css">
             <Drawer
               classes={{
-                paper: classes.drawerPaper
+                paper: classes.drawerPaper,
               }}
               variant="permanent"
               open
@@ -367,7 +366,7 @@ class ResponsiveDrawer extends React.Component {
 
 ResponsiveDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);

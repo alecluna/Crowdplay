@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import queryString from "query-string";
 import Link from "react-router-dom/Link";
 import firebase from "firebase";
 import { Spring } from "react-spring/renderprops";
+
+import Button from "../Components/Reusable/Button";
+import Typography from "../Components/Reusable/Typography";
 
 const styles = {
   background: {
@@ -84,8 +85,7 @@ class LoginAuth extends Component {
                 fontWeight: "200",
                 textAlign: "center",
               }}
-              variant="h6"
-              color="default"
+              variant="h4"
             >
               Welcome {name}!
             </Typography>
@@ -103,14 +103,7 @@ class LoginAuth extends Component {
                       justifyContent: "space-around",
                     }}
                   >
-                    <Button
-                      variant="contained"
-                      style={{
-                        margin: "10px",
-                        background: "#1db954",
-                        borderRadius: "20px",
-                      }}
-                    >
+                    <Button variant="contained">
                       <Link
                         style={{ textDecoration: "none " }}
                         to={{
@@ -129,14 +122,7 @@ class LoginAuth extends Component {
                       </Link>
                     </Button>
 
-                    <Button
-                      variant="contained"
-                      style={{
-                        margin: "10px",
-                        background: "#1db954",
-                        borderRadius: "20px",
-                      }}
-                    >
+                    <Button variant="contained">
                       <Link
                         style={{ textDecoration: "none " }}
                         to={{
@@ -168,10 +154,6 @@ class LoginAuth extends Component {
               <div style={props}>
                 <Button
                   variant="contained"
-                  style={{
-                    background: "#1db954",
-                    borderRadius: "20px",
-                  }}
                   onClick={() => {
                     window.location = window.location.href.includes("localhost")
                       ? "http://localhost:8888/login"

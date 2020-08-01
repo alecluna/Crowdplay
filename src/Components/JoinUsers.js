@@ -2,28 +2,29 @@ import React, { Component } from "react";
 import Typography from "../../node_modules/@material-ui/core/Typography";
 import Header from "./Utils/Header";
 import firebase, { firestore } from "firebase";
-import { Button, TextField } from "@material-ui/core";
-import JoinedRoomsContainer from "../Components/Containers/JoinedRoomsContainer";
+import { TextField } from "@material-ui/core";
+import JoinedRooms from "../Components/Pages/JoinedRooms";
 import { Spring } from "react-spring/renderprops";
+import Button from "./Reusable/Button";
 
 const styles = {
   background: {
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   centerStyling: {
     display: "flex",
     justifyContent: "center",
     flexWrap: "wrap",
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   textFieldStyles: {
     marginBottom: "4%",
     backgroundColor: "white",
     borderRadius: "20px",
     marginRight: "5%",
-    marginLeft: "5%"
-  }
+    marginLeft: "5%",
+  },
 };
 
 class JoinUsers extends Component {
@@ -35,7 +36,7 @@ class JoinUsers extends Component {
       text: "",
       searchRoomKeyWords: "",
       roomNotFound: false,
-      joinedRooms: []
+      joinedRooms: [],
     };
     this.fireStoreRooms = firebase.firestore().collection("rooms");
   }
@@ -51,8 +52,8 @@ class JoinUsers extends Component {
       .doc(userID)
       .collection("joinedRooms")
       .orderBy("createdAt", "desc")
-      .onSnapshot(snapshot => {
-        let roomNames = snapshot.docs.map(doc => {
+      .onSnapshot((snapshot) => {
+        let roomNames = snapshot.docs.map((doc) => {
           return doc.data().roomName;
         });
 
@@ -60,7 +61,7 @@ class JoinUsers extends Component {
       });
   };
 
-  handleSearchForRoom = event => {
+  handleSearchForRoom = (event) => {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
     const { searchRoomKeyWords } = this.state;
 
@@ -68,7 +69,7 @@ class JoinUsers extends Component {
       this.fireStoreRooms
         .doc(searchRoomKeyWords)
         .get()
-        .then(doc => {
+        .then((doc) => {
           if (doc.exists) {
             this.setState({ roomNotFound: false });
             this.props.history.push({
@@ -77,8 +78,8 @@ class JoinUsers extends Component {
                 name: name,
                 accessToken: accessToken,
                 userID: userID,
-                photoURL: photoURL
-              }
+                photoURL: photoURL,
+              },
             });
             firebase
               .firestore()
@@ -87,7 +88,7 @@ class JoinUsers extends Component {
               .collection("joinedRooms")
               .add({
                 roomName: searchRoomKeyWords,
-                createdAt: firestore.Timestamp.now()
+                createdAt: firestore.Timestamp.now(),
               });
           } else {
             this.setState({ roomNotFound: true });
@@ -97,11 +98,11 @@ class JoinUsers extends Component {
     event.preventDefault();
   };
 
-  changeSearchText = e => {
+  changeSearchText = (e) => {
     this.setState({ searchRoomKeyWords: e.target.value });
   };
 
-  deleteChatRoom = nameofRoom => {
+  deleteChatRoom = (nameofRoom) => {
     console.log(nameofRoom);
     /**
      * Call the 'recursiveDelete' callable function with a path to initiate
@@ -109,31 +110,22 @@ class JoinUsers extends Component {
      */
     let deleteFn = firebase.functions().httpsCallable("recursiveDelete");
     deleteFn({ path: `spotify-crowdpay/rooms/${nameofRoom.trim()}` })
-      .then(result => {
+      .then((result) => {
         console.log("Delete success: " + JSON.stringify(result));
       })
-      .catch(err => {
+      .catch((err) => {
         console.warn(err);
       });
   };
 
-  showIfRoomNotFound = () => {
-    const { roomNotFound } = this.state;
-    return roomNotFound ? (
-      <Typography align="center" color="error" variant="h4">
-        Sorry, Room Not Found!
-      </Typography>
-    ) : null;
-  };
-
   render() {
     const { name, accessToken, photoURL, userID } = this.props.location.state;
-    const { joinedRooms } = this.state;
+    const { joinedRooms, roomNotFound } = this.state;
 
-    const joinedRoomsMapped = joinedRooms.map(roomName => {
+    const joinedRoomsMapped = joinedRooms.map((roomName) => {
       return (
         <li style={{ listStyleType: "none" }} key={roomName}>
-          <JoinedRoomsContainer
+          <JoinedRooms
             roomName={roomName}
             name={name}
             accessToken={accessToken}
@@ -153,31 +145,26 @@ class JoinUsers extends Component {
             from={{ opacity: 0, transform: "translate3d(0,-30px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
-            {props => (
+            {(props) => (
               <div style={props}>
                 <div style={styles.centerStyling}>
-                  <Typography
-                    style={{
-                      fontWeight: "200",
-                      paddingBottom: "3%"
-                    }}
-                    variant="display2"
-                    color="textPrimary"
-                  >
-                    My Sessions
-                  </Typography>
+                  <Typography>My Sessions</Typography>
                 </div>
               </div>
             )}
           </Spring>
 
-          {this.showIfRoomNotFound()}
+          {roomNotFound && (
+            <Typography align="center" color="error" variant="h4">
+              Sorry, Room Not Found!
+            </Typography>
+          )}
 
           <Spring
             from={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
-            {props => (
+            {(props) => (
               <div style={props}>
                 <form
                   style={{
@@ -186,7 +173,7 @@ class JoinUsers extends Component {
                     alignItems: "center",
                     flexDirection: "column",
                     paddingLeft: "5em",
-                    paddingRight: "5em"
+                    paddingRight: "5em",
                   }}
                   onSubmit={this.handleSearchForRoom.bind(this)}
                 >
@@ -199,34 +186,19 @@ class JoinUsers extends Component {
                     value={this.state.searchRoomKeyWords}
                     style={styles.textFieldStyles}
                   />
-                  <Button
-                    type="submit"
-                    style={{
-                      color: "white",
-                      margin: "5px",
-                      borderRadius: "20px",
-                      maxWidth: "200px",
-                      background: "#1db954"
-                    }}
-                  >
-                    Search
-                  </Button>
+                  <Button type="submit">Search</Button>
                 </form>
               </div>
             )}
           </Spring>
-          <Typography
-            align="center"
-            variant="h5"
-            style={{ fontWeight: "200", margin: "10px" }}
-          >
+          <Typography align="center" variant="h6">
             Avaliable rooms:
           </Typography>
           <div
             style={{
               display: "flex",
               justifyContent: "center",
-              flexWrap: "wrap"
+              flexWrap: "wrap",
             }}
           >
             {joinedRoomsMapped}

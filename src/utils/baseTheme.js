@@ -11,7 +11,8 @@ export default createMuiTheme({
   palette: {
     primary: {
       light: "#EAF9FF",
-      main: "rgb(29, 185, 84)",
+      main: "#1db954",
+      hover: "#19d45b",
     },
     gray: {
       lightest: "#f5f5f5",
@@ -35,5 +36,19 @@ export default createMuiTheme({
   },
   titlebar: {
     primary: { main: "rgba(255, 255, 255, 1)" },
+  },
+  typography: {
+    fontFamily: [
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
   },
 });

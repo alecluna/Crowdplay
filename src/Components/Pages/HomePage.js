@@ -3,7 +3,7 @@ import Typography from "../../../node_modules/@material-ui/core/Typography";
 import SpotifyLogo from "../../../src/assets/logo.png";
 import LoginAuth from "../../Components/LoginAuth";
 import { Spring } from "react-spring/renderprops";
-import withRoot from "../Utils/withRoot";
+import { withTheme } from "@material-ui/core/styles";
 
 const styles = {
   background: {
@@ -12,41 +12,33 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "column"
-  }
+    flexDirection: "column",
+  },
 };
 
-const HomePageContainer = () => (
+const HomePage = (props) => (
   <div style={styles.background}>
     <div
       style={{
         display: "flex",
         justifyContent: "center",
         margin: "1.5rem",
-        flexDirection: "row"
+        flexDirection: "row",
       }}
     >
       <Spring
         from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
         to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
       >
-        {props => (
+        {(props) => (
           <div style={props}>
-            <Typography
-              variant="display2"
-              style={{
-                fontSize: "3em",
-                textAlign: "center",
-                color: "black",
-                fontWeight: "300"
-              }}
-            >
+            <Typography variant="h3" style={{ fontWeight: 300 }}>
               CrowdPlay for&nbsp;
             </Typography>
             <div
               style={{
                 display: "flex",
-                justifyContent: "center"
+                justifyContent: "center",
               }}
             >
               <img
@@ -63,4 +55,4 @@ const HomePageContainer = () => (
   </div>
 );
 
-export default withRoot(HomePageContainer);
+export default withTheme(HomePage);

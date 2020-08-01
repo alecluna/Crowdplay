@@ -1,9 +1,11 @@
 import React from "react";
-import { Avatar, Typography, List, ListItem, Paper } from "@material-ui/core";
+import { Typography, List, ListItem } from "@material-ui/core";
 import { Spring } from "react-spring/renderprops";
 import ThumbsUpDown from "./ThumbsUpDown";
+import Avatar from "../Reusable/Avatar";
+import Paper from "../Reusable/Paper";
 
-const RenderPickedMusic = ({ messages, classes, thumbsUp, thumbsDown }) => {
+const RenderPickedMusic = ({ messages, thumbsUp, thumbsDown }) => {
   const mappedMessages = Object.entries(messages).map(([key, value]) => {
     const { text, name, photoURL, songArtist, likeCount, id } = value;
     return (
@@ -12,45 +14,17 @@ const RenderPickedMusic = ({ messages, classes, thumbsUp, thumbsDown }) => {
           from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
           to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
         >
-          {props => (
+          {(props) => (
             <div style={props}>
               <ListItem>
-                <Avatar
-                  style={{
-                    backgroundColor: "#1db954"
-                  }}
-                  className={classes.avatar}
-                >
-                  {name.charAt(0)}
-                </Avatar>
-                <Paper
-                  style={{
-                    borderRadius: "0 10px 10px 10px",
-                    padding: "10px"
-                  }}
-                  elevation={15}
-                >
-                  <p
-                    style={{
-                      fontWeight: "500",
-                      fontFamily: [
-                        "-apple-system",
-                        "BlinkMacSystemFont",
-                        '"Segoe UI"',
-                        "Roboto",
-                        '"Helvetica Neue"'
-                      ],
-                      color: "black",
-                      padding: "5px"
-                    }}
-                  >
-                    {name} added:
-                  </p>
+                <Avatar>{name.charAt(0).toUpperCase()}</Avatar>
+                <Paper elevation={5}>
+                  <Typography>{name} added:</Typography>
                   <div
                     style={{
                       display: "flex",
                       justifyContent: "row",
-                      alignItems: "center"
+                      alignItems: "center",
                     }}
                   >
                     <img
@@ -81,7 +55,8 @@ const RenderPickedMusic = ({ messages, classes, thumbsUp, thumbsDown }) => {
       </List>
     );
   });
-  return <div>{mappedMessages}</div>;
+
+  return <React.Fragment>{mappedMessages}</React.Fragment>;
 };
 
 export default RenderPickedMusic;

@@ -13,21 +13,21 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   button: {
-    margin: 15
+    margin: 15,
   },
   textFieldStyles: {
     width: 300,
     marginBottom: "4%",
     backgroundColor: "white",
-    borderRadius: "20px"
-  }
+    borderRadius: "20px",
+  },
 };
 
 export default class PlaylistNameForm extends Component {
-  continue = e => {
+  continue = (e) => {
     e.preventDefault();
     this.props.nextStep();
   };
@@ -42,15 +42,9 @@ export default class PlaylistNameForm extends Component {
             from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
-            {props => (
+            {(props) => (
               <div style={props}>
-                <Typography
-                  align="center"
-                  variant="display2"
-                  style={{ color: "black", fontWeight: "200", margin: "15px" }}
-                >
-                  Name Your Playlist:
-                </Typography>
+                <Typography align="center">Name Your Playlist:</Typography>
               </div>
             )}
           </Spring>
@@ -58,7 +52,7 @@ export default class PlaylistNameForm extends Component {
             from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
-            {props => (
+            {(props) => (
               <div style={props}>
                 <React.Fragment>
                   <TextField
@@ -73,7 +67,7 @@ export default class PlaylistNameForm extends Component {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    flexDirection: "row"
+                    flexDirection: "row",
                   }}
                 >
                   <Link to="/home" style={{ textDecoration: "none" }}>
@@ -84,7 +78,7 @@ export default class PlaylistNameForm extends Component {
                         margin: "5px",
                         borderRadius: "20px",
                         maxWidth: "200px",
-                        background: "#1db954"
+                        background: "#1db954",
                       }}
                     >
                       Back
@@ -98,7 +92,7 @@ export default class PlaylistNameForm extends Component {
                       margin: "5px",
                       borderRadius: "20px",
                       maxWidth: "200px",
-                      background: "#1db954"
+                      background: "#1db954",
                     }}
                   >
                     Continue

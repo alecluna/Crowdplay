@@ -9,12 +9,12 @@ const styles = {
     margin: "20px",
     width: window.innerWidth < 450 ? "15em" : "25em",
     height: 125,
-    borderRadius: "10px"
-  }
+    borderRadius: "10px",
+  },
 };
 
-class JoinedRoomsContainer extends Component {
-  deleteChatRoom = roomName => {
+class JoinedRooms extends Component {
+  deleteChatRoom = (roomName) => {
     this.props.deleteChatRoom(roomName);
   };
   render() {
@@ -26,7 +26,7 @@ class JoinedRoomsContainer extends Component {
             style={{
               textDecoration: "none",
               color: "black",
-              width: "100%"
+              width: "100%",
             }}
             to={{
               pathname: `/room/${roomName}`,
@@ -34,8 +34,8 @@ class JoinedRoomsContainer extends Component {
                 name: `${name}`,
                 accessToken: `${accessToken}`,
                 userID: `${userID}`,
-                photoURL: `${photoURL}`
-              }
+                photoURL: `${photoURL}`,
+              },
             }}
           >
             <CardContent>
@@ -63,4 +63,4 @@ class JoinedRoomsContainer extends Component {
   }
 }
 
-export default JoinedRoomsContainer;
+export default JoinedRooms;
