@@ -1,5 +1,7 @@
 import React from "react";
 import Routes from "./Routes";
+import baseTheme from "./utils/baseTheme";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core";
 import "./App.css";
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -15,10 +17,22 @@ let firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-const App = () => (
-  <div className="App">
-    <Routes />
-  </div>
-);
+const App = () => {
+  return (
+    <MuiThemeProvider theme={materialTheme}>
+      <div className="App">
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Gothic+A1"
+        />
+        <Routes />
+      </div>
+    </MuiThemeProvider>
+  );
+};
 
 export default App;
+
+const materialTheme = createMuiTheme({
+  ...baseTheme,
+});

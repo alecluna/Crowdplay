@@ -3,10 +3,10 @@ import Header from "../Components/Utils/Header";
 import HomePageContainer from "../Components/Containers/HomePageContainer";
 
 const Home = () => (
-  <div>
+  <React.Fragment>
     <Header />
     <HomePageContainer />
-  </div>
+  </React.Fragment>
 );
 
 export default Home;
