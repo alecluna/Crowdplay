@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import Typography from "../../node_modules/@material-ui/core/Typography";
-import Header from "./Utils/Header";
+import Typography from "@material-ui/core/Typography";
 import firebase, { firestore } from "firebase";
 import { TextField } from "@material-ui/core";
-import JoinedRooms from "./Pages/JoinedRooms";
+import JoinedRooms from "./JoinedRooms";
 import { Spring } from "react-spring/renderprops";
-import Button from "./Reusable/Button";
+import Button from "../../Reusable/Button";
 
 const styles = {
   background: {
@@ -27,7 +26,7 @@ const styles = {
   },
 };
 
-class JoinUsers extends Component {
+class JoinUsersWithRooms extends Component {
   constructor() {
     super();
     this.state = {
@@ -139,7 +138,6 @@ class JoinUsers extends Component {
 
     return (
       <div>
-        <Header />
         <div style={styles.background}>
           <Spring
             from={{ opacity: 0, transform: "translate3d(0,-30px,0)" }}
@@ -209,4 +207,4 @@ class JoinUsers extends Component {
   }
 }
 
-export default JoinUsers;
+export default JoinUsersWithRooms;

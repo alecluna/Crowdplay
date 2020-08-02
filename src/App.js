@@ -5,6 +5,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core";
 import "./App.css";
 import firebase from "firebase/app";
 import "firebase/firestore";
+import Header from "./Components/Reusable/Header";
 require("dotenv");
 
 let firebaseConfig = {
@@ -21,10 +22,7 @@ const App = () => {
   return (
     <MuiThemeProvider theme={materialTheme}>
       <div className="App">
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Gothic+A1"
-        />
+        <Header />
         <Routes />
       </div>
     </MuiThemeProvider>

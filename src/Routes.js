@@ -1,8 +1,8 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./Components/Home";
-import NotFoundPage from "./Components/Utils/NotFoundPage";
-import JoinUsers from "./Components/JoinUsers";
+import NotFoundPage from "./Components/Reusable/NotFoundPage";
+import JoinUsersWithRooms from "./Components/Pages/JoinUsersWithRooms";
 import ChatRoom from "./Components/Pages/ChatRoom/index";
 import PlaylistStepper from "./Components/Playlist/PlaylistStepper";
 
@@ -14,7 +14,7 @@ const Routes = () => {
       <Route
         exact
         path="/joinusers"
-        render={(props) => <JoinUsers {...props} />}
+        render={(props) => <JoinUsersWithRooms {...props} />}
       />
       <Route
         exact

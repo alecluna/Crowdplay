@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button, Typography, List, ListItem } from "@material-ui/core";
-import Header from "../Utils/Header";
 import { Spring } from "react-spring/renderprops";
 
 const styles = {
@@ -10,12 +9,12 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   fontStyles: {
     fontWeight: "200",
-    color: "black"
-  }
+    color: "black",
+  },
 };
 
 export default class Confirm extends Component {
@@ -24,7 +23,7 @@ export default class Confirm extends Component {
     this.props.nextStep();
   };
 
-  back = e => {
+  back = (e) => {
     e.preventDefault();
     this.props.prevStep();
   };
@@ -50,19 +49,18 @@ export default class Confirm extends Component {
         roomName,
         roomDescription,
         roomExists,
-        photoURL
-      }
+        photoURL,
+      },
     } = this.props;
 
     return (
       <div>
-        <Header />
         <div style={styles.background}>
           <Spring
             from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
             to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
           >
-            {props => (
+            {(props) => (
               <div style={props}>
                 <Typography
                   align="center"
@@ -97,14 +95,14 @@ export default class Confirm extends Component {
               display: "flex",
               justifyContent: "center",
               flexDirection: "row",
-              marginTop: "30px"
+              marginTop: "30px",
             }}
           >
             <Spring
               from={{ opacity: 0, transform: "translate3d(0,90px,0)" }}
               to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
             >
-              {props => (
+              {(props) => (
                 <div style={props}>
                   <Button
                     style={{
@@ -112,7 +110,7 @@ export default class Confirm extends Component {
                       margin: "5px",
                       maxWidth: "200px",
                       borderRadius: "20px",
-                      background: "#1db954"
+                      background: "#1db954",
                     }}
                     onClick={this.back}
                   >
@@ -125,12 +123,12 @@ export default class Confirm extends Component {
                       margin: "5px",
                       borderRadius: "20px",
                       maxWidth: "200px",
-                      background: "#1db954"
+                      background: "#1db954",
                     }}
                     disabled={this.error() ? true : false}
                     onClick={this.confirm.bind(
                       this,
-                      playlist  ,
+                      playlist,
                       privatePlaylist,
                       name,
                       accessToken,

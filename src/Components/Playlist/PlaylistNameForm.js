@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import TextField from "../../../node_modules/@material-ui/core/TextField";
 import Button from "../../../node_modules/@material-ui/core/Button";
 import { Typography } from "@material-ui/core";
-import Header from "../Utils/Header";
 import Link from "../../../node_modules/react-router-dom/Link";
 import { Spring } from "react-spring/renderprops";
 
@@ -36,7 +35,6 @@ export default class PlaylistNameForm extends Component {
     const { handleChange } = this.props;
     return (
       <div>
-        <Header />
         <div style={styles.background}>
           <Spring
             from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}

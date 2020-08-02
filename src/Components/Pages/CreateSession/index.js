@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
-import Header from "../../Utils/Header";
 import { TextField, Button } from "@material-ui/core";
 import { Spring } from "react-spring/renderprops";
 import { StyledBackground } from "./styles";
@@ -38,8 +37,6 @@ export default class CreateSession extends Component {
 
     return (
       <div>
-        <Header />
-
         <StyledBackground>
           <Spring
             from={{ opacity: 0, transform: "translate3d(0,-90px,0)" }}
