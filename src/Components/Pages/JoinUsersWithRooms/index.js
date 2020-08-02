@@ -1,50 +1,29 @@
-import React, { Component } from "react";
-import Typography from "@material-ui/core/Typography";
+import React, { useState, useEffect } from "react";
 import firebase, { firestore } from "firebase";
-import { TextField } from "@material-ui/core";
 import JoinedRooms from "./JoinedRooms";
-import { Spring } from "react-spring/renderprops";
 import Button from "../../Reusable/Button";
+import Typography from "../../Reusable/Typography";
+import {
+  StyledRoomsListContainer,
+  StyledTextField,
+  StyledForm,
+} from "./styles";
 
-const styles = {
-  background: {
-    backgroundColor: "white",
-  },
-  centerStyling: {
-    display: "flex",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  textFieldStyles: {
-    marginBottom: "4%",
-    backgroundColor: "white",
-    borderRadius: "20px",
-    marginRight: "5%",
-    marginLeft: "5%",
-  },
-};
+const JoinUsersWithRooms = (props) => {
+  const { name, accessToken, photoURL, userID } = props.location.state;
 
-class JoinUsersWithRooms extends Component {
-  constructor() {
-    super();
-    this.state = {
-      sessionId: "",
-      chatId: "",
-      text: "",
-      searchRoomKeyWords: "",
-      roomNotFound: false,
-      joinedRooms: [],
-    };
-    this.fireStoreRooms = firebase.firestore().collection("rooms");
-  }
-  componentDidMount = () => {
-    this.getRooms();
-  };
+  const [searchRoomKeyWords, setSearchRoomKeyWords] = useState("");
+  const [roomNotFound, setRoomNotFound] = useState(false);
+  const [joinedRooms, setJoinedRooms] = useState([]);
 
-  getRooms = () => {
-    const { userID } = this.props.location.state;
+  let fireStoreRooms = firebase.firestore().collection("rooms");
+
+  useEffect(() => {
+    getRooms();
+  }, []);
+
+  const getRooms = () => {
+    const { userID } = props.location.state;
     firebase
       .firestore()
       .collection("users")
@@ -56,22 +35,19 @@ class JoinUsersWithRooms extends Component {
           return doc.data().roomName;
         });
 
-        this.setState({ joinedRooms: roomNames });
+        setJoinedRooms(roomNames);
       });
   };
 
-  handleSearchForRoom = (event) => {
-    const { name, accessToken, photoURL, userID } = this.props.location.state;
-    const { searchRoomKeyWords } = this.state;
-
+  const handleSearchForRoom = (e) => {
     if (searchRoomKeyWords && searchRoomKeyWords.trim()) {
-      this.fireStoreRooms
+      fireStoreRooms
         .doc(searchRoomKeyWords)
         .get()
         .then((doc) => {
           if (doc.exists) {
-            this.setState({ roomNotFound: false });
-            this.props.history.push({
+            setRoomNotFound(false);
+            props.history.push({
               pathname: `/room/${searchRoomKeyWords}`,
               state: {
                 name: name,
@@ -90,121 +66,78 @@ class JoinUsersWithRooms extends Component {
                 createdAt: firestore.Timestamp.now(),
               });
           } else {
-            this.setState({ roomNotFound: true });
+            setRoomNotFound(true);
           }
         });
     }
-    event.preventDefault();
+
+    e.preventDefault();
   };
 
-  changeSearchText = (e) => {
-    this.setState({ searchRoomKeyWords: e.target.value });
+  const changeSearchText = (e) => {
+    setSearchRoomKeyWords(e.target.value);
   };
 
-  deleteChatRoom = (nameofRoom) => {
+  const deleteChatRoom = (nameofRoom) => {
     console.log(nameofRoom);
     /**
      * Call the 'recursiveDelete' callable function with a path to initiate
      * a server-side delete.
      */
-    let deleteFn = firebase.functions().httpsCallable("recursiveDelete");
-    deleteFn({ path: `spotify-crowdpay/rooms/${nameofRoom.trim()}` })
-      .then((result) => {
-        console.log("Delete success: " + JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.warn(err);
-      });
+    // let deleteFn = firebase.functions().httpsCallable("recursiveDelete");
+    // deleteFn({ path: `spotify-crowdpay/rooms/${nameofRoom.trim()}` })
+    //   .then((result) => {
+    //     console.log("Delete success: " + JSON.stringify(result));
+    //   })
+    //   .catch((err) => {
+    //     console.warn(err);
+    // });
   };
 
-  render() {
-    const { name, accessToken, photoURL, userID } = this.props.location.state;
-    const { joinedRooms, roomNotFound } = this.state;
-
-    const joinedRoomsMapped = joinedRooms.map((roomName) => {
-      return (
-        <li style={{ listStyleType: "none" }} key={roomName}>
-          <JoinedRooms
-            roomName={roomName}
-            name={name}
-            accessToken={accessToken}
-            userID={userID}
-            photoURL={photoURL}
-            deleteChatRoom={this.deleteChatRoom}
-          />
-        </li>
-      );
-    });
-
+  const joinedRoomsMapped = joinedRooms.map((roomName, idx) => {
     return (
-      <div>
-        <div style={styles.background}>
-          <Spring
-            from={{ opacity: 0, transform: "translate3d(0,-30px,0)" }}
-            to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
-          >
-            {(props) => (
-              <div style={props}>
-                <div style={styles.centerStyling}>
-                  <Typography>My Sessions</Typography>
-                </div>
-              </div>
-            )}
-          </Spring>
-
-          {roomNotFound && (
-            <Typography align="center" color="error" variant="h4">
-              Sorry, Room Not Found!
-            </Typography>
-          )}
-
-          <Spring
-            from={{ opacity: 0, transform: "translate3d(0,50px,0)" }}
-            to={{ opacity: 1, transform: "translate3d(0,0px,0)" }}
-          >
-            {(props) => (
-              <div style={props}>
-                <form
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    paddingLeft: "5em",
-                    paddingRight: "5em",
-                  }}
-                  onSubmit={this.handleSearchForRoom.bind(this)}
-                >
-                  <TextField
-                    placeholder="Search for a room"
-                    type="text"
-                    align="center"
-                    fullWidth
-                    onChange={this.changeSearchText.bind(this)}
-                    value={this.state.searchRoomKeyWords}
-                    style={styles.textFieldStyles}
-                  />
-                  <Button type="submit">Search</Button>
-                </form>
-              </div>
-            )}
-          </Spring>
-          <Typography align="center" variant="h6">
-            Avaliable rooms:
-          </Typography>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            {joinedRoomsMapped}
-          </div>
-        </div>
-      </div>
+      <li style={{ listStyleType: "none" }} key={roomName + idx}>
+        <JoinedRooms
+          roomName={roomName}
+          name={name}
+          accessToken={accessToken}
+          userID={userID}
+          photoURL={photoURL}
+          deleteChatRoom={deleteChatRoom}
+        />
+      </li>
     );
-  }
-}
+  });
+
+  return (
+    <React.Fragment>
+      <StyledRoomsListContainer>
+        <Typography variant="h4">My Sessions</Typography>
+
+        {roomNotFound && (
+          <Typography align="center" color="error" variant="h4">
+            Sorry, Room Not Found!
+          </Typography>
+        )}
+
+        <StyledForm onSubmit={(e) => handleSearchForRoom(e)}>
+          <StyledTextField
+            placeholder="Search for a room"
+            type="text"
+            fullWidth
+            onChange={(e) => changeSearchText(e)}
+            value={searchRoomKeyWords}
+          />
+          <Button type="submit">Search</Button>
+        </StyledForm>
+
+        <Typography align="center" variant="h6">
+          Avaliable rooms:
+        </Typography>
+        <React.Fragment>{joinedRoomsMapped}</React.Fragment>
+      </StyledRoomsListContainer>
+    </React.Fragment>
+  );
+};
 
 export default JoinUsersWithRooms;

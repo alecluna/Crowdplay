@@ -1,9 +1,8 @@
 import React from "react";
-import Link from "react-router-dom/Link";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 
 import { Button, Typography, CardContent } from "@material-ui/core";
-import { StyledPaperCard } from "./styles";
+import { StyledPaperCard, StyledLink } from "./styles";
 
 const JoinedRooms = (props) => {
   const {
@@ -16,18 +15,13 @@ const JoinedRooms = (props) => {
   } = props;
 
   const handleDeleteChatRoom = (roomName) => {
-    props.deleteChatRoom(roomName);
+    deleteChatRoom(roomName);
   };
 
   return (
     <React.Fragment>
       <StyledPaperCard elevation={5} key={name}>
-        <Link
-          style={{
-            textDecoration: "none",
-            color: "black",
-            width: "100%",
-          }}
+        <StyledLink
           to={{
             pathname: `/room/${roomName}`,
             state: {
@@ -47,7 +41,7 @@ const JoinedRooms = (props) => {
               {roomName}
             </Typography>
           </CardContent>
-        </Link>
+        </StyledLink>
         <Button
           style={{ float: "right" }}
           type="submit"

@@ -4,7 +4,7 @@ import Home from "./Components/Home";
 import NotFoundPage from "./Components/Reusable/NotFoundPage";
 import JoinUsersWithRooms from "./Components/Pages/JoinUsersWithRooms";
 import ChatRoom from "./Components/Pages/ChatRoom/index";
-import PlaylistStepper from "./Components/Playlist/PlaylistStepper";
+import CreateSession from "./Components/Pages/CreateSession";
 
 const Routes = () => {
   return (
@@ -19,7 +19,7 @@ const Routes = () => {
       <Route
         exact
         path="/createsession"
-        render={(props) => <PlaylistStepper {...props} />}
+        render={(props) => <CreateSession {...props} />}
       />
       <Route
         exact
