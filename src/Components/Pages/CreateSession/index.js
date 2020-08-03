@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Typography from "../../Reusable/Typography";
 import PlaylistNameForm from "./Stepper/Step1/index";
 import SessionInfo from "./Stepper/Step2/index";
-import Success from "../../Playlist/Success";
+import Success from "./Success";
 import Confirm from "./Stepper/Step3/Confirm";
 import firebase, { firestore } from "firebase";
 
@@ -11,7 +11,7 @@ const CreateSession = (props) => {
 
   const [step, setStep] = useState(1);
   const [playlist, setPlaylist] = useState("");
-  // const [privatePlaylist, setPrivatePlaylist] = useState("public");
+  const [privatePlaylist, setPrivatePlaylist] = useState("public");
   const [roomName, setRoomName] = useState("");
   const [roomDescription, setRoomDescription] = useState("");
   const [roomExists, setRoomExists] = useState(false);
