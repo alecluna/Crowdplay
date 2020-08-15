@@ -4,7 +4,7 @@ import {
   List,
   ListItem,
   Typography,
-  Paper
+  Paper,
 } from "@material-ui/core";
 import { debounce } from "lodash";
 
@@ -13,14 +13,14 @@ export default class PlaylistSearch extends Component {
     super(props);
     this.state = {
       count: 0,
-      searchMusic: []
+      searchMusic: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleMusicSearch = this.handleMusicSearch.bind(this);
     this.handleMusicPick = this.handleMusicPick.bind(this);
   }
 
-  handleMusicSearch = newQuery => {
+  handleMusicSearch = (newQuery) => {
     const { accessToken } = this.props;
 
     const request = new Request(
@@ -28,39 +28,40 @@ export default class PlaylistSearch extends Component {
       {
         headers: new Headers({
           Authorization: "Bearer " + accessToken,
-          Accept: "application/json"
-        })
+          Accept: "application/json",
+        }),
       }
     );
 
     fetch(request)
-      .then(res => {
+      .then((res) => {
         if (res.statusText === "Unauthorized") {
           window.location.href = "./";
         }
         return res.json();
       })
-      .then(res => {
+      .then((res) => {
         if (res.tracks !== null)
-          return res.tracks.items.map(item => {
+          return res.tracks.items.map((item) => { 
             return {
               songName: item.name,
               artist: item.artists[0].name,
               imageLink: item.album.images[2].url,
-              uri: item.uri
+              uri: item.uri,
             };
           });
         else {
           return [];
         }
       })
-      .then(searchMusic => this.setState({ searchMusic }));
+      .then((searchMusic) => this.setState({ searchMusic }))
+      .catch((err) => console.log("error", err));
   };
 
   //closure for delaying synthetic events in React
   debounceEvent = (...args) => {
     this.debouncedEvent = debounce(...args);
-    return e => {
+    return (e) => {
       e.persist();
       return this.debouncedEvent(e);
     };
@@ -71,7 +72,7 @@ export default class PlaylistSearch extends Component {
     this.debouncedEvent.cancel();
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     e.preventDefault();
     let value = e.target.value;
     value === "" || value === undefined
@@ -79,13 +80,13 @@ export default class PlaylistSearch extends Component {
       : this.handleMusicSearch(value);
   };
 
-  handleMusicPick = songIndex => {
+  handleMusicPick = (songIndex) => {
     let songURI = this.state.searchMusic[songIndex].uri;
     let songImage = this.state.searchMusic[songIndex].imageLink;
     let artist = this.state.searchMusic[songIndex].artist;
     let songName = this.state.searchMusic[songIndex].songName;
 
-    this.props.addSong(songURI, songImage, artist, songName);
+    this.props.addMessageorSong(songURI, songImage, artist, songName);
     this.setState({ searchMusic: [] });
   };
 
@@ -106,9 +107,9 @@ export default class PlaylistSearch extends Component {
               key={index}
               style={{
                 position: "absolute",
-                zIndex: "1",
+                zIndex: "10000",
                 top: `${(base += absouteCounter)}px`,
-                width: "80%"
+                width: "80%",
               }}
             >
               <List>
@@ -121,7 +122,7 @@ export default class PlaylistSearch extends Component {
                       height: "5rem",
                       padding: "4px",
                       borderRadius: "10px",
-                      marginRight: "5px"
+                      marginRight: "5px",
                     }}
                   />
                   <Typography fontWeight="fontWeightMedium" fontSize={18}>

@@ -18,11 +18,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { withStyles } from "@material-ui/core/styles";
 import Link from "react-router-dom/Link";
 import cplogo from "../../../assets/crowdplaylogo.png";
-
-import PlaylistSearch from "../../Playlist/PlaylistSearch";
-import RenderPickedMusic from "../../ChatRoom/RenderPickedMusic";
 import firebase, { firestore } from "firebase";
 import Avatar from "../../Reusable/Avatar";
+import Messenger from "../../Messenger";
 
 const drawerWidth = 250;
 
@@ -57,6 +55,8 @@ const styles = (theme) => ({
     flexGrow: 1,
     padding: "5px",
     backgroundColor: "white",
+    height: "95vh",
+    overflow: "hidden",
   },
   avatar: {
     margin: 10,
@@ -77,6 +77,7 @@ class ChatRoom extends React.Component {
     songName: "",
     spotifyPlaylistID: "",
     thumbsCounter: 0,
+    isMessageorSong: "message",
   };
 
   componentDidMount = () => {
@@ -125,7 +126,7 @@ class ChatRoom extends React.Component {
 
   listenMessages = () => {
     this.messageFirestoreRef
-      .orderBy("timestamp", "desc")
+      .orderBy("timestamp", "asc")
       .onSnapshot((snapshot) => {
         let messagesFromSnapShot = snapshot.docs.map((message) => {
           let tempObj = { id: message.id };
@@ -180,7 +181,7 @@ class ChatRoom extends React.Component {
     this.setState((state) => ({ mobileOpen: !state.mobileOpen }));
   };
 
-  addSong = (songURI, songImage, artist, songName) => {
+  addMessageorSong = (songURI, songImage, artist, songName) => {
     this.setState(
       {
         songURI: songURI,
@@ -233,7 +234,12 @@ class ChatRoom extends React.Component {
   render() {
     const { accessToken, userID } = this.props.location.state;
     const { classes, theme } = this.props;
-    const { messages, joinedRoomNames, thumbsCounter } = this.state;
+    const {
+      messages,
+      joinedRoomNames,
+      thumbsCounter,
+      isMessageorSong,
+    } = this.state;
 
     const drawer = (
       <div>
@@ -341,23 +347,18 @@ class ChatRoom extends React.Component {
           </Hidden>
         </nav>
         <main className={classes.content}>
-          <div className={classes.toolbar}>
-            <div style={{ marginTop: "80px" }}>
-              <PlaylistSearch
-                accessToken={accessToken}
-                userID={userID}
-                addSong={this.addSong}
-              />
-              <RenderPickedMusic
-                classes={classes}
-                theme={theme}
-                messages={messages}
-                thumbsUp={this.thumbsUp}
-                thumbsDown={this.thumbsDown}
-                thumbsCounter={thumbsCounter}
-              />
-            </div>
-          </div>
+          <Messenger
+            accessToken={accessToken}
+            userID={userID}
+            classes={classes}
+            theme={theme}
+            messages={messages}
+            thumbsCounter={thumbsCounter}
+            thumbsUp={this.thumbsUp}
+            thumbsDown={this.thumbsDown}
+            addMessageorSong={this.addMessageorSong}
+            handleSubmitNewMessage={this.handleSubmitNewMessage}
+          />
         </main>
       </div>
     );
