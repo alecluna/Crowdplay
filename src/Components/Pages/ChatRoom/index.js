@@ -54,9 +54,7 @@ const styles = (theme) => ({
   content: {
     flexGrow: 1,
     padding: "5px",
-    backgroundColor: "white",
-    height: "95vh",
-    overflow: "hidden",
+    marginBottom: "calc(5vh + 58px)",
   },
   avatar: {
     margin: 10,

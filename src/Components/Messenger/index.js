@@ -26,7 +26,7 @@ const Messenger = ({
   ]);
   return (
     <React.Fragment>
-      <div style={{ marginTop: "80px", overflowY: "auto" }}>
+      <div style={{ overflowY: "scroll" }}>
         <StyledDialog open={playlistSearch}>
           <DialogTitle>Choose a Song </DialogTitle>
           <StyledDialogContent>

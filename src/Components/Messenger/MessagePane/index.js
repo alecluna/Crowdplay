@@ -5,16 +5,15 @@ import Avatar from "../../Reusable/Avatar";
 import Paper from "../../Reusable/Paper";
 import Typography from "../../Reusable/Typography";
 import { StyledMessageList, StyledMessagePaperFlex } from "./styles";
-import { Scrollbars } from "react-custom-scrollbars";
 
 const MessagePane = ({ messages, thumbsUp, thumbsDown }) => {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    console.log("messagesEndRef", messagesEndRef);
-    messagesEndRef.current.scrollIntoView({
-      block: "end",
-    });
+    if (messagesEndRef && messagesEndRef.current)
+      messagesEndRef.current.scrollIntoView({
+        block: "end",
+      });
   };
 
   useEffect(() => scrollToBottom(), [messages]);
