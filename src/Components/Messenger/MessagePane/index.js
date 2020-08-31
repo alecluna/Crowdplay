@@ -28,7 +28,9 @@ const MessagePane = ({ messages, thumbsUp, thumbsDown, isMessageorSong }) => {
               <Avatar>{name && name.charAt(0).toUpperCase()}</Avatar>
               <Paper elevation={5}>
                 {isMessageorSong === "song" ? (
-                  <Typography>{name.charAt(0).toUpperCase()} added:</Typography>
+                  <Typography>
+                    {name && name.charAt(0).toUpperCase()} added:
+                  </Typography>
                 ) : null}
                 <StyledMessagePaperFlex>
                   {photoURL ? (
