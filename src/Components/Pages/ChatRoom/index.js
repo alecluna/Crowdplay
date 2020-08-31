@@ -76,6 +76,7 @@ class ChatRoom extends React.Component {
     spotifyPlaylistID: "",
     thumbsCounter: 0,
     isMessageorSong: "message",
+    isSearch: false,
   };
 
   componentDidMount = () => {
@@ -157,11 +158,30 @@ class ChatRoom extends React.Component {
       });
   };
 
-  handleSubmitNewMessage = (songName, songImage, artist, songURI) => {
+  handleSubmitNewMessage = async (
+    songName,
+    songImage,
+    artist,
+    songURI,
+    isMessage,
+    submittedMessage
+  ) => {
     const { name, userID } = this.props.location.state;
+    let messageInfo;
 
-    if (songName && songName.trim()) {
-      let messageInfo = {
+    if (isMessage && submittedMessage) {
+      messageInfo = {
+        text: submittedMessage,
+        photoURL: null,
+        songArtist: null,
+        userID: userID,
+        name: name,
+        timestamp: firestore.Timestamp.now(),
+        likeCount: 0,
+        songURI: null,
+      };
+    } else {
+      messageInfo = {
         text: songName,
         photoURL: songImage,
         songArtist: artist,
@@ -171,15 +191,16 @@ class ChatRoom extends React.Component {
         likeCount: 0,
         songURI: songURI,
       };
-      this.messageFirestoreRef.add(messageInfo);
     }
+
+    await this.messageFirestoreRef.add(messageInfo);
   };
 
   handleDrawerToggle = () => {
     this.setState((state) => ({ mobileOpen: !state.mobileOpen }));
   };
 
-  addMessageorSong = (songURI, songImage, artist, songName) => {
+  addSong = (songURI, songImage, artist, songName) => {
     this.setState(
       {
         songURI: songURI,
@@ -229,6 +250,19 @@ class ChatRoom extends React.Component {
     this.messageFirestoreRef.doc(id).update({ likeCount: increment });
   };
 
+  toggleMessageState = () => {
+    const { isSearch } = this.state;
+
+    if (isSearch) this.setState({ isMessageorSong: "song" });
+
+    if (!isSearch) this.setState({ isMessageorSong: "message" });
+  };
+
+  toggleSearch = () => {
+    const { isSearch } = this.state;
+    this.setState({ isSearch: !isSearch }, () => this.toggleMessageState());
+  };
+
   render() {
     const { accessToken, userID } = this.props.location.state;
     const { classes, theme } = this.props;
@@ -237,6 +271,7 @@ class ChatRoom extends React.Component {
       joinedRoomNames,
       thumbsCounter,
       isMessageorSong,
+      isSearch,
     } = this.state;
 
     const drawer = (
@@ -354,8 +389,11 @@ class ChatRoom extends React.Component {
             thumbsCounter={thumbsCounter}
             thumbsUp={this.thumbsUp}
             thumbsDown={this.thumbsDown}
-            addMessageorSong={this.addMessageorSong}
             handleSubmitNewMessage={this.handleSubmitNewMessage}
+            addSong={this.addSong}
+            isMessageorSong={isMessageorSong}
+            toggleSearch={this.toggleSearch}
+            isSearch={isSearch}
           />
         </main>
       </div>

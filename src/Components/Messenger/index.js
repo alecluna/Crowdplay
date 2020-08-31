@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PlaylistSearch from "../Playlist/PlaylistSearch";
 import MessagePane from "./MessagePane";
 import InputBar from "./InputBar";
@@ -14,26 +14,23 @@ const Messenger = ({
   thumbsCounter,
   thumbsUp,
   thumbsDown,
-  addMessageorSong,
+  addSong,
+  isMessageorSong,
   handleSubmitNewMessage,
+  toggleSearch,
+  isSearch,
 }) => {
-  const [playlistSearch, togglePlaylistSearch] = useState(false);
-
-  const toggleSearch = () => togglePlaylistSearch(!playlistSearch);
-
-  useEffect(() => console.log("playlistSearch", playlistSearch), [
-    playlistSearch,
-  ]);
   return (
     <React.Fragment>
       <div style={{ overflowY: "scroll" }}>
-        <StyledDialog open={playlistSearch}>
+        <StyledDialog open={isSearch}>
           <DialogTitle>Choose a Song </DialogTitle>
           <StyledDialogContent>
             <PlaylistSearch
               accessToken={accessToken}
               userID={userID}
-              addMessageorSong={addMessageorSong}
+              addSong={addSong}
+              isMessageorSong={isMessageorSong}
             />
           </StyledDialogContent>
           <DialogActions>
@@ -50,6 +47,7 @@ const Messenger = ({
           thumbsUp={thumbsUp}
           thumbsDown={thumbsDown}
           thumbsCounter={thumbsCounter}
+          isMessageorSong={isMessageorSong}
         />
       </div>
       <InputBar

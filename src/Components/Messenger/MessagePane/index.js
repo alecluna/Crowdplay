@@ -6,7 +6,7 @@ import Paper from "../../Reusable/Paper";
 import Typography from "../../Reusable/Typography";
 import { StyledMessageList, StyledMessagePaperFlex } from "./styles";
 
-const MessagePane = ({ messages, thumbsUp, thumbsDown }) => {
+const MessagePane = ({ messages, thumbsUp, thumbsDown, isMessageorSong }) => {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -19,21 +19,25 @@ const MessagePane = ({ messages, thumbsUp, thumbsDown }) => {
   useEffect(() => scrollToBottom(), [messages]);
 
   return (
-    <div>
+    <React.Fragment>
       {Object.entries(messages).map(([key, value]) => {
         const { text, name, photoURL, songArtist, likeCount, id } = value;
         return (
           <StyledMessageList key={key}>
             <ListItem ref={messagesEndRef}>
-              <Avatar>{name.charAt(0).toUpperCase()}</Avatar>
+              <Avatar>{name && name.charAt(0).toUpperCase()}</Avatar>
               <Paper elevation={5}>
-                <Typography>{name} added:</Typography>
+                {isMessageorSong === "song" ? (
+                  <Typography>{name.charAt(0).toUpperCase()} added:</Typography>
+                ) : null}
                 <StyledMessagePaperFlex>
-                  <img
-                    src={photoURL}
-                    alt="album art"
-                    style={{ borderRadius: "10px" }}
-                  />
+                  {photoURL ? (
+                    <img
+                      src={photoURL}
+                      alt="album art"
+                      style={{ borderRadius: "10px" }}
+                    />
+                  ) : null}
                   <Typography
                     style={{
                       paddingLeft: "10px",
@@ -42,7 +46,7 @@ const MessagePane = ({ messages, thumbsUp, thumbsDown }) => {
                     }}
                     component={"span"}
                   >
-                    {text} by {songArtist}
+                    {songArtist ? `${text} by ${songArtist}` : `${text}`}
                     <ThumbsUpDown
                       thumbsUp={thumbsUp}
                       thumbsDown={thumbsDown}
@@ -57,7 +61,7 @@ const MessagePane = ({ messages, thumbsUp, thumbsDown }) => {
           </StyledMessageList>
         );
       })}
-    </div>
+    </React.Fragment>
   );
 };
 

@@ -5,19 +5,12 @@ import AddCircle from "@material-ui/icons/AddCircle";
 import { withTheme } from "@material-ui/styles";
 
 const InputBar = (props) => {
-  console.log("props", props);
   const [message, setMessage] = useState("");
 
-  const { toggleSearch } = props;
+  const { toggleSearch, handleSubmitNewMessage } = props;
 
   const handleSubmit = async (event) => {
-    // const mutator = await submitMessage(
-    //   userId,
-    //   convoId,
-    //   message,
-    //   attachments,
-    //   event
-    // );
+    await handleSubmitNewMessage(null, null, null, null, true, message);
     setMessage("");
   };
 

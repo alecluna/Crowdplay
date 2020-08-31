@@ -10,8 +10,7 @@ const StyledInputBar = withTheme(
     & {
       background-color: white;
       width: calc(100% - 35vw);
-      margin-left: 10px;
-      margin-right: 10px;
+      margin: 15px;
       bottom: 0;
       display: flex;
       flex-direction: row;
@@ -20,13 +19,23 @@ const StyledInputBar = withTheme(
       min-height: 58px;
       position: fixed;
       bottom: 0px;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+      border-radius: 10px;
     }
   `
 );
 
-const StyledTextField = styled(({ ...props }) => <TextField {...props} />)`
+const StyledTextField = styled(({ ...props }) => (
+  <TextField InputProps={{ disableUnderline: true }} {...props} />
+))`
   & {
     width: 100%;
+  }
+
+  .MuiInput-root {
+    height: 100%;
+    padding: 5px;
   }
 `;
 
