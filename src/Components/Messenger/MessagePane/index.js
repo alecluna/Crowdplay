@@ -27,36 +27,41 @@ const MessagePane = ({ messages, thumbsUp, thumbsDown, isMessageorSong }) => {
             <ListItem ref={messagesEndRef}>
               <Avatar>{name && name.charAt(0).toUpperCase()}</Avatar>
               <Paper elevation={5}>
-                {isMessageorSong === "song" ? (
-                  <Typography>
-                    {name && name.charAt(0).toUpperCase()} added:
-                  </Typography>
-                ) : null}
+                {photoURL && songArtist && (
+                  <Typography bold>{name} added:</Typography>
+                )}
                 <StyledMessagePaperFlex>
                   {photoURL ? (
                     <img
                       src={photoURL}
                       alt="album art"
-                      style={{ borderRadius: "10px" }}
+                      style={{ borderRadius: "6px", width: 85, height: 85 }}
                     />
                   ) : null}
-                  <Typography
-                    style={{
-                      paddingLeft: "10px",
-                      fontWeight: "300",
-                      color: "light-grey",
-                    }}
-                    component={"span"}
-                  >
-                    {songArtist ? `${text} by ${songArtist}` : `${text}`}
-                    <ThumbsUpDown
-                      thumbsUp={thumbsUp}
-                      thumbsDown={thumbsDown}
-                      likeCount={likeCount}
-                      key={key}
-                      id={id}
-                    />
-                  </Typography>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <Typography style={{ padding: 10 }}>
+                      {songArtist ? `${text} by ${songArtist}` : `${text}`}
+                    </Typography>
+
+                    <Typography
+                      style={{
+                        paddingLeft: "10px",
+                        fontWeight: "300",
+                        color: "light-grey",
+                      }}
+                      component={"span"}
+                    >
+                      {photoURL && songArtist && (
+                        <ThumbsUpDown
+                          thumbsUp={thumbsUp}
+                          thumbsDown={thumbsDown}
+                          likeCount={likeCount}
+                          key={key}
+                          id={id}
+                        />
+                      )}
+                    </Typography>
+                  </div>
                 </StyledMessagePaperFlex>
               </Paper>
             </ListItem>

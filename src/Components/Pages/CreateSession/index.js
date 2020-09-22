@@ -11,7 +11,7 @@ const CreateSession = (props) => {
 
   const [step, setStep] = useState(1);
   const [playlist, setPlaylist] = useState("");
-  const [privatePlaylist, setPrivatePlaylist] = useState("public");
+  const [privatePlaylist] = useState("public");
   const [roomName, setRoomName] = useState("");
   const [roomDescription, setRoomDescription] = useState("");
   const [roomExists, setRoomExists] = useState(false);

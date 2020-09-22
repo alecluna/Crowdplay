@@ -21,6 +21,7 @@ import cplogo from "../../../assets/crowdplaylogo.png";
 import firebase, { firestore } from "firebase";
 import Avatar from "../../Reusable/Avatar";
 import Messenger from "../../Messenger";
+import sortSongsAdded from "../../../utils/sortSongsAdded";
 
 const drawerWidth = 250;
 
@@ -304,20 +305,7 @@ class ChatRoom extends React.Component {
           Your Songs
         </Typography>
         <Divider />
-        {/* Refactor as own component */}
-        <List>
-          {Object.entries(messages).map(([key, value]) => {
-            const { text, songArtist } = value;
-
-            return (
-              <ListItem button key={key}>
-                <Typography align="left">
-                  {text} - {songArtist}
-                </Typography>
-              </ListItem>
-            );
-          })}
-        </List>
+        <List>{sortSongsAdded(messages).sort((a, b) => a - b)}</List>
       </div>
     );
 
