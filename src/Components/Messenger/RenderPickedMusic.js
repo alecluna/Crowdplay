@@ -44,6 +44,7 @@ const RenderPickedMusic = ({ messages, thumbsUp, thumbsDown }) => {
                         likeCount={likeCount}
                         key={key}
                         id={id}
+                        isMe={isMeorN}
                       />
                     </Typography>
                   </div>

@@ -9,22 +9,36 @@ const ThumbsUpDown = ({ thumbsUp, thumbsDown, likeCount, id }) => (
       justifyContent: "flex-start",
       flexDirection: "row",
       flexWrap: "no-wrap",
-      margin: "5px"
+      margin: "5px",
     }}
   >
     <img
       onClick={() => thumbsUp(id)}
-      style={{ height: 25, padding: 5 }}
+      style={{
+        height: 25,
+        padding: 5,
+        backgroundColor: "white",
+        borderRadius: "20px",
+        margin: "3px",
+      }}
       src={thumbs}
       alt="thumbs"
     />
     <img
       onClick={() => thumbsDown(id)}
-      style={{ height: 25, padding: 5, transform: "rotate(180deg)" }}
+      style={{
+        height: 25,
+        padding: 5,
+        transform: "rotate(180deg)",
+        color: "white",
+        backgroundColor: "white",
+        borderRadius: "20px",
+        margin: "3px",
+      }}
       src={thumbs}
       alt="thumbs"
     />
-    <Typography component={"span"} style={{ color: "green", fontSize: 16 }}>
+    <Typography component={"span"} style={{ color: "white", fontSize: 16 }}>
       {likeCount}
     </Typography>
   </div>

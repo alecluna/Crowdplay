@@ -2,7 +2,7 @@ import React from "react";
 import PlaylistSearch from "../Playlist/PlaylistSearch";
 import MessagePane from "./MessagePane";
 import InputBar from "./InputBar";
-import { DialogActions, Button, DialogTitle } from "@material-ui/core";
+import { DialogActions, Button, DialogTitle, Hidden } from "@material-ui/core";
 import { StyledDialog, StyledDialogContent } from "./styles";
 
 const Messenger = ({
@@ -23,7 +23,14 @@ const Messenger = ({
 }) => {
   return (
     <React.Fragment>
-      <div style={{ overflowY: "scroll" }}>
+      <div
+        style={{
+          overflowY: "scroll",
+          overFlowX: "hidden",
+          paddingRight: "5px",
+          scrollbarWidth: "none",
+        }}
+      >
         <StyledDialog open={isSearch}>
           <DialogTitle>Choose a Song </DialogTitle>
           <StyledDialogContent>

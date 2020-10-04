@@ -4,7 +4,11 @@ import ThumbsUpDown from "../ThumbsUpDown";
 import Avatar from "../../Reusable/Avatar";
 import Paper from "../../Reusable/Paper";
 import Typography from "../../Reusable/Typography";
-import { StyledMessageList, StyledMessagePaperFlex } from "./styles";
+import {
+  StyledMessageList,
+  StyledMessagePaperFlex,
+  StyledMessage,
+} from "./styles";
 
 const MessagePane = ({
   messages,
@@ -40,19 +44,26 @@ const MessagePane = ({
           userID: userIDfromMessage,
         } = value;
 
-        console.log(userIDfromMessage === userID);
+        let isMeorNot = userIDfromMessage === userID;
+
         return (
           <StyledMessageList key={key}>
-            <ListItem
+            <li
               ref={messagesEndRef}
-              alignItems={
-                userIDfromMessage === userID ? "flex-start" : "flex-end"
-              }
+              style={{
+                display: "flex",
+                justifyContent:
+                  userIDfromMessage === userID ? "flex-end" : "flex-start",
+              }}
             >
-              <Avatar>{name && name.charAt(0).toUpperCase()}</Avatar>
-              <Paper elevation={5}>
+              {!isMeorNot && (
+                <Avatar>{name && name.charAt(0).toUpperCase()}</Avatar>
+              )}
+              <StyledMessage isMe={isMeorNot}>
                 {photoURL && songArtist && (
-                  <Typography bold>{name} added:</Typography>
+                  <Typography isMeorNot={isMeorNot} bold>
+                    {name} added:
+                  </Typography>
                 )}
                 <StyledMessagePaperFlex>
                   {photoURL ? (
@@ -63,13 +74,14 @@ const MessagePane = ({
                     />
                   ) : null}
                   <div style={{ display: "flex", flexDirection: "column" }}>
-                    <Typography style={{ padding: 10 }}>
+                    <Typography isMeorNot={isMeorNot} style={{ padding: 5 }}>
                       {songArtist ? `${text} by ${songArtist}` : `${text}`}
                     </Typography>
 
                     <Typography
+                      isMeorNot={isMeorNot}
                       style={{
-                        paddingLeft: "10px",
+                        paddingLeft: "5px",
                         fontWeight: "300",
                         color: "light-grey",
                       }}
@@ -87,8 +99,8 @@ const MessagePane = ({
                     </Typography>
                   </div>
                 </StyledMessagePaperFlex>
-              </Paper>
-            </ListItem>
+              </StyledMessage>
+            </li>
           </StyledMessageList>
         );
       })}
