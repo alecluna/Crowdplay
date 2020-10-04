@@ -6,25 +6,49 @@ import Paper from "../../Reusable/Paper";
 import Typography from "../../Reusable/Typography";
 import { StyledMessageList, StyledMessagePaperFlex } from "./styles";
 
-const MessagePane = ({ messages, thumbsUp, thumbsDown, isMessageorSong }) => {
+const MessagePane = ({
+  messages,
+  thumbsUp,
+  thumbsDown,
+  isMessageorSong,
+  name,
+  userID,
+}) => {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    if (messagesEndRef && messagesEndRef.current)
+    if (messagesEndRef && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({
         block: "end",
+        behavior: "smooth",
       });
+    }
   };
 
   useEffect(() => scrollToBottom(), [messages]);
 
   return (
-    <React.Fragment>
+    <div>
       {Object.entries(messages).map(([key, value]) => {
-        const { text, name, photoURL, songArtist, likeCount, id } = value;
+        const {
+          text,
+          name,
+          photoURL,
+          songArtist,
+          likeCount,
+          id,
+          userID: userIDfromMessage,
+        } = value;
+
+        console.log(userIDfromMessage === userID);
         return (
           <StyledMessageList key={key}>
-            <ListItem ref={messagesEndRef}>
+            <ListItem
+              ref={messagesEndRef}
+              alignItems={
+                userIDfromMessage === userID ? "flex-start" : "flex-end"
+              }
+            >
               <Avatar>{name && name.charAt(0).toUpperCase()}</Avatar>
               <Paper elevation={5}>
                 {photoURL && songArtist && (
@@ -68,7 +92,7 @@ const MessagePane = ({ messages, thumbsUp, thumbsDown, isMessageorSong }) => {
           </StyledMessageList>
         );
       })}
-    </React.Fragment>
+    </div>
   );
 };
 

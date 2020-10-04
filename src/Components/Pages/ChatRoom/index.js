@@ -11,7 +11,6 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
-  Typography,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -22,6 +21,8 @@ import firebase, { firestore } from "firebase";
 import Avatar from "../../Reusable/Avatar";
 import Messenger from "../../Messenger";
 import sortSongsAdded from "../../../utils/sortSongsAdded";
+import Typography from "../../Reusable/Typography";
+import { StyledBarText } from "./styles";
 
 const drawerWidth = 250;
 
@@ -49,6 +50,7 @@ const styles = (theme) => ({
     },
   },
   toolbar: theme.mixins.toolbar,
+
   drawerPaper: {
     width: drawerWidth,
   },
@@ -265,7 +267,7 @@ class ChatRoom extends React.Component {
   };
 
   render() {
-    const { accessToken, userID } = this.props.location.state;
+    const { name, accessToken, userID } = this.props.location.state;
     const { classes, theme } = this.props;
     const {
       messages,
@@ -276,17 +278,10 @@ class ChatRoom extends React.Component {
     } = this.state;
 
     const drawer = (
-      <div>
+      <React.Fragment>
         <div className={classes.toolbar} />
-        <Typography
-          align="center"
-          variant="h4"
-          style={{ fontWeight: "light", marginBottom: "10px" }}
-        >
-          Joined
-        </Typography>
+        <StyledBarText>Joined</StyledBarText>
         <Divider />
-        {/* Refactor as own component */}
         <List>
           {joinedRoomNames.map((text, index) => (
             <ListItem button key={index}>
@@ -297,16 +292,12 @@ class ChatRoom extends React.Component {
             </ListItem>
           ))}
         </List>
-        <Typography
-          align="center"
-          variant="h4"
-          style={{ fontWeight: "light", marginBottom: "10px" }}
-        >
-          Your Songs
-        </Typography>
+        <StyledBarText>Your Songs</StyledBarText>
         <Divider />
-        <List>{sortSongsAdded(messages).sort((a, b) => a - b)}</List>
-      </div>
+        <div style={{ overflow: "scroll" }}>
+          <List>{sortSongsAdded(messages).sort((a, b) => a - b)}</List>
+        </div>
+      </React.Fragment>
     );
 
     return (
@@ -382,6 +373,7 @@ class ChatRoom extends React.Component {
             isMessageorSong={isMessageorSong}
             toggleSearch={this.toggleSearch}
             isSearch={isSearch}
+            name={name}
           />
         </main>
       </div>

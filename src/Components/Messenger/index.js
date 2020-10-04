@@ -19,6 +19,7 @@ const Messenger = ({
   handleSubmitNewMessage,
   toggleSearch,
   isSearch,
+  name,
 }) => {
   return (
     <React.Fragment>
@@ -48,6 +49,8 @@ const Messenger = ({
           thumbsDown={thumbsDown}
           thumbsCounter={thumbsCounter}
           isMessageorSong={isMessageorSong}
+          name={name}
+          userID={userID}
         />
       </div>
       <InputBar
