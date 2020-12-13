@@ -9,8 +9,7 @@ const StyledInputBar = withTheme(
   })`
     & {
       background-color: white;
-      width: calc(100% - 35vw);
-      margin: 15px;
+      width: calc(100% - 250px);
       bottom: 0;
       display: flex;
       flex-direction: row;
@@ -19,10 +18,6 @@ const StyledInputBar = withTheme(
       min-height: 58px;
       position: fixed;
       bottom: 0px;
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.12),
-        0 4px 4px rgba(0, 0, 0, 0.12), 0 8px 8px rgba(0, 0, 0, 0.12),
-        0 16px 16px rgba(0, 0, 0, 0.12);
-      border-radius: 5px;
     }
   `
 );

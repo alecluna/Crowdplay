@@ -9,7 +9,7 @@ const Header = () => (
     <AppBar
       position="static"
       color="primary"
-      style={{ width: "100%", backgroundColor: "white" }}
+      style={{ width: "100%", backgroundColor: "white", boxShadow: "none" }}
     >
       <Toolbar>
         <Link to="/home">

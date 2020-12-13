@@ -18,7 +18,7 @@ const StyledMessage = styled((props) => {
 })`
   border-radius: 20px;
   background-color: ${(props) => (props.isMe ? `#0085D1 ` : `#eee`)};
-  padding: 10px;
+  padding: ${(props) => (props.songAdded ? "10px" : "0px")};
 
   ${(props) =>
     props.isMe
@@ -26,7 +26,6 @@ const StyledMessage = styled((props) => {
       : " margin-right: 25%; background-color: #eee; position: relative;"}
 
   &:before {
-    content: "";
     position: absolute;
     z-index: 0;
     bottom: 0;

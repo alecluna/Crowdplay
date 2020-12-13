@@ -16,13 +16,13 @@ import PropTypes from "prop-types";
 import MenuIcon from "@material-ui/icons/Menu";
 import { withStyles } from "@material-ui/core/styles";
 import Link from "react-router-dom/Link";
-import cplogo from "../../../assets/crowdplaylogo.png";
 import firebase, { firestore } from "firebase";
 import Avatar from "../../Reusable/Avatar";
 import Messenger from "../../Messenger";
 import sortSongsAdded from "../../../utils/sortSongsAdded";
 import Typography from "../../Reusable/Typography";
 import { StyledBarText } from "./styles";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const drawerWidth = 250;
 
@@ -39,6 +39,7 @@ const styles = (theme) => ({
   appBar: {
     marginLeft: drawerWidth,
     backgroundColor: "white",
+    boxShadow: "none",
     [theme.breakpoints.up("sm")]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
@@ -80,6 +81,7 @@ class ChatRoom extends React.Component {
     thumbsCounter: 0,
     isMessageorSong: "message",
     isSearch: false,
+    latestDoc: 0,
   };
 
   componentDidMount = () => {
@@ -127,8 +129,11 @@ class ChatRoom extends React.Component {
   };
 
   listenMessages = () => {
+    const { latestDoc } = this.state;
+
     this.messageFirestoreRef
-      .orderBy("timestamp", "asc")
+      .orderBy("timestamp", "desc")
+      .limit(25)
       .onSnapshot((snapshot) => {
         let messagesFromSnapShot = snapshot.docs.map((message) => {
           let tempObj = { id: message.id };
@@ -136,7 +141,7 @@ class ChatRoom extends React.Component {
           return mergedObj;
         });
 
-        this.setState({ messages: messagesFromSnapShot });
+        this.setState({ messages: messagesFromSnapShot.reverse() });
       });
   };
 
@@ -314,15 +319,15 @@ class ChatRoom extends React.Component {
               <MenuIcon />
             </IconButton>
             <Toolbar>
-              <Link to="/home">
-                <img
-                  src={cplogo}
+              <Link to="/joinusers">
+                <ArrowBackIcon
                   style={{
                     float: "left",
-                    height: "3em",
+                    width: "50px",
+                    height: "35px",
                     paddingRight: "20px",
                   }}
-                  alt="CrowdPlay"
+                  alt="Back to Join a Session"
                 />
               </Link>
               <Typography variant="h6" color="default">

@@ -30,6 +30,7 @@ const JoinUsersWithRooms = (props) => {
       .doc(userID)
       .collection("joinedRooms")
       .orderBy("createdAt", "desc")
+      .limit(6)
       .onSnapshot((snapshot) => {
         let roomNames = snapshot.docs.map((doc) => {
           return doc.data().roomName;
@@ -80,18 +81,20 @@ const JoinUsersWithRooms = (props) => {
 
   const deleteChatRoom = (nameofRoom) => {
     console.log(nameofRoom);
-    /**
-     * Call the 'recursiveDelete' callable function with a path to initiate
-     * a server-side delete.
-     */
-    // let deleteFn = firebase.functions().httpsCallable("recursiveDelete");
-    // deleteFn({ path: `spotify-crowdpay/rooms/${nameofRoom.trim()}` })
-    //   .then((result) => {
-    //     console.log("Delete success: " + JSON.stringify(result));
-    //   })
-    //   .catch((err) => {
-    //     console.warn(err);
-    // });
+
+    const callableReturnMessage = firebase
+      .functions()
+      .httpsCallable("helloWorld");
+
+    callableReturnMessage()
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(`error: ${JSON.stringify(error)}`);
+      });
+
+    return callableReturnMessage;
   };
 
   const joinedRoomsMapped = joinedRooms.map((roomName, idx) => {
@@ -132,7 +135,7 @@ const JoinUsersWithRooms = (props) => {
         </StyledForm>
 
         <Typography align="center" variant="h6">
-          Avaliable rooms:
+          Previously Joined Sessions
         </Typography>
         <React.Fragment>{joinedRoomsMapped}</React.Fragment>
       </StyledRoomsListContainer>

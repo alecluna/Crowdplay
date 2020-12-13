@@ -32,7 +32,7 @@ const MessagePane = ({
   useEffect(() => scrollToBottom(), [messages]);
 
   return (
-    <div>
+    <div id="messages">
       {Object.entries(messages).map(([key, value]) => {
         const {
           text,
@@ -59,7 +59,10 @@ const MessagePane = ({
               {!isMeorNot && (
                 <Avatar>{name && name.charAt(0).toUpperCase()}</Avatar>
               )}
-              <StyledMessage isMe={isMeorNot}>
+              <StyledMessage
+                songAdded={photoURL && songArtist}
+                isMe={isMeorNot}
+              >
                 {photoURL && songArtist && (
                   <Typography isMeorNot={isMeorNot} bold>
                     {name} added:
