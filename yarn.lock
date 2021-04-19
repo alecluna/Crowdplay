@@ -12778,14 +12778,14 @@ react-dev-utils@^9.0.1:
     strip-ansi "5.2.0"
     text-table "0.2.0"
 
-react-dom@17.0.0-rc.0:
-  version "17.0.0-rc.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.0-rc.0.tgz#237b4cca9cf817329373424bde00736f11fd7541"
-  integrity sha512-Ny2SlnMe+SxWRVDX2aLyWsv3ltbJC0gVyWtedfoJnV2265ePcM8BLY9fJjKb4ZXwcQ+pwZFdsURYarJ5qEEMeQ==
+react-dom@^17.0.0-rc.3:
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
+  integrity sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
-    scheduler "0.20.0-rc.0"
+    scheduler "^0.20.2"
 
 react-error-overlay@^6.0.3, react-error-overlay@^6.0.7:
   version "6.0.7"
@@ -12900,10 +12900,10 @@ react-transition-group@^4.4.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@17.0.0-rc.0:
-  version "17.0.0-rc.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-17.0.0-rc.0.tgz#91a4d2085f07b501175a2434bd65b35aa0e95686"
-  integrity sha512-GPOdeCEE5HL9jRh7YIXoqBBxQVTqKtMm7tbH0Q//PJZV9EkFyUSDUglvIO/0i42PuUstEBcmOwlodTV2R9iStg==
+react@^17.0.0-rc.3:
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
+  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -13571,10 +13571,10 @@ saxes@^3.1.9:
   dependencies:
     xmlchars "^2.1.1"
 
-scheduler@0.20.0-rc.0:
-  version "0.20.0-rc.0"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.0-rc.0.tgz#9cb397f88f9decea28d159d3aad068b54a6f35e4"
-  integrity sha512-5CZiVhk9xI9VmqaodZH+eO3aKgqYwjZ8uf9lnfRlYEwaB4lbmIq0mzuNY5w52sbPlZP9pifXQaLGudKHMgQZcw==
+scheduler@^0.20.2:
+  version "0.20.2"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.20.2.tgz#4baee39436e34aa93b4874bddcbf0fe8b8b50e91"
+  integrity sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -14099,9 +14099,9 @@ sshpk@^1.7.0:
     tweetnacl "~0.14.0"
 
 ssri@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/ssri/-/ssri-6.0.1.tgz#2a3c41b28dd45b62b63676ecb74001265ae9edd8"
-  integrity sha512-3Wge10hNcT1Kur4PDFwEieXSCMCJs/7WvSACcrMYrNp+b8kDL1/0wJch5Ni2WrtwEa2IO8OsVfeKIciKCDx/QA==
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/ssri/-/ssri-6.0.2.tgz#157939134f20464e7301ddba3e90ffa8f7728ac5"
+  integrity sha512-cepbSq/neFK7xB6A50KHN0xHDotYzq58wWCa5LeWqnPrHG8GzfEjO/4O8kpmcGW+oaxkvhEJCWgbgNk4/ZV93Q==
   dependencies:
     figgy-pudding "^3.5.1"
 
